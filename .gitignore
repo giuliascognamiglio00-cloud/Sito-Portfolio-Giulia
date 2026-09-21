@@ -1,0 +1,37 @@
+# Dipendenze
+node_modules/
+.pnp
+.pnp.*
+
+# Build di Next.js
+.next/
+out/
+next-env.d.ts
+
+# Log e cache
+*.log
+npm-debug.log*
+.eslintcache
+.turbo/
+
+# Variabili d'ambiente
+.env
+.env.*
+!.env.example
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+# I task sono condivisi di proposito: servono a far partire il sito con un comando
+.vscode/*
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/start-site.ps1
+.idea/
+
+# Generati da scripts/optimize-images.mjs
+site/public/img/
+site/src/content/image-manifest.json

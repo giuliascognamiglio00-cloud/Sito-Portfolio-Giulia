@@ -1,0 +1,52 @@
+.contact {
+  margin-block: clamp(2rem, 5vw, 4rem) clamp(3rem, 7vw, 6rem);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: clamp(24px, 4vw, 44px);
+  padding: clamp(2rem, 6vw, 5rem);
+  background:
+    radial-gradient(60% 90% at 6% 0%, var(--c1) 0, transparent 72%),
+    radial-gradient(55% 80% at 100% 10%, var(--c2) 0, transparent 72%),
+    radial-gradient(60% 90% at 65% 120%, var(--c3) 0, transparent 72%),
+    radial-gradient(45% 70% at 100% 100%, var(--c4) 0, transparent 72%), var(--bg);
+}
+
+.lede {
+  max-width: 32rem;
+  margin: 1rem 0 0;
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  font-weight: 400;
+}
+
+.mail {
+  display: block;
+  margin: clamp(1.25rem, 3vw, 2rem) 0 0;
+  font: 400 clamp(1.4rem, 4.2vw, 3.25rem) / 1.1 var(--display);
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.12em;
+  overflow-wrap: anywhere;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.links a {
+  display: inline-block;
+  padding: 0.65rem 1.4rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  text-decoration: none;
+  font: 500 0.95rem/1 var(--text);
+  transition: background 0.15s, color 0.15s;
+}
+
+.links a:hover {
+  background: var(--ink);
+  color: var(--bg);
+}

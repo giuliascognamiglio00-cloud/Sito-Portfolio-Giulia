@@ -1,0 +1,32 @@
+{
+  "name": "giulia-scognamiglio-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "images": "node scripts/optimize-images.mjs",
+    "predev": "npm run images",
+    "dev": "next dev",
+    "prebuild": "npm run images",
+    "build": "next build",
+    "pretypecheck": "npm run images",
+    "typecheck": "tsc --noEmit",
+    "prelint": "npm run images",
+    "lint": "eslint",
+    "preview": "npx --yes serve out"
+  },
+  "dependencies": {
+    "next": "16.3.5",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.5",
+    "sharp": "^0.35.4",
+    "typescript": "^5"
+  },
+  "description": "Sito portfolio di Giulia Scognamiglio — art director"
+}

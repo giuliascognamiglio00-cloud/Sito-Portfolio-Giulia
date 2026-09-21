@@ -1,0 +1,4 @@
+# Cloudflare Pages: chi arriva sulla radice viene mandato all'italiano.
+# 302 e non 301 perché la scelta della lingua non deve restare in cache nel browser.
+# Se questa regola non scattasse, la pagina "/" esportata reindirizza comunque via JavaScript.
+/    /it/    302

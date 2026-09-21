@@ -1,0 +1,68 @@
+/*
+  Token del design system, ripresi dalla bozza originale.
+  Il tema scuro segue il sistema operativo, ma [data-theme] sul <html> ha la precedenza
+  quando la persona sceglie esplicitamente dal selettore.
+*/
+
+:root {
+  /* Superfici e testo */
+  --bg: #fbf9ff;
+  --ink: #1f1b33;
+  --muted: #5a5672;
+  --line: rgba(31, 27, 51, 0.16);
+  --line-strong: rgba(31, 27, 51, 0.4);
+  --wash: #efe9f9;
+  --nav-bg: rgba(251, 249, 255, 0.86);
+
+  /* I quattro colori dei blob dell'hero e dei gradienti dei contatti */
+  --c1: #cda9ee;
+  --c2: #8ed8ec;
+  --c3: #f7e37c;
+  --c4: #f6a96a;
+
+  /* Tipografia: le variabili arrivano da next/font nel layout */
+  --display: var(--font-display), "Impact", "Haettenschweiler", "Arial Narrow Bold", sans-serif;
+  --text: var(--font-text), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Forma e ritmo */
+  --r: 20px;
+  --pad: clamp(1.25rem, 4vw, 3.5rem);
+
+  color-scheme: light;
+}
+
+/* Tema scuro automatico, a meno che non sia stato scelto il chiaro a mano */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #151222;
+    --ink: #f3effa;
+    --muted: #b0aac7;
+    --line: rgba(243, 239, 250, 0.18);
+    --line-strong: rgba(243, 239, 250, 0.45);
+    --wash: #221d36;
+    --nav-bg: rgba(21, 18, 34, 0.86);
+    --c1: #5b4382;
+    --c2: #2f6577;
+    --c3: #6e6529;
+    --c4: #86532f;
+
+    color-scheme: dark;
+  }
+}
+
+/* Tema scuro scelto a mano */
+:root[data-theme="dark"] {
+  --bg: #151222;
+  --ink: #f3effa;
+  --muted: #b0aac7;
+  --line: rgba(243, 239, 250, 0.18);
+  --line-strong: rgba(243, 239, 250, 0.45);
+  --wash: #221d36;
+  --nav-bg: rgba(21, 18, 34, 0.86);
+  --c1: #5b4382;
+  --c2: #2f6577;
+  --c3: #6e6529;
+  --c4: #86532f;
+
+  color-scheme: dark;
+}

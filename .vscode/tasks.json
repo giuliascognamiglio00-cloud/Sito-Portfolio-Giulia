@@ -1,0 +1,65 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Site",
+      "detail": "Chiude il sito se è già in esecuzione e lo riavvia su http://localhost:3000",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/.vscode/start-site.ps1"
+      ],
+      "isBackground": true,
+      "runOptions": {
+        // Rilanciando il task, VS Code chiude il terminale precedente invece di aprirne un altro
+        "instanceLimit": 1
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true,
+        "focus": false
+      },
+      "problemMatcher": {
+        "owner": "next",
+        "fileLocation": ["relative", "${workspaceFolder}/site"],
+        "pattern": {
+          "regexp": "^\\s*(.*):(\\d+):(\\d+):\\s+(error|warning):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*(Avvio il sito|Starting|Compiling).*",
+          "endsPattern": ".*(Ready in|Compiled|Local:).*"
+        }
+      }
+    },
+    {
+      "label": "Stop Site",
+      "detail": "Chiude il sito in esecuzione su localhost:3000",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "$p = @(Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique); if ($p) { $p | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }; Write-Host 'Sito chiuso.' } else { Write-Host 'Nessun sito in esecuzione.' }"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

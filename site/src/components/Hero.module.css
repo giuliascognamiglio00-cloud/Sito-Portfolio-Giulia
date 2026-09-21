@@ -1,0 +1,128 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.blobs {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  filter: blur(64px);
+}
+
+.blobs i {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.b1 {
+  width: 54vmax;
+  height: 54vmax;
+  left: -16vmax;
+  top: -20vmax;
+  background: var(--c1);
+  animation: d1 26s ease-in-out infinite alternate;
+}
+
+.b2 {
+  width: 46vmax;
+  height: 46vmax;
+  right: -14vmax;
+  top: -8vmax;
+  background: var(--c2);
+  animation: d2 31s ease-in-out infinite alternate;
+}
+
+.b3 {
+  width: 48vmax;
+  height: 48vmax;
+  left: 18vw;
+  bottom: -30vmax;
+  background: var(--c3);
+  animation: d3 28s ease-in-out infinite alternate;
+}
+
+.b4 {
+  width: 34vmax;
+  height: 34vmax;
+  right: -8vmax;
+  bottom: -16vmax;
+  background: var(--c4);
+  animation: d4 34s ease-in-out infinite alternate;
+}
+
+@keyframes d1 {
+  to {
+    transform: translate(9vmax, 7vmax) scale(1.1);
+  }
+}
+
+@keyframes d2 {
+  to {
+    transform: translate(-8vmax, 9vmax) scale(0.92);
+  }
+}
+
+@keyframes d3 {
+  to {
+    transform: translate(-7vmax, -6vmax) scale(1.12);
+  }
+}
+
+@keyframes d4 {
+  to {
+    transform: translate(-9vmax, -8vmax) scale(1.15);
+  }
+}
+
+/* Grana generata in SVG: nessun file immagine da scaricare */
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.4;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.inner {
+  padding-block: clamp(3.5rem, 10vw, 8rem) clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.name {
+  font-size: clamp(3.2rem, 16vw, 13rem);
+  line-height: 0.9;
+  letter-spacing: -0.005em;
+}
+
+.name span {
+  display: block;
+}
+
+.role {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 2rem;
+  margin: clamp(1.5rem, 3.5vw, 2.75rem) 0 0;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.6rem 1.35rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  font: 500 0.95rem/1 var(--text);
+}
+
+.lede {
+  max-width: 33rem;
+  margin: 0;
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 1.6;
+  font-weight: 400;
+}

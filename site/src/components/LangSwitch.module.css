@@ -1,0 +1,28 @@
+.group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font: 500 0.85rem/1 var(--text);
+}
+
+.current,
+.link {
+  padding: 0.35rem 0.5rem;
+  border-radius: 999px;
+}
+
+.current {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.link {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+}
+
+.link:hover {
+  color: var(--ink);
+  background: var(--wash);
+}
