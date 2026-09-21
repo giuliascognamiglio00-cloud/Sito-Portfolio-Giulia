@@ -160,18 +160,22 @@ IT ed EN; tutti i 992 riferimenti a immagini nell'HTML esportato puntano a file 
 
 *Obiettivo: quello che si vede è finito.*
 
-- [ ] Portare fedelmente il design della bozza: hero con blob animati e grana, griglie,
-      galleria, blocco insight/concept, link al progetto successivo, contatti coi gradienti
-- [ ] Rifinire transizioni, stati hover e focus, selettore di lingua, tema chiaro/scuro
-- [ ] Accessibilità: contrasto in entrambi i temi, navigazione da tastiera, "vai ai
-      contenuti", gerarchia dei titoli, testi alternativi, `prefers-reduced-motion`
-- [ ] SEO: titoli e descrizioni per pagina, `hreflang` tra IT ed EN, sitemap, robots,
-      dati strutturati `Person`, immagini Open Graph per i link condivisi
-- [ ] Pagina 404 in tema
-- [ ] Prova reale su telefono, tablet e desktop, in chiaro e in scuro
+Cosa significhi "polishing" per questo sito **non è ancora deciso**, e non coincide per
+forza con la bozza: la bozza è un punto di partenza, non un obiettivo da replicare
+fedelmente. Il perimetro si definisce insieme a Giulia, all'inizio della milestone, quando
+si scrive il piano di implementazione.
 
-**Fatto quando:** Lighthouse almeno 95 su Performance, Accessibilità, Best Practices e
-SEO; il sito è corretto a 320px di larghezza.
+Aree da considerare, senza impegno sul contenuto:
+
+- [ ] Aspetto e identità visiva: quanto tenere della bozza e cosa cambiare
+- [ ] Rifiniture di interazione e dettaglio (transizioni, stati, tema chiaro/scuro)
+- [ ] Accessibilità
+- [ ] SEO e condivisione dei link
+- [ ] Pagina 404 in tema
+- [ ] Verifica su dispositivi reali
+
+**Da definire insieme:** l'elenco preciso delle attività e il criterio con cui dire che la
+milestone è chiusa.
 
 ### M4 — Preparazione al caricamento online
 
