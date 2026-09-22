@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Anton, Poppins } from "next/font/google";
 import { notFound } from "next/navigation";
 import "@/styles/globals.css";
 import { LANGS, getDictionary, isLang, type Lang } from "@/lib/i18n";
@@ -7,21 +6,7 @@ import { SITE_URL } from "@/lib/site";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ThemeScript from "@/components/ThemeScript";
-
-// I font sono serviti dal nostro dominio: nessuna chiamata a Google al caricamento.
-const display = Anton({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-display",
-  display: "swap",
-});
-
-const text = Poppins({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-text",
-  display: "swap",
-});
+import { fontVariables } from "@/lib/fonts";
 
 export function generateStaticParams() {
   return LANGS.map((lang) => ({ lang }));
@@ -77,7 +62,7 @@ export default async function LangLayout({
       <head>
         <ThemeScript />
       </head>
-      <body className={`${display.variable} ${text.variable}`}>
+      <body className={fontVariables}>
         <a className="skip" href="#main">
           {dict.common.skipToContent}
         </a>
@@ -85,7 +70,7 @@ export default async function LangLayout({
         <main id="main" tabIndex={-1}>
           {children}
         </main>
-        <Footer />
+        <Footer lang={typed} dict={dict} />
       </body>
     </html>
   );

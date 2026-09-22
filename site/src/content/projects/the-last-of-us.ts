@@ -3,9 +3,12 @@ import type { Project } from "../types";
 export const theLastOfUs: Project = {
   slug: "the-last-of-us",
   category: "academy",
+  areas: ["campaign", "social"],
   date: "2024-03",
   accent: "#8FA36B",
   cover: "tlou_thumb",
+  // Affissione notturna su fondo nero: ampie zone scure, ottime per il testo sopra
+  introImage: "tlou_2",
   images: [{ key: "tlou_1" }, { key: "tlou_2" }, { key: "tlou_3" }],
   content: {
     it: {

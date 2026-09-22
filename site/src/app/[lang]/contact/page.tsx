@@ -25,12 +25,61 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
   const { lang } = await params;
   const typed = (isLang(lang) ? lang : "it") as Lang;
   const dict = getDictionary(typed);
+  const { meet, closing } = dict.contact;
 
   return (
     <div className="wrap">
-      <section className={styles.contact}>
+      <header className={styles.head}>
         <h1 className="display">{dict.contact.heading}</h1>
         <p className={styles.lede}>{dict.contact.lede}</p>
+      </header>
+
+      {/* 01 — Meet me: nessun video per ora, il riquadro è un segnaposto */}
+      <section className={styles.meet} aria-labelledby="meet-title">
+        <p className={styles.eyebrow}>{meet.eyebrow}</p>
+        <h2 id="meet-title" className={styles.meetTitle}>
+          {meet.title}
+        </h2>
+        <p className={styles.meetLede}>{meet.lede}</p>
+
+        <div className={styles.meetGrid}>
+          <div className={styles.stage} role="img" aria-label={meet.soon}>
+            <span className={styles.play} aria-hidden="true">
+              ▶
+            </span>
+            <span className={styles.soon}>{meet.soon}</span>
+          </div>
+
+          <div>
+            <h3 className={styles.chaptersLabel}>{meet.chaptersLabel}</h3>
+            <ol className={styles.chapters}>
+              {meet.chapters.map((chapter, i) => (
+                <li key={chapter.title}>
+                  <span className={styles.chapterNum} aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <strong>{chapter.title}</strong>
+                    <p>{chapter.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* 02 — Epigrafe di chiusura con l'unica azione richiesta */}
+      <section className={styles.contact} aria-labelledby="closing-title">
+        <p className={styles.eyebrow}>{closing.eyebrow}</p>
+        <h2 id="closing-title" className="display">
+          {closing.title}
+        </h2>
+        <p className={styles.lede}>{closing.text}</p>
+
+        <a className={styles.cta} href={`mailto:${contacts.email}`}>
+          {closing.cta} <span aria-hidden="true">→</span>
+        </a>
 
         <a className={styles.mail} href={`mailto:${contacts.email}`}>
           {contacts.email}

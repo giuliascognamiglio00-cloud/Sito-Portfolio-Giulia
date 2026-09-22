@@ -3,9 +3,12 @@ import type { Project } from "../types";
 export const rikka: Project = {
   slug: "rikka",
   category: "academy",
+  areas: ["campaign", "art-direction", "social"],
   date: "2024-06",
   accent: "#EE4C95",
   cover: "rikka_thumb",
+  // Scena notturna alla pensilina: gran parte del cielo scuro regge bene il testo chiaro sopra
+  introImage: "rikka_1",
   images: [
     { key: "rikka_2" },
     { key: "rikka_1" },

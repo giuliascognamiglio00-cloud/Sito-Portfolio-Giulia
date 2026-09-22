@@ -1,0 +1,68 @@
+.page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  align-content: center;
+  min-height: 100vh;
+  padding: var(--pad);
+}
+
+/* Stessi quattro colori dei blob della home, fermi */
+.blobs {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(50% 60% at 8% 0%, var(--c1) 0, transparent 70%),
+    radial-gradient(45% 55% at 100% 10%, var(--c2) 0, transparent 70%),
+    radial-gradient(50% 60% at 60% 110%, var(--c3) 0, transparent 70%),
+    radial-gradient(40% 50% at 100% 100%, var(--c4) 0, transparent 70%), var(--bg);
+}
+
+.code {
+  margin: 0;
+  font: 400 clamp(6rem, 22vw, 16rem) / 0.9 var(--display);
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 4rem);
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+  max-width: 60rem;
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.8rem, 3.6vw, 2.75rem);
+  line-height: 1;
+}
+
+.cols p {
+  margin: 0;
+  font-weight: 400;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding: 0.65rem 1.4rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  text-decoration: none;
+  font: 500 0.95rem/1 var(--text);
+  transition: background 0.15s, color 0.15s;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+@media (max-width: 640px) {
+  .cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

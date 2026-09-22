@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getDictionary, isLang, type Lang } from "@/lib/i18n";
 import { profile } from "@/content/profile";
-import Picture from "@/components/Picture";
+import Portrait from "@/components/Portrait";
 import styles from "./page.module.css";
 
 export async function generateMetadata({
@@ -29,9 +29,12 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
     <div className="wrap">
       <section className={styles.section}>
         <div className={styles.about}>
-          <div className={styles.portrait}>
-            <Picture name="portrait" alt={text.portraitAlt} sizes="(max-width: 820px) 300px, 340px" priority />
-          </div>
+          <Portrait
+            className={styles.portrait}
+            alt={text.portraitAlt}
+            sizes="(max-width: 820px) 300px, 340px"
+            priority
+          />
           <div>
             <h1 className="display">{dict.about.heading}</h1>
             <p className={styles.bio}>{text.bio}</p>

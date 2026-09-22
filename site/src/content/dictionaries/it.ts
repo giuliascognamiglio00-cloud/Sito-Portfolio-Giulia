@@ -16,9 +16,21 @@ export const it = {
     nextProject: "Prossimo progetto",
     downloadCv: "Scarica il CV",
   },
+  footer: {
+    navLabel: "Piè di pagina",
+  },
   categories: {
     works: "Lavori",
     academy: "Accademia",
+  },
+  areas: {
+    branding: "Branding",
+    "art-direction": "Art direction",
+    campaign: "Campagne integrate",
+    social: "Social media",
+    "ui-ux": "UI/UX",
+    photo: "Fotografia",
+    compositing: "Compositing",
   },
   home: {
     title: "Giulia Scognamiglio | Art Director",
@@ -38,6 +50,9 @@ export const it = {
     academyNote:
       "Sono progetti didattici, nati da brief accademici. I marchi citati appartengono ai rispettivi proprietari.",
     emptyWorks: "I progetti professionali arriveranno presto.",
+    timelineLabel: "Filtra per anno",
+    allYears: "Tutti",
+    emptyYear: "Nessun progetto per questo anno, in questa sezione.",
   },
   project: {
     kind: "Tipo",
@@ -46,6 +61,11 @@ export const it = {
     insight: "Insight",
     concept: "Concept",
     gallery: "Immagini del progetto",
+    areasLabel: "Macroaree",
+    carousel: "Sfoglia il progetto",
+    drag: "Trascina per esplorare",
+    prevSlide: "Immagine precedente",
+    nextSlide: "Immagine successiva",
   },
   about: {
     title: "Chi sono | Giulia Scognamiglio",
@@ -58,6 +78,35 @@ export const it = {
     description: "Scrivimi per collaborazioni, progetti e opportunità di lavoro.",
     heading: "Contatti",
     lede: "Per collaborazioni, progetti o anche solo per fare due chiacchiere.",
+    // Bozza da rivedere con Giulia. Nessun capitolo nomina il datore di lavoro.
+    meet: {
+      eyebrow: "01 — Ti presento chi sono",
+      title: "Prima di scrivermi, conosciamoci.",
+      lede: "Un minuto per dare un volto ai progetti.",
+      soon: "Video in arrivo",
+      chaptersLabel: "Di cosa parlo",
+      chapters: [
+        { title: "Chi sono", text: "Art director formata in Graphic Design all’AANT di Roma." },
+        {
+          title: "Cosa faccio",
+          text: "Campagne integrate, brand identity, compositing, art direction e contenuti per i social.",
+        },
+        {
+          title: "Con cosa lavoro",
+          text: "Photoshop, Illustrator, InDesign, Premiere, After Effects, Figma e altri strumenti.",
+        },
+        {
+          title: "Da dove vengo",
+          text: "Roma, e un anno di scuola in California che mi ha dato un buon inglese.",
+        },
+      ],
+    },
+    closing: {
+      eyebrow: "02 — Un’azione da qui",
+      title: "Parliamo del tuo prossimo progetto.",
+      text: "Nessun brief perfetto e nessun impegno: scrivimi due righe su cosa hai in mente e ti rispondo io.",
+      cta: "Mettiamoci in contatto",
+    },
   },
   notFound: {
     heading: "Pagina non trovata",

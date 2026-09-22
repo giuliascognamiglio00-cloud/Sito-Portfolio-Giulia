@@ -3,9 +3,13 @@ import type { Project } from "../types";
 export const goliosi: Project = {
   slug: "goliosi",
   category: "academy",
+  areas: ["branding", "ui-ux"],
   date: "2023-06",
   accent: "#8DBE1F",
   cover: "goliosi_thumb",
+  // L'unica immagine di Goliosi senza grafica fitta al centro; lo scrim scuro
+  // garantisce comunque il contrasto anche su questo fondo chiaro
+  introImage: "goliosi_2",
   images: [{ key: "goliosi_1" }, { key: "goliosi_2" }, { key: "goliosi_3" }],
   content: {
     it: {

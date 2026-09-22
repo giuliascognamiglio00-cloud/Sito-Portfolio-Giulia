@@ -156,26 +156,62 @@ IT ed EN; tutti i 992 riferimenti a immagini nell'HTML esportato puntano a file 
 - Rilettura delle traduzioni inglesi (progetti, bio, etichette).
 - I progetti professionali: la sezione Works mostra un messaggio "arriveranno presto".
 
-### M3 — Polishing del sito
+### M3 — Polishing del sito 🟡
 
 *Obiettivo: quello che si vede è finito.*
 
-Cosa significhi "polishing" per questo sito **non è ancora deciso**, e non coincide per
-forza con la bozza: la bozza è un punto di partenza, non un obiettivo da replicare
-fedelmente. Il perimetro si definisce insieme a Giulia, all'inizio della milestone, quando
-si scrive il piano di implementazione.
+Il perimetro è stato definito con Giulia all'inizio della milestone. La bozza è un punto di
+partenza, non un obiettivo da replicare fedelmente.
 
-Aree da considerare, senza impegno sul contenuto:
+Fatto (da verificare a occhio nel browser):
 
-- [ ] Aspetto e identità visiva: quanto tenere della bozza e cosa cambiare
-- [ ] Rifiniture di interazione e dettaglio (transizioni, stati, tema chiaro/scuro)
-- [ ] Accessibilità
-- [ ] SEO e condivisione dei link
-- [ ] Pagina 404 in tema
+- [x] Nome in Big Shoulders (400–500) e ruolo in Roboto Condensed 400 maiuscolo
+- [x] Home a due colonne: testo a sinistra, foto a destra **senza riquadro** (il ritaglio
+      sta direttamente sullo sfondo). La foto è `Giulia foto CV.png`, un ritaglio con sfondo
+      trasparente: la pipeline immagini ora accetta anche PNG
+- [x] Foto nuova anche in "Chi sono", nel riquadro arrotondato di prima
+- [x] Etichette di macroarea nelle pagine progetto (campo `areas`, da confermare con Giulia)
+- [x] Carosello con scroll-snap in ogni pagina progetto, provvisorio: convive con la galleria
+- [x] Contatti: sezione "Meet me" (senza video, con segnaposto) ed epigrafe di chiusura.
+      Testi IT/EN sono bozze da rileggere
+- [x] Pagina 404 in tema, bilingue (`global-not-found`)
+- [x] Hero corretta: il nome si dimensiona sulla sua colonna e la foto è tagliata a filo dello
+      sfondo colorato della sezione (non più dell'ultima riga di testo)
+- [x] Footer a filo pagina, sfondo uguale al resto del sito, con una linea sottile a
+      separarlo e il download del CV accanto ai contatti
+- [x] Contatti: pulsante di chiusura rinominato ("Mettiamoci in contatto" / "Get in touch").
+      La foto segnaposto nel riquadro di chiusura è stata provata e poi tolta su richiesta
+      di Giulia: il riquadro resta solo testo e pulsante
+- [x] Pagine progetto: le etichette di macroarea sono state spostate sotto la linea che
+      divide il titolo dalla griglia Tipo/Cosa ho realizzato/Strumenti (campo `areas`,
+      nuovo `metaBlock` in `works/[slug]/page.module.css`)
+- [x] Pagine progetto: `introImage` è ora lo sfondo fotografico a piena pagina dell'intestazione
+      (titolo, macroaree e griglia Tipo/Cosa ho realizzato/Strumenti sopra la foto, con uno
+      scrim scuro che garantisce la leggibilità del testo chiaro anche su un'immagine chiara).
+      Il testo di presentazione (`intro`) e l'eventuale Insight/Concept sono tornati sotto,
+      su sfondo normale. Per ora un'immagine già esistente per progetto, scelta a occhio per
+      la leggibilità (rikka_1, tlou_2, oculus_1, goliosi_2): da sostituire quando Giulia avrà
+      immagini pensate apposta per questo spazio
+- [x] Corpo del testo passato a Google Sans Flex (font variabile, ottico fissato a 9pt come
+      nel file `GoogleSansFlex_9pt-Regular` che Giulia aveva scelto), auto-ospitato con lo
+      stesso metodo degli altri font — i file scaricati a mano nella cartella `font/` non
+      sono stati usati, non servono
+- [x] Pagina Lavori: sotto il titolo una timeline (`components/Timeline.tsx`) filtra i
+      progetti per anno. Mostra solo gli anni che esistono davvero tra le date dei
+      progetti, quindi cresce da sola man mano che le date si aggiungono o cambiano;
+      compare solo quando c'è più di un anno tra cui scegliere. Il filtro è lato client
+      (`components/WorksList.tsx`), le liste restano ordinate dal più recente
+
+Ancora da fare:
+
+- [ ] Controllo dei font in Big Shoulders e Roboto Condensed nel browser: nelle schermate di
+      prova headless comparivano i font di sistema, da verificare
+- [ ] Rifiniture di interazione (transizioni, stati, tema chiaro/scuro)
+- [ ] Accessibilità: contrasti, focus, ordine dei titoli
+- [ ] SEO e condivisione dei link (immagini Open Graph, sitemap, robots)
 - [ ] Verifica su dispositivi reali
 
-**Da definire insieme:** l'elenco preciso delle attività e il criterio con cui dire che la
-milestone è chiusa.
+**Da definire insieme:** il criterio con cui dire che la milestone è chiusa.
 
 ### M4 — Preparazione al caricamento online
 

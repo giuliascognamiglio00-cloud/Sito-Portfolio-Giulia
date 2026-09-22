@@ -1,5 +1,131 @@
+.head {
+  padding-top: clamp(2.5rem, 6vw, 5rem);
+}
+
+/* Etichetta numerata sopra i titoli di sezione, es. "01 — Ti presento chi sono" */
+.eyebrow {
+  margin: 0 0 1rem;
+  font: 500 0.85rem/1 var(--text);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---- 01 Meet me ---- */
+.meet {
+  margin-top: clamp(3rem, 7vw, 6rem);
+}
+
+.meetTitle {
+  max-width: 18ch;
+  font-size: clamp(2.6rem, 6.5vw, 5.5rem);
+  line-height: 0.98;
+}
+
+.meetLede {
+  max-width: 32rem;
+  margin: 1rem 0 0;
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  font-weight: 400;
+}
+
+.meetGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+  margin-top: clamp(1.75rem, 4vw, 3rem);
+}
+
+/* Segnaposto del video: quando ci sarà, questo riquadro diventa il player */
+.stage {
+  position: relative;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1rem;
+  aspect-ratio: 16 / 9;
+  border-radius: clamp(20px, 3vw, 32px);
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(60% 90% at 6% 0%, var(--c1) 0, transparent 72%),
+    radial-gradient(55% 80% at 100% 10%, var(--c2) 0, transparent 72%),
+    radial-gradient(60% 90% at 65% 120%, var(--c3) 0, transparent 72%),
+    radial-gradient(45% 70% at 100% 100%, var(--c4) 0, transparent 72%), var(--wash);
+}
+
+.play {
+  display: grid;
+  place-items: center;
+  width: clamp(3.5rem, 8vw, 5.5rem);
+  aspect-ratio: 1;
+  padding-left: 0.15em;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--bg);
+  font-size: clamp(1.1rem, 2.4vw, 1.8rem);
+  opacity: 0.85;
+}
+
+.soon {
+  font: 500 0.85rem/1 var(--text);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.chaptersLabel {
+  margin: 0 0 0.5rem;
+  font: 500 0.85rem/1 var(--text);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.chapters {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chapters li {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding-block: 1rem;
+  border-top: 1.5px solid var(--line-strong);
+}
+
+.chapters li:last-child {
+  border-bottom: 1.5px solid var(--line-strong);
+}
+
+.chapterNum {
+  font: 500 0.9rem/1.6 var(--text);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.chapters strong {
+  font-weight: 500;
+}
+
+.chapters p {
+  margin: 0.15rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 820px) {
+  .meetGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---- 02 Epigrafe di chiusura ---- */
 .contact {
-  margin-block: clamp(2rem, 5vw, 4rem) clamp(3rem, 7vw, 6rem);
+  margin-block: clamp(3rem, 7vw, 6rem);
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -17,6 +143,26 @@
   margin: 1rem 0 0;
   font-size: clamp(1.05rem, 1.6vw, 1.2rem);
   font-weight: 400;
+}
+
+/* Il pulsante principale: l'unica azione richiesta */
+.cta {
+  display: inline-block;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  padding: 1rem 2rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  text-decoration: none;
+  font: 500 1.05rem/1 var(--text);
+  transition: background 0.15s, color 0.15s;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: transparent;
+  color: var(--ink);
 }
 
 .mail {

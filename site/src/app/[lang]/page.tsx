@@ -3,6 +3,7 @@ import { getDictionary, isLang, type Lang } from "@/lib/i18n";
 import { routes } from "@/lib/routes";
 import Hero from "@/components/Hero";
 import { getProjects } from "@/content/projects";
+import { profile } from "@/content/profile";
 import ProjectCard from "@/components/ProjectCard";
 import styles from "./page.module.css";
 
@@ -13,7 +14,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
 
   return (
     <>
-      <Hero role={dict.home.role} lede={dict.home.lede} />
+      <Hero role={dict.home.role} lede={dict.home.lede} portraitAlt={profile[typed].portraitAlt} />
 
       <div className="wrap">
         <section className={styles.section}>

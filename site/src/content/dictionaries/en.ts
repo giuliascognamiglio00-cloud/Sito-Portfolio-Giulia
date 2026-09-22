@@ -18,9 +18,21 @@ export const en: Dictionary = {
     nextProject: "Next project",
     downloadCv: "Download CV",
   },
+  footer: {
+    navLabel: "Footer",
+  },
   categories: {
     works: "Work",
     academy: "Academic",
+  },
+  areas: {
+    branding: "Branding",
+    "art-direction": "Art direction",
+    campaign: "Integrated campaigns",
+    social: "Social media",
+    "ui-ux": "UI/UX",
+    photo: "Photography",
+    compositing: "Compositing",
   },
   home: {
     title: "Giulia Scognamiglio | Art Director",
@@ -40,6 +52,9 @@ export const en: Dictionary = {
     academyNote:
       "These are academic projects, built from university briefs. All trademarks belong to their respective owners.",
     emptyWorks: "Professional projects are coming soon.",
+    timelineLabel: "Filter by year",
+    allYears: "All",
+    emptyYear: "No project for this year, in this section.",
   },
   project: {
     kind: "Type",
@@ -48,6 +63,11 @@ export const en: Dictionary = {
     insight: "Insight",
     concept: "Concept",
     gallery: "Project images",
+    areasLabel: "Areas",
+    carousel: "Browse the project",
+    drag: "Drag to explore",
+    prevSlide: "Previous image",
+    nextSlide: "Next image",
   },
   about: {
     title: "About | Giulia Scognamiglio",
@@ -60,6 +80,35 @@ export const en: Dictionary = {
     description: "Get in touch about collaborations, projects and opportunities.",
     heading: "Contact",
     lede: "For collaborations, projects, or just to say hello.",
+    // DRAFT to be reviewed by Giulia.
+    meet: {
+      eyebrow: "01 — Meet me",
+      title: "Before you write, let’s get acquainted.",
+      lede: "One minute to put a face to the projects.",
+      soon: "Video coming soon",
+      chaptersLabel: "What I talk about",
+      chapters: [
+        { title: "Who I am", text: "Art director trained in Graphic Design at AANT in Rome." },
+        {
+          title: "What I do",
+          text: "Integrated campaigns, brand identity, compositing, art direction and social content.",
+        },
+        {
+          title: "What I work with",
+          text: "Photoshop, Illustrator, InDesign, Premiere, After Effects, Figma and more.",
+        },
+        {
+          title: "Where I’m from",
+          text: "Rome, and a year of school in California that gave me solid English.",
+        },
+      ],
+    },
+    closing: {
+      eyebrow: "02 — One action from here",
+      title: "Let’s talk about your next project.",
+      text: "No perfect brief and no strings attached: send me a couple of lines about what you have in mind and I’ll reply myself.",
+      cta: "Get in touch",
+    },
   },
   notFound: {
     heading: "Page not found",

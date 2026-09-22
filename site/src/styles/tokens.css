@@ -23,6 +23,9 @@
   /* Tipografia: le variabili arrivano da next/font nel layout */
   --display: var(--font-display), "Impact", "Haettenschweiler", "Arial Narrow Bold", sans-serif;
   --text: var(--font-text), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Solo per il nome e per il ruolo nell'apertura della home */
+  --name: var(--font-name), "Impact", "Haettenschweiler", "Arial Narrow Bold", sans-serif;
+  --role: var(--font-role), "Arial Narrow", system-ui, sans-serif;
 
   /* Forma e ritmo */
   --r: 20px;

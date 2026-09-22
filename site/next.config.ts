@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
 
   reactStrictMode: true,
+
+  // La 404 per gli indirizzi senza rotta: le due radici (lingue e "/") non hanno un layout
+  // comune da cui comporla, quindi si usa global-not-found.tsx.
+  experimental: { globalNotFound: true },
 };
 
 export default nextConfig;

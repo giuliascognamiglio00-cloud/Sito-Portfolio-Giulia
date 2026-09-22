@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getDictionary, isLang, type Lang } from "@/lib/i18n";
 import { getProjects } from "@/content/projects";
-import ProjectCard from "@/components/ProjectCard";
+import WorksList from "@/components/WorksList";
 import styles from "./page.module.css";
 
 export async function generateMetadata({
@@ -34,29 +34,7 @@ export default async function WorksPage({ params }: { params: Promise<{ lang: st
           <p className={styles.lede}>{dict.works.lede}</p>
         </div>
 
-        <h2 className={styles.group}>{dict.categories.works}</h2>
-        {professional.length > 0 ? (
-          <ul className={styles.grid}>
-            {professional.map((p) => (
-              <li key={p.slug}>
-                <ProjectCard project={p} lang={typed} />
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className={styles.empty}>{dict.works.emptyWorks}</p>
-        )}
-
-        <h2 className={styles.group}>{dict.categories.academy}</h2>
-        <ul className={styles.grid}>
-          {academic.map((p) => (
-            <li key={p.slug}>
-              <ProjectCard project={p} lang={typed} />
-            </li>
-          ))}
-        </ul>
-
-        <p className={styles.note}>{dict.works.academyNote}</p>
+        <WorksList professional={professional} academic={academic} lang={typed} dict={dict} />
       </section>
     </div>
   );

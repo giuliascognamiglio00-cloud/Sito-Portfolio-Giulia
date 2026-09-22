@@ -1,6 +1,6 @@
 import manifest from "@/content/image-manifest.json";
 
-type Entry = { width: number; height: number; widths: number[] };
+type Entry = { width: number; height: number; widths: number[]; fallback?: "jpg" | "png" };
 const images = manifest as Record<string, Entry>;
 
 const srcSet = (name: string, widths: number[], ext: string) =>
@@ -18,14 +18,14 @@ type Props = {
 };
 
 /**
- * Immagine responsive: il browser sceglie tra AVIF, WebP e JPEG e tra le larghezze
+ * Immagine responsive: il browser sceglie tra AVIF, WebP e JPEG (PNG per i ritagli trasparenti) e tra le larghezze
  * generate da scripts/optimize-images.mjs. Le misure vere evitano lo scatto del layout.
  */
 export default function Picture({ name, alt, sizes, priority = false, className }: Props) {
   const entry = images[name];
   if (!entry) throw new Error(`Immagine sconosciuta: "${name}". Manca in assets/img?`);
 
-  const { width, height, widths } = entry;
+  const { width, height, widths, fallback = "jpg" } = entry;
   const largest = widths[widths.length - 1];
 
   return (
@@ -34,8 +34,8 @@ export default function Picture({ name, alt, sizes, priority = false, className 
       <source type="image/webp" srcSet={srcSet(name, widths, "webp")} sizes={sizes} />
       <img
         className={className}
-        src={`/img/${name}-${largest}.jpg`}
-        srcSet={srcSet(name, widths, "jpg")}
+        src={`/img/${name}-${largest}.${fallback}`}
+        srcSet={srcSet(name, widths, fallback)}
         sizes={sizes}
         alt={alt}
         width={width}

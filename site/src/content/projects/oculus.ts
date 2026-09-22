@@ -3,9 +3,12 @@ import type { Project } from "../types";
 export const oculus: Project = {
   slug: "oculus",
   category: "academy",
+  areas: ["photo", "compositing", "art-direction"],
   date: "2023-12",
   accent: "#3E78B2",
   cover: "oculus_thumb",
+  // Stanza in notturna con i tentacoli: la parte alta è scura e uniforme
+  introImage: "oculus_1",
   images: [
     { key: "oculus_1" },
     { key: "oculus_2", half: true },
