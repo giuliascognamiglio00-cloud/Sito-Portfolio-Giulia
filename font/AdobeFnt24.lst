@@ -1,0 +1,265 @@
+%!Adobe-FontList 1.24
+%Locale:0x409
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:/Volumes/GiuliaAnniUNI/Archivio/Anni universitari 20-23/PORTFOLIO 2023/Giulia Scognamiglio_portfolio_2023_3BGD Folder/Document fonts/AdobeFnt23.lst
+FileLength:5783
+FileModTime:717152597
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:/Volumes/GiuliaAnniUNI/Archivio/Anni universitari 20-23/PORTFOLIO 2023/Giulia Scognamiglio_portfolio_2023_3BGD Folder/Document fonts/AdobeFnt24.lst
+FileLength:6455
+FileModTime:763638161
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Anton-Regular
+FamilyName:Anton
+StyleName:Regular
+MenuName:Anton
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:Anton Regular
+WritingScript:Roman
+OutlineFileName:/Volumes/GiuliaAnniUNI/Archivio/Anni universitari 20-23/PORTFOLIO 2023/Giulia Scognamiglio_portfolio_2023_3BGD Folder/Document fonts/Anton-Regular.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:161588
+FileModTime:320108400
+NameArray:0,Win,1,Anton
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Fraunces-9ptBlack
+FamilyName:Fraunces
+StyleName:Regular
+MenuName:Fraunces
+FamilyPrefix:Fraunces
+StyleBits:0
+WeightClass:900
+WidthClass:5
+AngleClass:0
+FullName:Fraunces 9pt Black
+WritingScript:Roman
+OutlineFileName:/Volumes/GiuliaAnniUNI/Archivio/Anni universitari 20-23/PORTFOLIO 2023/Giulia Scognamiglio_portfolio_2023_3BGD Folder/Document fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:TrueTypeVariableFont
+FileLength:357152
+FileModTime:704732384
+NameArray:0,Win,1,Fraunces
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Poppins-Bold
+FamilyName:Poppins
+StyleName:Bold
+MenuName:Poppins
+StyleBits:2
+WeightClass:700
+WidthClass:5
+AngleClass:0
+FullName:Poppins Bold
+WritingScript:Roman
+OutlineFileName:/Volumes/GiuliaAnniUNI/Archivio/Anni universitari 20-23/PORTFOLIO 2023/Giulia Scognamiglio_portfolio_2023_3BGD Folder/Document fonts/Poppins-Bold.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:153900
+FileModTime:454978800
+NameArray:0,Win,1,Poppins
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Poppins-ExtraLight
+FamilyName:Poppins
+StyleName:ExtraLight
+MenuName:Poppins ExtraLight
+StyleBits:0
+WeightClass:275
+WidthClass:5
+AngleClass:0
+FullName:Poppins ExtraLight
+WritingScript:Roman
+OutlineFileName:/Volumes/GiuliaAnniUNI/Archivio/Anni universitari 20-23/PORTFOLIO 2023/Giulia Scognamiglio_portfolio_2023_3BGD Folder/Document fonts/Poppins-ExtraLight.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:161404
+FileModTime:454978800
+NameArray:0,Win,1,Poppins ExtraLight
+NameArray:0,Win,16,Poppins
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Poppins-Italic
+FamilyName:Poppins
+StyleName:Italic
+MenuName:Poppins
+StyleBits:1
+WeightClass:400
+WidthClass:5
+AngleClass:1
+FullName:Poppins Italic
+WritingScript:Roman
+OutlineFileName:/Volumes/GiuliaAnniUNI/Archivio/Anni universitari 20-23/PORTFOLIO 2023/Giulia Scognamiglio_portfolio_2023_3BGD Folder/Document fonts/Poppins-Italic.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:181972
+FileModTime:454978800
+NameArray:0,Win,1,Poppins
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Poppins-Light
+FamilyName:Poppins
+StyleName:Light
+MenuName:Poppins Light
+StyleBits:0
+WeightClass:300
+WidthClass:5
+AngleClass:0
+FullName:Poppins Light
+WritingScript:Roman
+OutlineFileName:/Volumes/GiuliaAnniUNI/Archivio/Anni universitari 20-23/PORTFOLIO 2023/Giulia Scognamiglio_portfolio_2023_3BGD Folder/Document fonts/Poppins-Light.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:159848
+FileModTime:454978800
+NameArray:0,Win,1,Poppins Light
+NameArray:0,Win,16,Poppins
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Poppins-LightItalic
+FamilyName:Poppins
+StyleName:Light Italic
+MenuName:Poppins Light
+StyleBits:1
+WeightClass:300
+WidthClass:5
+AngleClass:1
+FullName:Poppins Light Italic
+WritingScript:Roman
+OutlineFileName:/Volumes/GiuliaAnniUNI/Archivio/Anni universitari 20-23/PORTFOLIO 2023/Giulia Scognamiglio_portfolio_2023_3BGD Folder/Document fonts/Poppins-LightItalic.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:184420
+FileModTime:454978800
+NameArray:0,Win,1,Poppins Light
+NameArray:0,Win,16,Poppins
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Poppins-Medium
+FamilyName:Poppins
+StyleName:Medium
+MenuName:Poppins Medium
+StyleBits:0
+WeightClass:500
+WidthClass:5
+AngleClass:0
+FullName:Poppins Medium
+WritingScript:Roman
+OutlineFileName:/Volumes/GiuliaAnniUNI/Archivio/Anni universitari 20-23/PORTFOLIO 2023/Giulia Scognamiglio_portfolio_2023_3BGD Folder/Document fonts/Poppins-Medium.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:156480
+FileModTime:454978800
+NameArray:0,Win,1,Poppins Medium
+NameArray:0,Win,16,Poppins
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Poppins-Regular
+FamilyName:Poppins
+StyleName:Regular
+MenuName:Poppins
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:Poppins Regular
+WritingScript:Roman
+OutlineFileName:/Volumes/GiuliaAnniUNI/Archivio/Anni universitari 20-23/PORTFOLIO 2023/Giulia Scognamiglio_portfolio_2023_3BGD Folder/Document fonts/Poppins-Regular.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:158192
+FileModTime:454978800
+NameArray:0,Win,1,Poppins
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Poppins-SemiBold
+FamilyName:Poppins
+StyleName:SemiBold
+MenuName:Poppins SemiBold
+StyleBits:0
+WeightClass:600
+WidthClass:5
+AngleClass:0
+FullName:Poppins SemiBold
+WritingScript:Roman
+OutlineFileName:/Volumes/GiuliaAnniUNI/Archivio/Anni universitari 20-23/PORTFOLIO 2023/Giulia Scognamiglio_portfolio_2023_3BGD Folder/Document fonts/Poppins-SemiBold.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:155192
+FileModTime:454978800
+NameArray:0,Win,1,Poppins SemiBold
+NameArray:0,Win,16,Poppins
+%EndFont
+
