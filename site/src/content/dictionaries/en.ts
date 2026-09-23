@@ -43,6 +43,24 @@ export const en: Dictionary = {
     lede: "I craft integrated campaigns, brand identities and visuals, from concept to production.",
     selectedWorks: "Selected work",
     seeAll: "See all work",
+    approach: {
+      heading: "What I do",
+      lede: "I follow a project from the first analysis to the day it goes live.",
+      steps: [
+        {
+          title: "Analysis and strategy",
+          text: "First I look: who we are talking to, what competitors are doing, what is moving in the sector. The editorial plan, the formats and the tone of voice come out of that.",
+        },
+        {
+          title: "Concept and art direction",
+          text: "The idea that holds everything together, and the visual system that carries it: from the logo to the billboard to a single post.",
+        },
+        {
+          title: "Production and publishing",
+          text: "Copy, visuals, reels, carousels, newsletters. The finished pieces, all the way to going live.",
+        },
+      ],
+    },
   },
   works: {
     title: "Work | Giulia Scognamiglio",

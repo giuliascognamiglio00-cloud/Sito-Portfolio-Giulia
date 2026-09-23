@@ -63,9 +63,7 @@ export default function ThemeToggle({ dict }: { dict: Dictionary }) {
 
   return (
     <button type="button" className={styles.toggle} onClick={toggle} aria-label={label} title={label}>
-      <span className={styles.icon} aria-hidden="true">
-        {theme === "dark" ? "☾" : "☀"}
-      </span>
+      <span className={styles.dot} aria-hidden="true" />
     </button>
   );
 }

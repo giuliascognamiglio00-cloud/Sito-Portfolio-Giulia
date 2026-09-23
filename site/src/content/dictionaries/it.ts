@@ -41,6 +41,26 @@ export const it = {
     lede: "Ideo e realizzo campagne integrate, identità di marca e visual, dal concept alla produzione.",
     selectedWorks: "Lavori scelti",
     seeAll: "Guarda tutti i lavori",
+    // Bozza ricavata dal CV, da rileggere: i tre passaggi sono la frase «dall'analisi e dal
+    // concept fino alla produzione e alla pubblicazione», aperta in tre momenti
+    approach: {
+      heading: "Cosa faccio",
+      lede: "Seguo il progetto dall’analisi alla pubblicazione.",
+      steps: [
+        {
+          title: "Analisi e strategia",
+          text: "Prima guardo: a chi si parla, cosa fanno i concorrenti, cosa si muove nel settore. Da lì nascono il piano editoriale, i formati e il tono di voce.",
+        },
+        {
+          title: "Concept e art direction",
+          text: "L’idea che tiene insieme tutto, e il sistema visivo che la regge: dal marchio all’affissione al singolo post.",
+        },
+        {
+          title: "Produzione e pubblicazione",
+          text: "Copy, visual, reel, caroselli, newsletter. Le cose finite, fino a quando sono online.",
+        },
+      ],
+    },
   },
   works: {
     title: "Lavori | Giulia Scognamiglio",

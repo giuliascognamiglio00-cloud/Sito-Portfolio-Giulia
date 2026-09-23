@@ -4,20 +4,30 @@
   width: 2.25rem;
   height: 2.25rem;
   padding: 0;
-  border: 1.5px solid var(--line-strong);
-  border-radius: 999px;
+  border: 0;
   background: transparent;
   color: inherit;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
 }
 
-.toggle:hover {
-  border-color: var(--ink);
-  background: var(--wash);
+/* Un cerchio pieno, nero sul tema chiaro e bianco su quello scuro: lo stesso segno in
+   negativo. Il colore lo dà la variabile del testo, quindi si ribalta da sé quando cambia
+   il tema, anche prima che il JavaScript sia partito. */
+.dot {
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 999px;
+  background: var(--ink);
+  transition: transform 0.2s, background 0.2s;
 }
 
-.icon {
-  font-size: 0.95rem;
-  line-height: 1;
+.toggle:hover .dot,
+.toggle:focus-visible .dot {
+  transform: scale(1.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    transition: none;
+  }
 }

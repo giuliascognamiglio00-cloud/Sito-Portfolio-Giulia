@@ -75,7 +75,7 @@ latini e comprime. Serve [fonttools](https://fonttools.readthedocs.io):
 ```powershell
 py -m pip install --user fonttools brotli
 
-py -m fontTools.varLib.instancer "font/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf" opsz=9 GRAD=0 ROND=0 slnt=0 wdth=100 -o "$env:TEMP\GSF-9pt-var.ttf"
+py -m fontTools.varLib.instancer "font/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf" opsz=9 GRAD=0 ROND=0 slnt=0 wdth=100 -o "$env:TEMP\GSF-9pt-var.ttf"
 
 py -m fontTools.subset "$env:TEMP\GSF-9pt-var.ttf" --unicodes="U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-2199,U+2212,U+2215,U+FEFF,U+FFFD" --layout-features="*" --flavor=woff2 --output-file="site/src/fonts/GoogleSansFlex-9pt-latin.woff2"
 ```

@@ -37,10 +37,10 @@ export const syntonia: Project = {
       // Apre la panoramica della sede; sotto i tre mockup, e il manifesto piatto si vede
       // solo cliccando quello che lo contiene
       images: [
-        "syntonia_mock_3",
+        "syntonia_mock_5",
         { mockup: "syntonia_mock_4", artwork: "syntonia_poster_1" },
         { mockup: "syntonia_mock_2", artwork: "syntonia_poster_2" },
-        { mockup: "syntonia_mock_1", artwork: "syntonia_poster_1" },
+        { mockup: "syntonia_mock_6", artwork: "syntonia_poster_3" },
       ],
     },
   ],
@@ -99,7 +99,7 @@ export const syntonia: Project = {
             {
               title: "In sede",
               caption: "I tre manifesti alle pareti dell’open space.",
-              alt: "L’open space della sede Syntonia con i tre manifesti appesi alle pareti e il marchio accanto alla finestra",
+              alt: "L’open space della sede Syntonia: due manifesti orizzontali sulla parete di fondo e uno verticale sul pilastro accanto, con la città oltre la vetrata",
             },
             {
               title: "Alla scrivania",
@@ -118,11 +118,11 @@ export const syntonia: Project = {
               ],
             },
             {
-              title: "Nel corridoio",
-              caption: "«Ogni destinazione parte da una scelta.» Clicca per vederlo intero.",
+              title: "Nell’ufficio",
+              caption: "«La mobilità giusta è equilibrio.» Clicca per vederlo intero.",
               alt: [
-                "Il manifesto verticale Syntonia appeso nel corridoio degli uffici, accanto al marchio a parete",
-                "Manifesto verticale Syntonia: una donna con il berretto giallo appoggiata a un’auto aperta davanti alle montagne all’alba, dentro il contorno del segnaposto",
+                "Il manifesto orizzontale Syntonia incorniciato alla parete di un ufficio, sopra la credenza e accanto alla vetrata",
+                "Manifesto Syntonia: un’auto verde su un ponte sospeso tra le nuvole, con il payoff «La mobilità giusta è equilibrio. Tra esigenze, costi e utilizzo reale»",
               ],
             },
           ],
@@ -204,7 +204,7 @@ export const syntonia: Project = {
             {
               title: "In the office",
               caption: "The three posters on the walls of the open plan office.",
-              alt: "The Syntonia open plan office with the three posters on the walls and the logo beside the window",
+              alt: "The Syntonia open plan office: two horizontal posters on the far wall and a vertical one on the pillar beside it, with the city through the window",
             },
             {
               title: "By the desk",
@@ -225,12 +225,12 @@ export const syntonia: Project = {
               ],
             },
             {
-              title: "In the corridor",
+              title: "In the office",
               caption:
-                "“Ogni destinazione parte da una scelta” — every destination starts with a choice. Click to see it whole.",
+                "“La mobilità giusta è equilibrio” — the right mobility is balance. Click to see it whole.",
               alt: [
-                "The vertical Syntonia poster hanging in an office corridor, next to the logo on the wall",
-                "Vertical Syntonia poster: a woman in a yellow beanie leaning against an open car boot in front of mountains at dawn, inside the outline of the map pin",
+                "The horizontal Syntonia poster framed on an office wall, above the sideboard and next to the glass wall",
+                "Syntonia poster: a green car on a bridge suspended among the clouds, with the tagline “La mobilità giusta è equilibrio. Tra esigenze, costi e utilizzo reale”",
               ],
             },
           ],
