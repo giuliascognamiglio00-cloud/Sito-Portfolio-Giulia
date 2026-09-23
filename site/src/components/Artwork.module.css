@@ -1,0 +1,102 @@
+.trigger {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--wash);
+  cursor: zoom-in;
+}
+
+.trigger img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Il segnale che sotto c'è altro da vedere */
+.badge {
+  position: absolute;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  background: rgba(10, 8, 20, 0.5);
+  color: #fff;
+  transition: background-color 0.15s;
+}
+
+.badge svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.trigger:hover .badge {
+  background: rgba(10, 8, 20, 0.8);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+.dialog {
+  max-width: 94vw;
+  max-height: 94vh;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r);
+  background: transparent;
+  overflow: visible;
+}
+
+.dialog::backdrop {
+  background: rgba(10, 8, 20, 0.88);
+}
+
+.dialog img {
+  display: block;
+  max-width: 94vw;
+  max-height: 94vh;
+  width: auto;
+  height: auto;
+  border-radius: var(--r);
+}
+
+.close {
+  position: absolute;
+  top: -0.75rem;
+  right: -0.75rem;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  background: rgba(10, 8, 20, 0.85);
+  color: #fff;
+  font: 400 1.5rem/1 var(--text);
+  cursor: pointer;
+}
+
+.close:hover {
+  background: #000;
+}
+
+.close:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    transition: none;
+  }
+}

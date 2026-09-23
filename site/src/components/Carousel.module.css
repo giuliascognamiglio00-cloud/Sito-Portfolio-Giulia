@@ -83,7 +83,7 @@
 }
 
 .slide {
-  flex: 0 0 min(88%, 760px);
+  flex: 0 0 min(88%, var(--slide, 760px));
   margin: 0;
   scroll-snap-align: start;
 }
@@ -99,7 +99,7 @@
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: var(--shot, 16 / 9);
   object-fit: cover;
   -webkit-user-drag: none;
   user-select: none;

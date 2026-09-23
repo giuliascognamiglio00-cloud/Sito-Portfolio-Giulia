@@ -1,0 +1,148 @@
+.compare {
+  margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
+}
+
+.frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--wash);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+}
+
+/* Il clip-path taglia senza rimpicciolire: l'immagine resta larga quanto il riquadro e
+   object-fit calcola il ritaglio una volta sola, così le due restano allineate mentre il
+   divisore scorre. Con width + overflow l'immagine sopra "zoomerebbe" durante il trascinamento. */
+.top {
+  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+}
+
+.layer picture,
+.layer img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tag {
+  position: absolute;
+  top: 0.75rem;
+  z-index: 2;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(10, 8, 20, 0.6);
+  color: #fff;
+  font: 500 0.75rem/1 var(--text);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.tagBefore {
+  left: 0.75rem;
+}
+
+.tagAfter {
+  right: 0.75rem;
+}
+
+/* Il cursore vero: trasparente e steso su tutto il riquadro. Il pollice è invisibile ma largo
+   abbastanza da prendersi col dito — mai display:none, in Firefox fermerebbe il trascinamento. */
+.range {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: ew-resize;
+  outline: none;
+  /* Lascia scorrere la pagina in verticale, blocca lo scorrimento orizzontale accidentale */
+  touch-action: pan-y;
+}
+
+.range::-webkit-slider-runnable-track {
+  height: 100%;
+  background: transparent;
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 44px;
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+
+.range::-moz-range-track {
+  height: 100%;
+  background: transparent;
+}
+
+.range::-moz-range-thumb {
+  width: 44px;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  z-index: 2;
+  width: 2px;
+  margin-left: -1px;
+  background: #fff;
+  pointer-events: none;
+}
+
+.handle::after {
+  content: "↔";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  transform: translate(-50%, -50%);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: rgba(10, 8, 20, 0.45);
+  color: #fff;
+  font: 500 1.1rem/1 var(--text);
+}
+
+/* Il focus si vede sulla maniglia, non sul cursore trasparente. Bianco con un alone scuro:
+   resta leggibile su qualsiasi fotografia, chiara o scura. */
+.range:focus-visible ~ .handle::after {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(10, 8, 20, 0.55);
+}
+
+.compare figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.compare figcaption strong {
+  margin-right: 0.4rem;
+  color: var(--ink);
+  font-weight: 500;
+}

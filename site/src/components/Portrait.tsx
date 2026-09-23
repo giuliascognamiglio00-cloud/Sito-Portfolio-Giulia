@@ -9,8 +9,8 @@ type Props = {
 };
 
 /**
- * Il box del ritratto, uguale in home e in "Chi sono": angoli arrotondati, fondo `--wash`
- * e la foto ritagliata (PNG trasparente) appoggiata sul fondo.
+ * Il ritratto in "Chi sono": PNG ritagliato a sfondo trasparente, senza riquadro,
+ * come in home.
  */
 export default function Portrait({ alt, sizes, priority, className }: Props) {
   return (

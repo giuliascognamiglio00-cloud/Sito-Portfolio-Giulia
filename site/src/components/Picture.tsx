@@ -3,6 +3,16 @@ import manifest from "@/content/image-manifest.json";
 type Entry = { width: number; height: number; widths: number[]; fallback?: "jpg" | "png" };
 const images = manifest as Record<string, Entry>;
 
+/**
+ * La forma vera di un'immagine, letta dal manifest. Serve alle pagine progetto per adattarsi
+ * a chi lavora in orizzontale e a chi lavora in verticale.
+ */
+export function imageShape(name: string) {
+  const entry = images[name];
+  if (!entry) return null;
+  return { ratio: `${entry.width} / ${entry.height}`, portrait: entry.height > entry.width };
+}
+
 const srcSet = (name: string, widths: number[], ext: string) =>
   widths.map((w) => `/img/${name}-${w}.${ext} ${w}w`).join(", ");
 

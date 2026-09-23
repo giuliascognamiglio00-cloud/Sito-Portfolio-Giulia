@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getDictionary, isLang, type Lang } from "@/lib/i18n";
 import { profile } from "@/content/profile";
 import Portrait from "@/components/Portrait";
+import DownloadCv from "@/components/DownloadCv";
 import styles from "./page.module.css";
 
 export async function generateMetadata({
@@ -38,9 +39,11 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
           <div>
             <h1 className="display">{dict.about.heading}</h1>
             <p className={styles.bio}>{text.bio}</p>
-            <a className={styles.cv} href="/cv/Giulia_Scognamiglio_CV_EN.pdf" download>
-              {dict.common.downloadCv}
-            </a>
+            <DownloadCv
+              href="/cv/Giulia_Scognamiglio_CV_EN.pdf"
+              label={dict.common.downloadCv}
+              doneLabel={dict.common.downloadedCv}
+            />
             <dl className={styles.facts}>
               {text.facts.map((fact) => (
                 <div key={fact.label}>

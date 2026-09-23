@@ -15,6 +15,7 @@ export const it = {
     backToWorks: "Tutti i lavori",
     nextProject: "Prossimo progetto",
     downloadCv: "Scarica il CV",
+    downloadedCv: "Scaricato",
   },
   footer: {
     navLabel: "Piè di pagina",
@@ -66,6 +67,18 @@ export const it = {
     drag: "Trascina per esplorare",
     prevSlide: "Immagine precedente",
     nextSlide: "Immagine successiva",
+    compareBefore: "Prima",
+    compareAfter: "Dopo",
+    compareLabel: "Confronto prima e dopo",
+    // {value} viene sostituito con la posizione del divisore
+    compareValue: "Divisore al {value}%",
+    soundOn: "Attiva l’audio",
+    soundOff: "Disattiva l’audio",
+    replay: "Riparti dall’inizio",
+    // {n} viene sostituito con il numero dell'immagine
+    goToSlide: "Vai all’immagine {n}",
+    openArtwork: "Guarda il manifesto intero",
+    closeArtwork: "Chiudi",
   },
   about: {
     title: "Chi sono | Giulia Scognamiglio",

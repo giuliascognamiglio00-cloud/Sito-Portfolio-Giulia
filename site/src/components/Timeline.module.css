@@ -4,23 +4,26 @@
 }
 
 .track {
+  --dot: 0.65rem;
+  --pad: 0.5rem;
   position: relative;
   display: flex;
   align-items: center;
   gap: clamp(1.5rem, 4vw, 3rem);
   margin: 0;
-  padding: 0.5rem 0.25rem;
+  padding: var(--pad) 0.25rem;
   list-style: none;
   min-width: max-content;
 }
 
-/* La linea del tempo vera e propria, dietro ai punti */
+/* La linea passa all'altezza dei pallini, non a metà del punto: i pallini hanno il fondo
+   pieno, quindi la linea li attraversa scomparendoci dietro */
 .track::before {
   content: "";
   position: absolute;
   left: 0.25rem;
   right: 0.25rem;
-  top: 50%;
+  top: calc(var(--pad) + var(--dot) / 2);
   height: 1.5px;
   background: var(--line-strong);
 }
@@ -41,8 +44,8 @@
 }
 
 .dot {
-  width: 0.65rem;
-  height: 0.65rem;
+  width: var(--dot);
+  height: var(--dot);
   border-radius: 50%;
   background: var(--bg);
   border: 1.5px solid var(--line-strong);

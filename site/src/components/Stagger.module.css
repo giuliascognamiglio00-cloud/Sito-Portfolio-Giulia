@@ -1,0 +1,80 @@
+/* Immagini sfalsate, una sotto l'altra, con titolo e didascalia di lato. Le righe pari
+   scambiano i lati e scendono un po': è quello che dà il passo alternato. */
+.stagger {
+  margin: clamp(2rem, 5vw, 4rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stagger li + li {
+  margin-top: clamp(2.5rem, 6vw, 5rem);
+}
+
+.stagger figure {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+  margin: 0;
+}
+
+.stagger li:nth-child(even) figure {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  padding-top: clamp(1rem, 3vw, 2.5rem);
+}
+
+/* Il primo figlio è l'immagine, o il carosello quando il riquadro ne ha più d'una */
+.stagger li:nth-child(even) figure > :first-child {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.stagger li:nth-child(even) figcaption {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* Qui la proporzione è quella vera del file: convivono orizzontali 16:9 e verticali 4:5,
+   e ritagliarle tutte uguali le rovinerebbe */
+/* Il tetto evita che sugli schermi larghi l'immagine diventi ingombrante */
+.img {
+  width: 100%;
+  max-width: 30rem;
+  height: auto;
+  border-radius: var(--r);
+  background: var(--wash);
+}
+
+.stagger figcaption h2,
+.stagger figcaption h3 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  line-height: 1.1;
+}
+
+.stagger figcaption p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* La linea divide il titolo dalla descrizione, quindi compare solo quando ci sono entrambi */
+.stagger figcaption h2 + p,
+.stagger figcaption h3 + p {
+  padding-top: 1rem;
+  border-top: 4px solid var(--acc);
+}
+
+@media (max-width: 760px) {
+  .stagger figure,
+  .stagger li:nth-child(even) figure {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 0;
+  }
+
+  .stagger li:nth-child(even) figure > :first-child,
+  .stagger li:nth-child(even) figcaption {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}

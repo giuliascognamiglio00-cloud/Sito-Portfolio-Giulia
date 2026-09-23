@@ -7,8 +7,9 @@ export const theLastOfUs: Project = {
   date: "2024-03",
   accent: "#8FA36B",
   cover: "tlou_thumb",
-  // Affissione notturna su fondo nero: ampie zone scure, ottime per il testo sopra
-  introImage: "tlou_2",
+  // L'infetto nel buio: quasi tutto nero, il testo chiaro sopra si stacca benissimo.
+  // Non compare in galleria, così non si vede due volte nella stessa pagina
+  introImage: "tlou_thumb",
   images: [{ key: "tlou_1" }, { key: "tlou_2" }, { key: "tlou_3" }],
   content: {
     it: {

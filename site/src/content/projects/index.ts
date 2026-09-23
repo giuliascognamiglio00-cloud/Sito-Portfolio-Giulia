@@ -2,11 +2,12 @@ import type { Category, Project } from "../types";
 import { rikka } from "./rikka";
 import { theLastOfUs } from "./the-last-of-us";
 import { oculus } from "./oculus";
-import { goliosi } from "./goliosi";
+import { doggo } from "./doggo";
+import { syntonia } from "./syntonia";
 
 // Per aggiungere un progetto: creare il file e metterlo in questo elenco.
 // ATTENZIONE: le date sono provvisorie, ricavate dall'ordine della bozza. Da confermare con Giulia.
-const projects: Project[] = [rikka, theLastOfUs, oculus, goliosi];
+const projects: Project[] = [syntonia, rikka, theLastOfUs, oculus, doggo];
 
 /** Tutti i progetti, dal più recente. */
 export function getProjects(category?: Category): Project[] {

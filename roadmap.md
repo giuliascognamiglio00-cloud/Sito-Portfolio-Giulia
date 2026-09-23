@@ -154,7 +154,13 @@ IT ed EN; tutti i 992 riferimenti a immagini nell'HTML esportato puntano a file 
 - La riga sull'esperienza attuale in `profile.ts` è generica ("Ruolo attuale in azienda"): da
   riscrivere insieme, senza nominare il datore di lavoro.
 - Rilettura delle traduzioni inglesi (progetti, bio, etichette).
-- I progetti professionali: la sezione Works mostra un messaggio "arriveranno presto".
+- **Syntonia** è il primo progetto professionale in linea: la sezione Lavori non è più vuota.
+  Le immagini sono quelle vere e Giulia ha confermato che **il rebranding è lavoro suo e si
+  può pubblicare**, quindi il progetto ha anche la macroarea Branding. Restano da rileggere
+  **i testi, che sono una bozza ricavata dalle immagini**, e soprattutto da correggere
+  `date`: 2025-09 è un segnaposto e decide l'ordine dei progetti e il filtro per anno. Anche
+  `kind` e `tools` sono ipotesi.
+- Mancano gli altri progetti professionali.
 
 ### M3 — Polishing del sito 🟡
 
@@ -192,10 +198,79 @@ Fatto (da verificare a occhio nel browser):
       su sfondo normale. Per ora un'immagine già esistente per progetto, scelta a occhio per
       la leggibilità (rikka_1, tlou_2, oculus_1, goliosi_2): da sostituire quando Giulia avrà
       immagini pensate apposta per questo spazio
-- [x] Corpo del testo passato a Google Sans Flex (font variabile, ottico fissato a 9pt come
-      nel file `GoogleSansFlex_9pt-Regular` che Giulia aveva scelto), auto-ospitato con lo
-      stesso metodo degli altri font — i file scaricati a mano nella cartella `font/` non
-      sono stati usati, non servono
+- [x] Corpo del testo passato a Google Sans Flex, ottico fissato a 9pt come nel file
+      `GoogleSansFlex_9pt-Regular` che Giulia aveva scelto. Ora è servito da un file nostro
+      ricavato dal variabile in `font/`: 4MB e sei assi diventano 51KB con il solo asse del
+      peso, ridotti ai caratteri latini (comando nel README). Serviva perché Google Sans Flex
+      è troppo recente per la tabella di metriche di Next: a ogni build Turbopack avvisava
+      «Failed to find font override values» e non generava il font di ripiego calibrato, con
+      un sobbalzo del testo al primo caricamento. Da un file locale Next le metriche le
+      ricava da solo — avviso risolto, `size-adjust` presente nel CSS prodotto
+- [x] Pagine progetto: nuovo blocco facoltativo di confronto **prima/dopo**
+      (`components/Compare.tsx`), due immagini sovrapposte con una barra verticale da
+      trascinare. È un `<input type="range">` trasparente steso sul riquadro, così
+      trascinamento, tocco, frecce e semantica per i lettori di schermo li dà il browser; il
+      taglio è un `clip-path`, che non fa "zoomare" l'immagine sopra mentre scorre. Si attiva
+      aggiungendo `compare` al file di un progetto, come tutto il resto dei contenuti
+- [x] Oculus: la tavola del making-of è uscita dalle immagini del progetto ed è diventata il
+      lato "prima" del confronto, messo in cima — il processo si racconta prima dei lavori
+      finiti. Il lato "dopo" è `oculus_thumb`; se a schermo intero risulta morbida (è una
+      miniatura 960×540) basta cambiarla in `oculus_1`, che è la stessa foto a 1600px
+- [x] Nuovo modo di mostrare le immagini di un progetto: **sfalsate**, una sotto l'altra, a
+      lati alterni, con titolo e didascalia di fianco invece che sotto. Si attiva per singolo
+      progetto con `gallery: "stagger"`, e prende il posto sia del carosello sia della griglia.
+      Per ora lo usa **solo Oculus**: gli altri progetti restano con carosello e griglia. Le
+      immagini qui tengono la loro proporzione vera, e la linea nel colore d'accento divide il
+      titolo dalla descrizione
+- [x] Sezioni raccontate prima del carosello (campo `sections`): ognuna ha un titolo e le sue
+      immagini, impaginate **sfalsate** (`Stagger.tsx`, descrizione di fianco) o a **griglia**
+      (`ImageGrid.tsx`, didascalia sotto). Un riquadro può contenere più immagini: allora
+      diventa un piccolo carosello da sfogliare (`Slides.tsx`), una per volta, col dito, col
+      mouse, con le frecce o con i pallini. Syntonia ne usa due: **il rebranding**
+      (costruzione del marchio, marchio e palette, i tre simboli come carosello) e **i poster
+      per la sede** (il mockup in ufficio più i tre formati)
+- [x] Mockup cliccabili: dove un'immagine è un mockup, il clic apre l'artwork piatto a schermo
+      intero (`components/Artwork.tsx`, che usa `<dialog>`, quindi Esc, fuoco e fondo oscurato
+      li gestisce il browser). La sezione dei poster di Syntonia si apre con la panoramica
+      dell'open space a piena larghezza e sotto ha tre mockup: i manifesti piatti non stanno
+      in pagina, si vedono solo cliccando il mockup che li contiene
+- [x] Foto di sfondo dell'intestazione di Syntonia: una veduta aerea di un ponte, scura e
+      uniforme, quindi regge bene il testo chiaro. Stessa cosa per The Last of Us, che ora usa
+      l'infetto nel buio invece di un'immagine già presente in galleria
+- [x] **Doggo** prende il posto di Goliosi: recuperato dalle tavole del portfolio 2023
+      estratte dal PDF, con il testo di presentazione che Giulia aveva già scritto. Goliosi
+      resta nell'archivio `Sito/` e nella storia di git, se servisse rimetterlo
+- [x] Gerarchia della pagina Syntonia: il video sale subito dopo il rebranding e prima delle
+      affissioni, con molto vuoto sopra e sotto perché arrivandoci scorrendo non abbia
+      distrazioni attorno. Immagini del rebranding e griglia dei poster rimpicciolite
+- [x] Più aria tra il titolo del progetto e la linea sotto, in tutte le pagine progetto
+- [x] Pagina Lavori: la linea del tempo passa all'altezza dei pallini invece che sotto, e la
+      riga "I progetti, dal più recente" è scesa sotto al titolo, allineata a sinistra,
+      invece di stare a destra sulla stessa riga
+- [x] Ordine della pagina progetto configurabile: con `carousel: "end"` il carosello va in
+      fondo. Syntonia ora è intro → rebranding → video → carosello
+- [x] Il video riparte da capo se ci si clicca sopra: è un bottone vero steso sul riquadro,
+      quindi si raggiunge anche con la tastiera
+- [x] Video di presentazione nelle pagine progetto (`components/ProjectVideo.tsx`, campo
+      `video`): prende il posto della griglia di immagini sotto al carosello. Parte da solo,
+      muto e in loop quando entra nello schermo e si ferma quando esce, così non scarica nulla
+      a chi non ci arriva; un pulsante accende l'audio, e con "riduci animazioni" non parte da
+      solo ma mostra i controlli. Lo usa Syntonia, al posto delle immagini ripetute
+- [x] Pubblicare il video ha richiesto di risolvere due cose: **Cloudflare Pages rifiuta i
+      file oltre i 25 MB** e il master era 66 MB, esportato a 8,6 Mbps; ed era un 16:9 dentro
+      una tela verticale 4:5, con due fasce nere. Tagliate le fasce e ricompresso, è sceso a
+      11 MB. Il master resta in `Sito/`, la versione web è versionata in `site/public/video/`
+      perché Cloudflare la pubblica com'è. Comandi nel README
+- [x] Carosello e griglia si adattano alla forma delle immagini del progetto invece di
+      ritagliare tutto a 16:9: la proporzione vera del primo file diventa la variabile CSS
+      `--shot`, e con le immagini verticali le slide del carosello si stringono (`--slide`).
+      Serviva per Syntonia, che lavora in 4:5 mentre tutto il resto del sito è 16:9; sugli
+      altri progetti non cambia nulla, erano già tutti 16:9
+- [x] Bottone "Scarica il CV" animato (`components/DownloadCv.tsx`), ispirato allo shot
+      "Send Button Interaction": al clic la freccia scivola via, il bottone si stringe sui tre
+      puntini e si riapre con la spunta disegnata e "Scaricato", poi torna com'era. Resta un
+      link normale con `download`, quindi il file si scarica anche senza JavaScript, e
+      l'animazione si spegne con `prefers-reduced-motion`
 - [x] Pagina Lavori: sotto il titolo una timeline (`components/Timeline.tsx`) filtra i
       progetti per anno. Mostra solo gli anni che esistono davvero tra le date dei
       progetti, quindi cresce da sola man mano che le date si aggiungono o cambiano;
@@ -204,10 +279,22 @@ Fatto (da verificare a occhio nel browser):
 
 Ancora da fare:
 
+- [ ] **Serve da Giulia:** l'immagine pre-editing allineata per il confronto di Oculus. Le due
+      attuali inquadrano la scena in modo diverso, quindi trascinando la stanza "salta". Serve
+      un export con la stessa identica inquadratura dell'annuncio finito (per esempio la scena
+      senza il polpo e senza correzione colore): si sostituisce `before` in `oculus.ts` e il
+      confronto diventa pixel su pixel
+
 - [ ] Controllo dei font in Big Shoulders e Roboto Condensed nel browser: nelle schermate di
       prova headless comparivano i font di sistema, da verificare
+- [ ] Resta un avviso di build su **Big Shoulders**, lo stesso che c'era su Google Sans Flex:
+      si risolve allo stesso modo, ma il file sorgente non è in `font/` e andrebbe scaricato.
+      Riguarda solo il nome nell'apertura della home, quindi può aspettare
 - [ ] Rifiniture di interazione (transizioni, stati, tema chiaro/scuro)
 - [ ] Accessibilità: contrasti, focus, ordine dei titoli
+- [ ] Il video di Syntonia ha del parlato ma nessun sottotitolo, e parte muto: chi non sente
+      l'audio perde quella parte. Da aggiungere una traccia di sottotitoli (`.vtt`) o una
+      trascrizione sotto al video
 - [ ] SEO e condivisione dei link (immagini Open Graph, sitemap, robots)
 - [ ] Verifica su dispositivi reali
 

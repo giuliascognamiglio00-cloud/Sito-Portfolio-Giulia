@@ -1,11 +1,16 @@
+import { Fragment } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LANGS, getDictionary, isLang } from "@/lib/i18n";
 import { routes } from "@/lib/routes";
 import { getNextProject, getProject, getProjects } from "@/content/projects";
-import Picture from "@/components/Picture";
+import Picture, { imageShape } from "@/components/Picture";
 import Carousel from "@/components/Carousel";
+import Compare from "@/components/Compare";
+import ProjectVideo from "@/components/ProjectVideo";
+import Stagger from "@/components/Stagger";
+import ImageGrid from "@/components/ImageGrid";
 import styles from "./page.module.css";
 
 type Params = { lang: string; slug: string };
@@ -39,8 +44,121 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   const next = getNextProject(slug);
   const nextText = next.content[lang];
 
+  // Carosello e galleria si adattano alla forma delle immagini del progetto: orizzontali per
+  // le campagne, verticali per i formati social. Senza questo ritaglierebbero tutto a 16:9.
+  const shape = imageShape(project.images[0].key);
+  // Il video ha una forma sua, che non è per forza quella delle immagini: qui è 16:9 mentre
+  // le tavole sono verticali. La ricaviamo dalla sua copertina, ritagliata dal video stesso.
+  const videoShape = project.video ? imageShape(project.video.poster) : null;
+
+  // Le sezioni raccontate prima del carosello: immagini e testi si accoppiano per posizione
+  const sectionTexts = text.sections;
+  const sections = (project.sections ?? []).flatMap((section, i) => {
+    const t = sectionTexts?.[i];
+    if (!t) return [];
+    return [
+      {
+        layout: section.layout ?? "stagger",
+        lead: section.lead ?? false,
+        title: t.title,
+        items: section.images.map((entry, j) => {
+          const { title, caption, alt } = t.items[j];
+          const alts = Array.isArray(alt) ? alt : [alt];
+          // Coppia mockup e artwork: il primo testo descrive il mockup, il secondo l'opera
+          if (typeof entry === "object" && !Array.isArray(entry)) {
+            return {
+              title,
+              caption,
+              images: [{ key: entry.mockup, alt: alts[0] }],
+              artwork: { key: entry.artwork, alt: alts[1] ?? alts[0] },
+            };
+          }
+          const keys = Array.isArray(entry) ? entry : [entry];
+          return {
+            title,
+            caption,
+            images: keys.map((key, k) => ({ key, alt: alts[k] ?? alts[0] })),
+          };
+        }),
+      },
+    ];
+  });
+
+  const carousel = (
+    <Carousel
+      label={dict.project.carousel}
+      hint={dict.project.drag}
+      prevLabel={dict.project.prevSlide}
+      nextLabel={dict.project.nextSlide}
+      slides={project.images.map((image, i) => ({
+        node: (
+          <Picture
+            name={image.key}
+            alt={text.images[i].alt}
+            sizes="(max-width: 860px) 88vw, 760px"
+            priority={i === 0 && project.carousel !== "end"}
+          />
+        ),
+        caption: text.images[i].title,
+      }))}
+    />
+  );
+
+  const video =
+    project.video && text.video ? (
+      <ProjectVideo
+        src={`/video/${project.video.src}.mp4`}
+        poster={`/img/${project.video.poster}-1024.jpg`}
+        ratio={videoShape?.ratio ?? "16 / 9"}
+        portrait={videoShape?.portrait ?? false}
+        title={text.video.title}
+        caption={text.video.caption}
+        soundOnLabel={dict.project.soundOn}
+        soundOffLabel={dict.project.soundOff}
+        replayLabel={dict.project.replay}
+      />
+    ) : null;
+
+  const gallery = (
+    <ul className={styles.gallery} aria-label={dict.project.gallery}>
+      {project.images.map((image, i) => {
+        const t = text.images[i];
+        return (
+          <li key={image.key} className={image.half ? undefined : styles.full}>
+            <figure>
+              <Picture
+                name={image.key}
+                alt={t.alt}
+                sizes={image.half ? "(max-width: 700px) 100vw, 50vw" : "100vw"}
+                className={styles.img}
+              />
+              {t.title || t.caption ? (
+                <figcaption>
+                  {t.title ? <strong>{t.title}</strong> : null}
+                  {t.caption}
+                </figcaption>
+              ) : null}
+            </figure>
+          </li>
+        );
+      })}
+    </ul>
+  );
+
+  // Quando il video sta tra le sezioni, accanto al carosello non va più nulla: le immagini
+  // sono già nel carosello e ripeterle in griglia sarebbe un doppione
+  const inlineVideo = video !== null && project.videoAfter !== undefined;
+  const showcase = inlineVideo ? null : (video ?? gallery);
+
   return (
-    <article style={{ "--acc": project.accent } as React.CSSProperties}>
+    <article
+      style={
+        {
+          "--acc": project.accent,
+          ...(shape && { "--shot": shape.ratio, "--slide": shape.portrait ? "26rem" : "760px" }),
+        } as React.CSSProperties
+      }
+    >
       <header className={styles.head}>
         {/* Sfondo fotografico a piena pagina: titolo, macroaree e la griglia Tipo/Cosa ho
             realizzato/Strumenti stanno sopra, non è più un riquadro contenuto come prima */}
@@ -97,48 +215,80 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
           </div>
         ) : null}
 
-        {/* Provvisorio: il carosello convive con la galleria. Per toglierlo basta rimuovere questo blocco. */}
-        <Carousel
-          label={dict.project.carousel}
-          hint={dict.project.drag}
-          prevLabel={dict.project.prevSlide}
-          nextLabel={dict.project.nextSlide}
-          slides={project.images.map((image, i) => ({
-            node: (
+        {project.compare && text.compare ? (
+          <Compare
+            before={
               <Picture
-                name={image.key}
-                alt={text.images[i].alt}
-                sizes="(max-width: 860px) 88vw, 760px"
-                priority={i === 0}
+                name={project.compare.before}
+                alt={text.compare.beforeAlt}
+                sizes="100vw"
               />
-            ),
-            caption: text.images[i].title,
-          }))}
-        />
+            }
+            after={
+              <Picture name={project.compare.after} alt={text.compare.afterAlt} sizes="100vw" />
+            }
+            beforeLabel={dict.project.compareBefore}
+            afterLabel={dict.project.compareAfter}
+            sliderLabel={dict.project.compareLabel}
+            valueTextTemplate={dict.project.compareValue}
+            title={text.compare.title}
+            caption={text.compare.caption}
+          />
+        ) : null}
 
-        <ul className={styles.gallery} aria-label={dict.project.gallery}>
-          {project.images.map((image, i) => {
-            const t = text.images[i];
-            return (
-              <li key={image.key} className={image.half ? undefined : styles.full}>
-                <figure>
-                  <Picture
-                    name={image.key}
-                    alt={t.alt}
-                    sizes={image.half ? "(max-width: 700px) 100vw, 50vw" : "100vw"}
-                    className={styles.img}
-                  />
-                  {t.title || t.caption ? (
-                    <figcaption>
-                      {t.title ? <strong>{t.title}</strong> : null}
-                      {t.caption}
-                    </figcaption>
-                  ) : null}
-                </figure>
-              </li>
-            );
-          })}
-        </ul>
+        {sections.map((section, i) => (
+          <Fragment key={section.title}>
+            <section>
+              <h2 className={styles.sectionTitle}>{section.title}</h2>
+              {section.layout === "grid" ? (
+                <ImageGrid
+                  label={section.title}
+                  items={section.items}
+                  lead={section.lead}
+                  goToTemplate={dict.project.goToSlide}
+                  openArtworkLabel={dict.project.openArtwork}
+                  closeArtworkLabel={dict.project.closeArtwork}
+                />
+              ) : (
+                <Stagger
+                  label={section.title}
+                  headings="h3"
+                  items={section.items}
+                  goToTemplate={dict.project.goToSlide}
+                  openArtworkLabel={dict.project.openArtwork}
+                  closeArtworkLabel={dict.project.closeArtwork}
+                />
+              )}
+            </section>
+            {inlineVideo && project.videoAfter === i ? (
+              <div className={styles.videoAlone}>{video}</div>
+            ) : null}
+          </Fragment>
+        ))}
+
+        {project.gallery === "stagger" ? (
+          <Stagger
+            label={dict.project.gallery}
+            goToTemplate={dict.project.goToSlide}
+            openArtworkLabel={dict.project.openArtwork}
+            closeArtworkLabel={dict.project.closeArtwork}
+            items={project.images.map((image, i) => ({
+              images: [{ key: image.key, alt: text.images[i].alt }],
+              title: text.images[i].title,
+              caption: text.images[i].caption,
+            }))}
+          />
+        ) : project.carousel === "end" ? (
+          <>
+            {showcase}
+            {carousel}
+          </>
+        ) : (
+          <>
+            {carousel}
+            {showcase}
+          </>
+        )}
 
         <Link
           href={routes.project(lang, next.slug)}

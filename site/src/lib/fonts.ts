@@ -1,4 +1,5 @@
-import { Anton, Big_Shoulders, Google_Sans_Flex, Roboto_Condensed } from "next/font/google";
+import { Anton, Big_Shoulders, Roboto_Condensed } from "next/font/google";
+import localFont from "next/font/local";
 
 // I font sono serviti dal nostro dominio: nessuna chiamata a Google al caricamento.
 const display = Anton({
@@ -8,18 +9,15 @@ const display = Anton({
   display: "swap",
 });
 
-// Corpo del testo. Google Sans Flex è un font variabile: "variable" prende l'intero
-// intervallo di pesi in un solo file, e l'asse opsz è fissato a 9 in globals.css
-// (font-variation-settings) per l'ottico "da testo" — lo stesso di "GoogleSansFlex_9pt-…".
-const text = Google_Sans_Flex({
-  subsets: ["latin"],
-  weight: "variable",
-  axes: ["opsz"],
+// Corpo del testo. Il file è ricavato una volta sola da `font/GoogleSansFlex-VariableFont…ttf`
+// (vedi README): ottico fissato a 9, quello "da testo", solo il peso lasciato variabile e
+// caratteri ridotti al latino. Da un file nostro Next ricava le metriche e genera il ripiego
+// calibrato, cosa che con next/font/google non riusciva a fare: il testo non sobbalza più.
+const text = localFont({
+  src: "../fonts/GoogleSansFlex-9pt-latin.woff2",
+  weight: "1 1000",
   variable: "--font-text",
   display: "swap",
-  // Come per Big Shoulders: Next non ha ancora le metriche di questo font, appena arrivato
-  // su Google Fonts, per calcolare il fallback automatico
-  adjustFontFallback: false,
 });
 
 // Big Shoulders è il nome attuale su Google Fonts di quello che prima era "Big Shoulders Display".

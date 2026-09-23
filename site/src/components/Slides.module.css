@@ -1,0 +1,82 @@
+.slides {
+  max-width: 30rem;
+}
+
+.track {
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  cursor: grab;
+  border-radius: var(--r);
+  background: var(--wash);
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.track:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* Durante il trascinamento lo snap è sospeso, altrimenti il browser lo contrasta */
+.dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+
+/* Una sola immagine per volta, larga quanto il riquadro */
+.track picture {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.track img {
+  display: block;
+  width: 100%;
+  height: auto;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.dots button {
+  width: 0.6rem;
+  height: 0.6rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--line);
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.dots button:hover {
+  background: var(--muted);
+}
+
+/* Annidato di proposito: `.on` da solo perderebbe contro `.dots button` */
+.dots .on {
+  background: var(--acc);
+}
+
+.dots button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dots button {
+    transition: none;
+  }
+}

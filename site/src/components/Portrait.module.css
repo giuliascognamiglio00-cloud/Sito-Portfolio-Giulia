@@ -1,8 +1,5 @@
 .portrait {
   aspect-ratio: 721 / 1211;
-  border-radius: 28px;
-  overflow: hidden;
-  background: var(--wash);
 }
 
 .portrait img {

@@ -20,9 +20,6 @@ body {
   background: var(--bg);
   color: var(--ink);
   font: 300 1rem/1.7 var(--text);
-  /* Google Sans Flex è variabile: fissa l'ottico "da testo" (9pt), ereditato da tutto
-     il corpo del sito */
-  font-variation-settings: "opsz" 9;
   -webkit-font-smoothing: antialiased;
 }
 
