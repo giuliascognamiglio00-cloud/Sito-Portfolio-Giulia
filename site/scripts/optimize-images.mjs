@@ -2,7 +2,7 @@
 // Da assets/img/<nome>.jpg (o .png) produce public/img/<nome>-<larghezza>.{avif,webp,jpg|png}
 // e scrive src/content/image-manifest.json con le misure vere, usate da <Picture>.
 // Non ingrandisce mai: le larghezze sono al massimo quella della sorgente.
-import { mkdir, readdir, writeFile, stat } from "node:fs/promises";
+import { mkdir, readdir, rm, writeFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
@@ -54,5 +54,18 @@ for (const file of files) {
   }
 }
 
+// Toglie le varianti di immagini che non esistono più tra le sorgenti (rimosse o rinominate),
+// altrimenti resterebbero in public/img/ e verrebbero pubblicate.
+const expected = new Set(
+  Object.entries(manifest).flatMap(([name, { widths, fallback }]) =>
+    widths.flatMap((w) => ["avif", "webp", fallback].map((ext) => `${name}-${w}.${ext}`)),
+  ),
+);
+const orphans = (await readdir(outDir)).filter((f) => !expected.has(f));
+for (const f of orphans) await rm(path.join(outDir, f), { recursive: true });
+
 await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
-console.log(`Immagini ottimizzate: ${files.length} sorgenti in ${outDir}`);
+console.log(
+  `Immagini ottimizzate: ${files.length} sorgenti in ${outDir}` +
+    (orphans.length ? `, ${orphans.length} file non più usati rimossi` : ""),
+);

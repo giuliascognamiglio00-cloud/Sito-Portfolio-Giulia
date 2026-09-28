@@ -22,11 +22,12 @@ La pianificazione completa, con lo stato di avanzamento, sta in [roadmap.md](roa
 sito se stava già girando e lo riavvia, quindi si può rilanciare quante volte si vuole.
 C'è anche **Stop Site** per chiuderlo.
 
-**Da terminale**, in alternativa (serve [Node.js](https://nodejs.org) 20 o superiore):
+**Da terminale**, in alternativa (serve [Node.js](https://nodejs.org) 24, la versione
+fissata in `site/.node-version`):
 
 ```bash
 cd site
-npm install
+npm ci
 npm run dev
 ```
 
@@ -35,13 +36,40 @@ a `/it/` o a `/en/` a seconda della lingua del browser.
 
 ## Comandi
 
+Tutti da lanciare dentro `site/`.
+
 | Comando | Cosa fa |
 |---|---|
+| `npm ci` | Installa le dipendenze esattamente alle versioni di `package-lock.json` |
 | `npm run dev` | Server di sviluppo, con ricarica automatica |
 | `npm run build` | Genera il sito statico in `site/out/` |
-| `npm run preview` | Serve `site/out/` come lo farebbe Cloudflare |
+| `npm run check` | Controlla `out/`: pagine presenti, link interni, limiti di Cloudflare |
+| `npm run preview` | Serve `out/` esattamente come Cloudflare Pages, su <http://localhost:8788> |
 | `npm run typecheck` | Controlla i tipi TypeScript |
 | `npm run lint` | Controlla il codice con ESLint |
+
+Le versioni delle dipendenze sono scritte esatte, senza `^`, e `site/.npmrc` fa sì che
+restino così anche installando qualcosa di nuovo: un aggiornamento avviene solo quando lo
+si decide. Per aggiungere una dipendenza si usa `npm install nome`, per installare quelle
+esistenti sempre `npm ci`.
+
+## Provare il sito prima di pubblicarlo
+
+```bash
+cd site
+npm run build
+npm run check
+npm run preview
+```
+
+`check` si ferma con un elenco di problemi se manca una pagina, se un link o un'immagine
+punta a un file che non esiste, o se un file supera i 25 MB che Cloudflare accetta.
+
+`preview` usa Wrangler, lo strumento di Cloudflare: la prima volta lo scarica (la versione
+è fissata nello script), poi serve `out/` applicando anche `public/_headers`, cosa che un
+server qualsiasi non farebbe. Da controllare nel browser: che `/` porti alla lingua giusta,
+che si navighi tra le pagine senza errori nella scheda *Rete* degli strumenti per
+sviluppatori, che un indirizzo inesistente mostri la pagina 404 del sito.
 
 ## Come è organizzato il sito
 
@@ -128,4 +156,14 @@ Il sito verrà pubblicato su Cloudflare Pages con queste impostazioni:
 - Comando di build: `npm run build`
 - Cartella di output: `out`
 
-Ogni push sul ramo `main` farà partire un nuovo deploy.
+Ogni push sul ramo `main` farà partire un nuovo deploy. Cloudflare legge la versione di
+Node da `site/.node-version`, quindi costruisce il sito con la stessa usata in locale.
+
+Due file in `site/public/` parlano direttamente con Cloudflare:
+
+- **`_headers`** decide per quanto i browser tengono in memoria ogni tipo di file (l'HTML
+  mai, così un aggiornamento si vede subito; immagini e video una settimana; JavaScript e
+  font un anno, perché il loro nome cambia a ogni modifica) e aggiunge le intestazioni di
+  sicurezza di base. Ogni regola è spiegata nel file.
+- Non c'è un `_redirects`: la radice `/` è una pagina che sceglie `/it/` o `/en/` in base
+  alla lingua del browser, cosa che le regole di Cloudflare non sanno fare.

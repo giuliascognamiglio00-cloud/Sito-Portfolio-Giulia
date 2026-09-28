@@ -16,8 +16,9 @@ export const metadata: Metadata = {
 /**
  * In un sito statico non c'è un server che possa leggere l'header Accept-Language,
  * quindi la scelta della lingua avviene nel browser, prima di disegnare qualsiasi cosa.
- * In produzione Cloudflare intercetta "/" con public/_redirects e questa pagina non
- * viene quasi mai raggiunta: resta come rete di sicurezza e per lo sviluppo locale.
+ * È il meccanismo di smistamento anche in produzione: un _redirects di Cloudflare non sa
+ * leggere la lingua e manderebbe tutti sulla stessa. public/_headers dà a questa pagina
+ * "max-age=0", così il browser non ricorda la destinazione.
  */
 const redirectScript = `
 (function () {

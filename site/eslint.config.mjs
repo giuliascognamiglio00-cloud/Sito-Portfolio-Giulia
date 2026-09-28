@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Stato locale di Wrangler, creato da npm run preview
+    ".wrangler/**",
   ]),
 ]);
 

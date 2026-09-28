@@ -62,11 +62,13 @@ Sito Portfolio Giulia/
 └─ site/                             ← root del progetto su Cloudflare Pages
    ├─ next.config.ts                 output:'export', trailingSlash
    ├─ assets/img/                    le 21 immagini sorgente, non pubblicate
+   ├─ .node-version, .npmrc          (M4) Node 24.19.0, versioni esatte
    ├─ scripts/optimize-images.mjs    (M2) genera avif/webp in più dimensioni
+   ├─ scripts/check-export.mjs       (M4) controlla out/ prima di pubblicare
    ├─ public/
-   │  ├─ img/<slug>/…                (M2) immagini ottimizzate
+   │  ├─ img/…                       (M2) immagini ottimizzate, generate
    │  ├─ cv/…                        (M2)
-   │  ├─ _redirects                  / → /it/
+   │  ├─ video/…                     (M3)
    │  └─ _headers                    (M4) cache e sicurezza
    └─ src/
       ├─ app/
@@ -300,13 +302,36 @@ Ancora da fare:
 
 **Da definire insieme:** il criterio con cui dire che la milestone è chiusa.
 
-### M4 — Preparazione al caricamento online
+### M4 — Preparazione al caricamento online 🟡
 
-- [ ] `_redirects` per mandare `/` alla lingua giusta; `_headers` con cache lunga sugli
-      asset, `no-cache` sull'HTML e intestazioni di sicurezza di base
-- [ ] Verificare che l'export non contenga nulla che richieda un server
-- [ ] Prova in locale del pacchetto finale, controllo di tutti i link
-- [ ] Bloccare le versioni delle dipendenze e documentare i comandi nel README
+- [x] **Lingua sulla radice:** il vecchio `_redirects` mandava tutti su `/it/`, anche i
+      visitatori stranieri, perché le regole di Cloudflare non sanno leggere la lingua del
+      browser. È stato tolto, e ora decide la pagina `/`, che già conteneva lo script di
+      smistamento: browser in inglese → `/en/`, tutti gli altri → `/it/`
+- [x] `public/_headers`: HTML sempre riverificato, `_next/static/` un anno (i nomi hanno
+      l'impronta del contenuto), immagini e video una settimana (i nomi no), CV un giorno;
+      intestazioni di sicurezza di base. Niente CSP completa sugli script: con gli script
+      inline di Next servirebbe `'unsafe-inline'` e non proteggerebbe nulla
+- [x] Nulla richiede un server: nessuna rotta API, middleware, `cookies()` o `headers()`.
+      `scripts/check-export.mjs` (`npm run check`) lo ricontrolla a ogni build insieme ai
+      limiti di Cloudflare (25 MB per file, 20.000 file), alla presenza di tutte le pagine
+      e a ogni link interno, `srcset` compresi. Riusabile così com'è nella M6
+- [x] `optimize-images.mjs` ora cancella le immagini non più usate: in `public/img/` erano
+      rimasti 57 file (Goliosi e altri rinominati) che sarebbero finiti online
+- [x] Versioni esatte in `package.json` (senza `^`, nessun aggiornamento), `.npmrc` con
+      `save-exact`, `.node-version` con 24.19.0 per Cloudflare, `npm ci` documentato
+- [x] `npm run preview` usa Wrangler (versione fissata, scaricato solo quando serve) invece
+      di `serve`, che ignorava `_headers`
+- [x] README: comandi, «Provare il sito prima di pubblicarlo», cosa fa `_headers`.
+      `site/README.md` di `create-next-app` sostituito da un rimando
+- [ ] **Da Giulia, nel browser** su `npm run preview`: navigare tutte le pagine nelle due
+      lingue, provare `/` con il browser in inglese, video, confronto, mockup, CV, tema
+
+**Verificato:** lint, typecheck, build e `npm run check` passano (507 file, 20 pagine,
+1825 link interni controllati); un link rotto messo apposta viene segnalato. Su Wrangler:
+intestazioni giuste per ogni tipo di file, `/it/works` → `/it/works/` (308), un indirizzo
+inesistente risponde 404 con la pagina del sito, tutti i file `.txt` della navigazione
+rispondono.
 
 **Fatto quando:** servendo `out/` in locale il sito funziona identico allo sviluppo.
 
@@ -362,11 +387,12 @@ Da eseguire alla fine della M4 e ripetere dopo ogni milestone successiva:
 
 ```bash
 cd site
-npm install
+npm ci
 npm run lint          # nessun errore
 npm run typecheck     # nessun errore
 npm run build         # genera out/
-npx serve out         # sito statico servito in locale
+npm run check         # pagine, link, limiti di Cloudflare
+npm run preview       # out/ servito come da Cloudflare, su localhost:8788
 ```
 
 Poi, a mano:
