@@ -278,6 +278,16 @@ Fatto (da verificare a occhio nel browser):
       progetti, quindi cresce da sola man mano che le date si aggiungono o cambiano;
       compare solo quando c'è più di un anno tra cui scegliere. Il filtro è lato client
       (`components/WorksList.tsx`), le liste restano ordinate dal più recente
+- [x] **Impostazione definitiva delle pagine progetto**, dal wireframe di Giulia, per ora
+      applicata **solo a Doggo** (`layout: "case"`, `components/CaseStudy.tsx`). Intestazione
+      centrata sulla foto di sfondo (resta lo scrim): numero del progetto, titolo, sottotitolo,
+      macroaree. Sotto, un riquadro Brief / Concept / Tools; poi **Moodboard** a piena
+      larghezza, **Output** come mosaico di riquadri etichettati su un foglio a quadretti (tre
+      colonne, ogni riquadro occupa 1 o 2 colonne e righe), un'immagine di chiusura e in fondo
+      la barra progetto precedente · firma · progetto successivo. Tipo e Cosa ho realizzato
+      non compaiono più in questo layout. Dove manca un'immagine c'è un segnaposto con le
+      diagonali, come nel wireframe. Il numero "Progetto 04" è la posizione nell'elenco dal
+      più recente: cambia quando si aggiungono progetti più nuovi
 
 Ancora da fare:
 
@@ -286,6 +296,14 @@ Ancora da fare:
       un export con la stessa identica inquadratura dell'annuncio finito (per esempio la scena
       senza il polpo e senza correzione colore): si sostituisce `before` in `oculus.ts` e il
       confronto diventa pixel su pixel
+- [ ] **Serve da Giulia:** le immagini di Doggo per il nuovo layout. Oggi sono a segnaposto
+      la moodboard e sei riquadri degli output (Onboarding, Esplora, Mappa, Profilo, Icone,
+      Logo, Palette — etichette provvisorie, si cambiano in `doggo.ts`); I flussi e Le
+      schermate usano le tavole esistenti, la chiusura è la tavola dell'onboarding.
+      Formati utili: moodboard orizzontale larga, riquadri alti in verticale ~4:5, quelli
+      larghi in orizzontale
+- [ ] Rileggere sottotitolo e Concept di Doggo (IT/EN), sono una bozza ricavata dalle tavole
+- [ ] Portare gli altri progetti sull'impostazione definitiva, uno alla volta
 
 - [ ] Controllo dei font in Big Shoulders e Roboto Condensed nel browser: nelle schermate di
       prova headless comparivano i font di sistema, da verificare

@@ -4,13 +4,20 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LANGS, getDictionary, isLang } from "@/lib/i18n";
 import { routes } from "@/lib/routes";
-import { getNextProject, getProject, getProjects } from "@/content/projects";
+import {
+  getNextProject,
+  getPrevProject,
+  getProject,
+  getProjectNumber,
+  getProjects,
+} from "@/content/projects";
 import Picture, { imageShape } from "@/components/Picture";
 import Carousel from "@/components/Carousel";
 import Compare from "@/components/Compare";
 import ProjectVideo from "@/components/ProjectVideo";
 import Stagger from "@/components/Stagger";
 import ImageGrid from "@/components/ImageGrid";
+import CaseStudy from "@/components/CaseStudy";
 import styles from "./page.module.css";
 
 type Params = { lang: string; slug: string };
@@ -26,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const text = project.content[lang];
   return {
     title: text.title,
-    description: text.intro,
+    description: text.subtitle ?? text.intro,
     alternates: {
       canonical: routes.project(lang, slug),
       languages: { it: routes.project("it", slug), en: routes.project("en", slug) },
@@ -43,6 +50,21 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   const text = project.content[lang];
   const next = getNextProject(slug);
   const nextText = next.content[lang];
+
+  // L'impostazione del wireframe definitivo: per ora la usa solo Doggo
+  if (project.layout === "case") {
+    return (
+      <CaseStudy
+        project={project}
+        text={text}
+        dict={dict}
+        lang={lang}
+        number={getProjectNumber(slug)}
+        prev={getPrevProject(slug)}
+        next={next}
+      />
+    );
+  }
 
   // Carosello e galleria si adattano alla forma delle immagini del progetto: orizzontali per
   // le campagne, verticali per i formati social. Senza questo ritaglierebbero tutto a 16:9.

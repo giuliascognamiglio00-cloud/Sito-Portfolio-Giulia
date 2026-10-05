@@ -78,6 +78,25 @@ export type ProjectVideo = {
   poster: string;
 };
 
+/**
+ * Contenuti del layout "case", quello del wireframe definitivo: moodboard, mosaico degli
+ * output e immagine di chiusura. Senza nome di file un riquadro mostra un segnaposto.
+ */
+export type ProjectCase = {
+  moodboard?: string;
+  /** Riquadri del mosaico, su tre colonne: `cols` e `rows` dicono quante ne occupa (1 o 2) */
+  output: { key?: string; cols?: 1 | 2; rows?: 1 | 2 }[];
+  /** Immagine finale a piena larghezza */
+  closing?: string;
+};
+
+export type ProjectCaseText = {
+  /** Un'etichetta per riquadro, nello stesso ordine di `output`; `alt` serve solo se c'è l'immagine */
+  output: { label: string; alt?: string }[];
+  moodboardAlt?: string;
+  closingAlt?: string;
+};
+
 export type ProjectImageText = {
   /** Etichetta breve in grassetto davanti alla didascalia */
   title?: string;
@@ -88,6 +107,8 @@ export type ProjectImageText = {
 /** Tutto ciò che va tradotto. IT ed EN hanno per costruzione la stessa forma. */
 export type ProjectText = {
   title: string;
+  /** Una frase sotto il titolo, nel layout "case" */
+  subtitle?: string;
   /** Tipo di lavoro, es. "Campagna integrata" */
   kind: string;
   /** Cosa ho realizzato */
@@ -102,6 +123,8 @@ export type ProjectText = {
   video?: { title: string; caption?: string };
   /** Testi delle sezioni raccontate, nello stesso ordine di `sections` */
   sections?: ProjectSectionText[];
+  /** Testi del layout "case" */
+  case?: ProjectCaseText;
   coverAlt: string;
   /** Un elemento per ogni immagine di `images`, nello stesso ordine */
   images: ProjectImageText[];
@@ -142,6 +165,12 @@ export type Project = {
    * Senza questo campo il video resta sotto al carosello.
    */
   videoAfter?: number;
+  /**
+   * Con "case" la pagina segue il wireframe definitivo (intestazione, Brief/Concept/Tools,
+   * moodboard, output, chiusura) e usa `case` al posto di carosello, sezioni e galleria.
+   */
+  layout?: "case";
+  case?: ProjectCase;
   images: ProjectImage[];
   content: Record<Lang, ProjectText>;
 };
