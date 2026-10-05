@@ -1,6 +1,7 @@
 # Roadmap — Sito portfolio Giulia Scognamiglio
 
-> Stato: **M1 completata**, **M2 completata a metà** (mancano i contenuti di Giulia), poi la M3. Ogni milestone è chiusa e verificabile: alla
+> Stato: **M1 completata**, **M2 completata a metà** (mancano i contenuti di Giulia), **M3 in
+> corso** (mastro 1 delle pagine progetto su Doggo, Rikka e The Last of Us), **M4 quasi chiusa**. Ogni milestone è chiusa e verificabile: alla
 > fine di ciascuna il sito è in uno stato funzionante.
 
 ## Contesto
@@ -24,7 +25,7 @@ aggiungere un progetto basta aggiungere un file.
 |---|---|
 | Backend | Nessuno. Static export; i contenuti sono file versionati nella repo |
 | Lingue | Bilingue IT/EN da subito, rotte `/it` e `/en` |
-| Categorie | **Works** e **Accademia**, ordine cronologico. Mai "Omen": è il datore di lavoro attuale e la dicitura invecchierebbe male |
+| Categorie | **Lavori** e **Progetti accademici**, ordine cronologico. Mai "Omen": è il datore di lavoro attuale e la dicitura invecchierebbe male |
 | Docker | Escluso: Cloudflare Pages non lo usa per il deploy |
 | Repository | Si riusa questa, con il sito nella sottocartella `site/` |
 | Download | Solo il CV, compresso sotto i 2MB. Il sito stesso è il portfolio |
@@ -80,8 +81,9 @@ Sito Portfolio Giulia/
       │     ├─ works/[slug]/page.tsx (M2) pagina progetto
       │     ├─ about/page.tsx        chi sono + download CV
       │     └─ contact/page.tsx      contatti — già completa
-      ├─ components/                 Nav, Footer, Hero, Placeholder, LangSwitch,
-      │                              ThemeToggle, ThemeScript
+      ├─ components/                 Nav, Footer, Hero, LangSwitch, ThemeToggle…;
+      │                              CaseStudy (mastro 1), Mosaic, PhoneStories,
+      │                              Floaters, FloatMotion, ToolIcon
       ├─ content/
       │  ├─ projects/<slug>.ts       (M2) un file per progetto, testi IT ed EN
       │  ├─ profile.ts               (M2) bio, formazione, strumenti
@@ -345,7 +347,7 @@ Fatto (da verificare a occhio nel browser):
       nel riquadro alto accanto a Twitter, che ora è stretto sul MacBook
 - [x] **Rikka aggiornato** con i materiali in `Sito/RIKKA/` (dallo zip «Smash»): brief dal
       testo di Giulia e dal PDF del docente (chi è il cliente, la sfida del peperoncino mai
-      protagonista); due riquadri di sticker nel mosaico. Nuova sezione facoltativa del
+      protagonista). Nuova sezione facoltativa del
       mastro, **stories nel telefono** (`phones`, `components/PhoneStories.tsx`): lo stop
       motion è una GIF in `public/anim/` (fotogrammi allineati, 261 KB) con il primo
       fotogramma fermo per chi riduce le animazioni, accanto alle due stories «Kikke in
@@ -355,8 +357,8 @@ Fatto (da verificare a occhio nel browser):
 - [x] Rikka, rifiniture: la **moodboard** di Giulia (`Sito/RIKKA/Moodboard Rikka – busta di
       plastica@2x.png`); lo stop motion **più lento** (1,7 s per fotogramma, 2,6 s l'ultimo)
       per leggerlo; gli **sticker escono dal mosaico** e diventano adesivi attaccati agli
-      angoli delle sezioni (campo `stickers`, con `at`): due, a lati alterni, sotto il
-      mosaico a sinistra e accanto alle stories a destra; le **icone** sono più piccole,
+      angoli delle sezioni (campo `stickers`, con `at`): alla fine ne resta uno, accanto
+      alle stories; le **icone** sono più piccole,
       stanno dentro lo schermo nei margini, fanno un wiggle sul posto e, col cursore vicino,
       girano e lo seguono (fino a 48 px, entro 300 px dal cursore) (`components/FloatMotion.tsx`, spento con
       «riduci animazioni» e sui dispositivi touch)
@@ -372,8 +374,10 @@ Ancora da fare:
       senza il polpo e senza correzione colore): si sostituisce `before` in `oculus.ts` e il
       confronto diventa pixel su pixel
 - [ ] **Serve da Giulia:** la moodboard di Doggo (ora a segnaposto)
-- [ ] Rileggere i testi di Doggo (sottotitolo, brief, concept, insight) e i sottotitoli di
-      Rikka e The Last of Us, soprattutto in inglese
+- [ ] Rileggere i testi di Doggo (sottotitolo, brief, concept, insight), i sottotitoli di
+      Rikka e The Last of Us, i testi dei gruppi di output di Rikka e quello delle stories,
+      soprattutto in inglese
+- [ ] Confermare Midjourney tra gli strumenti di The Last of Us
 - [ ] Portare sul mastro 1 anche Oculus e Syntonia, che hanno confronto, video e sezioni
       raccontate da ricollocare
 
