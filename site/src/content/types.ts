@@ -94,7 +94,26 @@ export type ProjectCase = {
   identity?: CaseTile[];
   /** Wireframe, in una sezione loro prima degli output. Facoltativi */
   wireframes?: CaseTile[];
+  /** Gli output in un mosaico unico. Vuoto se si usano i gruppi */
   output: CaseTile[];
+  /**
+   * In alternativa: gli output divisi in gruppi, nell'ordine del racconto (per esempio un
+   * gruppo per canale della campagna), ognuno col suo testo e il suo mosaico. `columns`
+   * dice su quante colonne sta il mosaico del gruppo: 3 se non indicato
+   */
+  outputGroups?: { columns?: 2 | 3 | 4; tiles: CaseTile[] }[];
+  /**
+   * Stories di Instagram dentro un telefono, in fila sotto gli output. `key` è l'immagine
+   * (o il primo fotogramma), `gif` una GIF animata in public/anim, senza estensione
+   */
+  phones?: { key: string; gif?: string }[];
+  /** Illustrazioni (PNG trasparenti) che galleggiano ai lati della pagina, al massimo 8 */
+  floaters?: string[];
+  /**
+   * Adesivi "attaccati" alla grafica della pagina, sull'angolo di una sezione: `at` dice
+   * quale. Sono decorazione, come gli elementi fluttuanti
+   */
+  stickers?: { key: string; at: "brief" | "moodboard" | "output" | "phones" }[];
   /** Immagine finale a piena larghezza */
   closing?: string;
 };
@@ -104,6 +123,13 @@ export type ProjectCaseText = {
   identity?: CaseTileText[];
   wireframes?: CaseTileText[];
   output: CaseTileText[];
+  /**
+   * Testi dei gruppi di output, nello stesso ordine di `outputGroups`: titolo, racconto (un
+   * a capo \n separa i paragrafi) ed etichette dei riquadri
+   */
+  outputGroups?: { title: string; text: string; tiles: CaseTileText[] }[];
+  /** Titolo, testo e un'etichetta per telefono, nello stesso ordine di `phones` */
+  phones?: { title: string; text?: string; items: CaseTileText[] };
   moodboardAlt?: string;
   closingAlt?: string;
 };
@@ -182,6 +208,8 @@ export type Project = {
    */
   layout?: "case";
   case?: ProjectCase;
+  /** Colore del titolo nell'intestazione del layout "case". Senza, il titolo è bianco */
+  titleColor?: string;
   images: ProjectImage[];
   content: Record<Lang, ProjectText>;
 };

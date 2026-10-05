@@ -35,6 +35,11 @@
   ! Cache-Control
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 
+# Le GIF animate (lo stop motion di Rikka): non passano dallo script delle immagini
+/anim/*
+  ! Cache-Control
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
 # Il CV è il file che cambia più spesso: un giorno.
 /cv/*
   ! Cache-Control

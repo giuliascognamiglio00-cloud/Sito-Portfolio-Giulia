@@ -9,7 +9,10 @@
   max-width: 100%;
   margin: clamp(1.5rem, 4vw, 2.5rem) 0 clamp(2.5rem, 5vw, 4rem);
   padding: 0.55rem 1.4rem 0.7rem;
+  /* Scorre solo in orizzontale, se gli anni sono tanti: in verticale mai, così non compare
+     la barra di scorrimento a destra */
   overflow-x: auto;
+  overflow-y: hidden;
   border: 1px solid var(--glass-border);
   border-radius: 999px;
   background: var(--glass-bg);

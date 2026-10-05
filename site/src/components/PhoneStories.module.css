@@ -1,0 +1,70 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.phone {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  margin: 0;
+}
+
+/* Il telefono: cornice scura, angoli molto arrotondati e la pillola della fotocamera in alto.
+   Tutti alla stessa altezza; la larghezza viene dalla proporzione della storia */
+.device {
+  position: relative;
+  height: clamp(380px, 44vw, 560px);
+  aspect-ratio: var(--ratio);
+  padding: 10px;
+  border-radius: 2.6rem;
+  background: #111;
+  box-shadow:
+    0 24px 48px rgba(31, 27, 51, 0.22),
+    inset 0 0 0 2px #2b2b2b;
+  box-sizing: content-box;
+}
+
+.device::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  z-index: 1;
+  width: 30%;
+  height: 18px;
+  border-radius: 999px;
+  background: #111;
+  transform: translateX(-50%);
+}
+
+.device picture {
+  display: block;
+  height: 100%;
+}
+
+.screen {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 2rem;
+  object-fit: cover;
+}
+
+.label {
+  font: 400 0.72rem/1 var(--role);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .device {
+    height: min(120vw, 520px);
+  }
+}

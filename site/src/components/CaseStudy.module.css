@@ -1,3 +1,11 @@
+/* L'articolo isola il suo contesto, così le illustrazioni fluttuanti (Floaters) stanno
+   dietro ai contenuti; quelle che sporgono dai lati non allargano la pagina */
+.article {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+
 /* Intestazione su foto a piena pagina, tutto centrato come nel wireframe. Lo scrim scuro è lo
    stesso delle altre pagine progetto: il testo chiaro si legge anche su un'immagine chiara. */
 .head {
@@ -90,6 +98,7 @@
 /* Brief / Concept / Tools: tre epigrafi a sé stanti, senza cornice. Ognuna ha la sua linea
    sottile sopra al titolo, così restano separate anche senza divisori. */
 .brief {
+  position: relative;
   display: grid;
   grid-auto-columns: minmax(0, 1fr);
   grid-auto-flow: column;
@@ -113,6 +122,39 @@
   margin: 0;
   color: var(--muted);
   line-height: 1.6;
+}
+
+/* Un gruppo di output: il racconto a epigrafe, poi il suo mosaico */
+.group + .group {
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+}
+
+.groupText {
+  max-width: 46rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-strong);
+}
+
+.groupText h3 {
+  margin: 0 0 0.9rem;
+  font: 500 1.05rem/1.2 var(--display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.groupText p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.groupText p + p {
+  margin-top: 0.7rem;
+}
+
+.brief p + p {
+  margin-top: 0.7rem;
 }
 
 .brief .insight {
@@ -162,9 +204,73 @@
 
 /* Moodboard e Output: titolo maiuscolo e tanto spazio sopra, a separare le sezioni */
 .block {
+  position: relative;
   margin-top: clamp(4rem, 9vw, 7rem);
   /* Serve ai mosaici (Mosaic.module.css) per misurare la propria larghezza (unità cqi) */
   container-type: inline-size;
+}
+
+/* Gli adesivi attaccati all'angolo di una sezione, un po' storti, sopra al contenuto come
+   veri adesivi sulla pagina. Ogni sezione ha il suo angolo, scelto dove c'è spazio vuoto */
+.sticker {
+  position: absolute;
+  z-index: 2;
+  width: clamp(96px, 12vw, 170px);
+  pointer-events: none;
+  filter: drop-shadow(0 6px 10px rgba(31, 27, 51, 0.18));
+}
+
+.sticker img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Sotto la colonna degli strumenti, che è la più corta */
+.sticker_brief {
+  right: 2%;
+  bottom: -4.5rem;
+  rotate: 12deg;
+}
+
+/* Sull'angolo in alto a destra della moodboard */
+.sticker_moodboard {
+  top: 1.5rem;
+  right: -2rem;
+  rotate: -10deg;
+}
+
+/* Sull'angolo in basso a sinistra del mosaico, mezzo fuori: a sinistra, perché quello delle
+   stories subito dopo sta a destra */
+.sticker_output {
+  bottom: -6rem;
+  left: -3.5rem;
+  rotate: -10deg;
+}
+
+/* A destra del testo delle stories, che è più stretto della pagina */
+.sticker_phones {
+  top: -0.5rem;
+  right: 4%;
+  rotate: -14deg;
+}
+
+@media (max-width: 760px) {
+  .sticker {
+    width: 84px;
+  }
+
+  .sticker_moodboard {
+    right: -0.5rem;
+  }
+}
+
+/* Un testo breve fra il titolo di una sezione e il suo contenuto */
+.blockText {
+  max-width: 46rem;
+  margin: -0.25rem 0 clamp(1.75rem, 3.5vw, 2.5rem);
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 .blockTitle {

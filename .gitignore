@@ -39,3 +39,16 @@ site/src/content/image-manifest.json
 # Presentazione d'esame di Doggo: 587 MB, oltre il limite di 100 MB per file di GitHub.
 # Le immagini usate dal sito ne sono state ricavate e stanno in site/assets/img/
 Sito/doggo2/*.pdf
+
+# Sorgenti pesanti di The Last of Us (oltre 80 MB l'uno): restano solo in locale
+Sito/TLOU/Presentazione/*.key
+Sito/TLOU/VISUAL/*.psd
+
+# Sorgenti pesanti di Rikka (brief del docente in PDF e PSD dello stop motion)
+Sito/rikka/*.pdf
+Sito/rikka/stop motion/*.psd
+
+# Materiale di ricerca di The Last of Us (fotogrammi della serie, texture, articoli): non
+# serve al sito e pesa quasi 200 MB. Resta solo in locale
+Sito/TLOU/img/
+Sito/TLOU/fase di Ricerca/

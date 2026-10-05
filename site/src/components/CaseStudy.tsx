@@ -5,6 +5,8 @@ import type { CaseTile, CaseTileText, Project, ProjectText } from "@/content/typ
 import Picture from "./Picture";
 import ToolIcon from "./ToolIcon";
 import Mosaic, { type MosaicItem } from "./Mosaic";
+import PhoneStories from "./PhoneStories";
+import Floaters from "./Floaters";
 import styles from "./CaseStudy.module.css";
 
 type Props = {
@@ -58,7 +60,8 @@ function mosaicItems(tiles: CaseTile[], texts: CaseTileText[], placeholder: stri
 /**
  * Pagina progetto con l'impostazione del wireframe definitivo: intestazione su foto,
  * Brief/Concept/Tools, moodboard, identità visiva e wireframe (se ci sono), mosaico degli
- * output e immagine di chiusura. Ogni riquadro dei mosaici apre l'anteprima al clic. Si attiva con `layout: "case"` nel file del progetto.
+ * output (in un mosaico unico o divisi in gruppi) e immagine di chiusura. Ogni riquadro dei mosaici
+ * apre l'anteprima al clic. Si attiva con `layout: "case"` nel file del progetto.
  */
 export default function CaseStudy({ project, text, dict, lang }: Props) {
   const content = project.case ?? { output: [] };
@@ -70,8 +73,26 @@ export default function CaseStudy({ project, text, dict, lang }: Props) {
     { title: dict.project.output, tiles: content.output, texts: caseText.output },
   ];
 
+  // Gli adesivi attaccati all'angolo di una sezione: solo decorazione
+  const stickersAt = (at: NonNullable<typeof content.stickers>[number]["at"]) =>
+    content.stickers
+      ?.filter((sticker) => sticker.at === at)
+      .map((sticker) => (
+        <span
+          key={sticker.key}
+          className={`${styles.sticker} ${styles[`sticker_${at}`]}`}
+          aria-hidden="true"
+        >
+          <Picture name={sticker.key} alt="" sizes="180px" />
+        </span>
+      ));
+
   return (
-    <article style={{ "--acc": project.accent } as React.CSSProperties}>
+    <article
+      className={styles.article}
+      style={{ "--acc": project.accent } as React.CSSProperties}
+    >
+      {content.floaters?.length ? <Floaters keys={content.floaters} /> : null}
       <header className={`${styles.head} under-nav`}>
         <Picture
           name={project.introImage}
@@ -84,7 +105,12 @@ export default function CaseStudy({ project, text, dict, lang }: Props) {
           <Link href={routes.works(lang)} className={styles.back}>
             <span aria-hidden="true">←</span> {dict.common.backToWorks}
           </Link>
-          <h1 className={styles.title}>{text.title}</h1>
+          <h1
+            className={styles.title}
+            style={project.titleColor ? { color: project.titleColor } : undefined}
+          >
+            {text.title}
+          </h1>
           {text.subtitle ? <p className={styles.subtitle}>{text.subtitle}</p> : null}
           <ul className={styles.areas} aria-label={dict.project.areasLabel}>
             {project.areas.map((area) => (
@@ -96,6 +122,7 @@ export default function CaseStudy({ project, text, dict, lang }: Props) {
 
       <div className="wrap">
         <div className={styles.brief}>
+          {stickersAt("brief")}
           <section>
             <h2>{dict.project.brief}</h2>
             <p>{text.intro}</p>
@@ -123,6 +150,7 @@ export default function CaseStudy({ project, text, dict, lang }: Props) {
 
         <section className={styles.block}>
           <h2 className={styles.blockTitle}>{dict.project.moodboard}</h2>
+          {stickersAt("moodboard")}
           {content.moodboard ? (
             <Picture
               name={content.moodboard}
@@ -140,6 +168,7 @@ export default function CaseStudy({ project, text, dict, lang }: Props) {
           m.tiles?.length ? (
             <section key={m.title} className={styles.block}>
               <h2 className={styles.blockTitle}>{m.title}</h2>
+              {m.title === dict.project.output ? stickersAt("output") : null}
               <Mosaic
                 items={mosaicItems(m.tiles, m.texts ?? [], dict.project.placeholder)}
                 openLabel={dict.project.openImage}
@@ -151,6 +180,56 @@ export default function CaseStudy({ project, text, dict, lang }: Props) {
             </section>
           ) : null,
         )}
+
+        {/* Gli output divisi in gruppi: per ognuno titolo, racconto e il suo mosaico */}
+        {content.outputGroups?.length ? (
+          <section className={styles.block}>
+            <h2 className={styles.blockTitle}>{dict.project.output}</h2>
+            {stickersAt("output")}
+            {content.outputGroups.map((group, i) => {
+              const t = caseText.outputGroups?.[i];
+              return (
+                <div key={t?.title ?? i} className={styles.group}>
+                  {t ? (
+                    <div className={styles.groupText}>
+                      <h3>{t.title}</h3>
+                      {t.text.split("\n").map((par) => (
+                        <p key={par}>{par}</p>
+                      ))}
+                    </div>
+                  ) : null}
+                  <Mosaic
+                    items={mosaicItems(group.tiles, t?.tiles ?? [], dict.project.placeholder)}
+                    columns={group.columns}
+                    openLabel={dict.project.openImage}
+                    closeLabel={dict.project.closeArtwork}
+                    prevLabel={dict.project.prevSlide}
+                    nextLabel={dict.project.nextSlide}
+                    countTemplate={dict.project.imageCount}
+                  />
+                </div>
+              );
+            })}
+          </section>
+        ) : null}
+
+        {/* Le stories di Instagram, ognuna nel suo telefono */}
+        {content.phones?.length && caseText.phones ? (
+          <section className={styles.block}>
+            <h2 className={styles.blockTitle}>{caseText.phones.title}</h2>
+            {stickersAt("phones")}
+            {caseText.phones.text ? <p className={styles.blockText}>{caseText.phones.text}</p> : null}
+            <PhoneStories
+              label={caseText.phones.title}
+              items={content.phones.map((phone, i) => ({
+                key: phone.key,
+                gif: phone.gif,
+                label: caseText.phones?.items[i]?.label ?? "",
+                alt: caseText.phones?.items[i]?.alt ?? "",
+              }))}
+            />
+          </section>
+        ) : null}
 
         {content.closing ? (
           <Picture

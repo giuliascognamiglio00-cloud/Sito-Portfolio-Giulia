@@ -324,6 +324,45 @@ Fatto (da verificare a occhio nel browser):
       (home, foto dei progetti) partono dal bordo superiore e le passano dietro, grazie alla
       classe `under-nav`; il resto delle pagine ha lo spazio in alto da `#main`
 - [x] Pagina Lavori: la **timeline è sticky**, agganciata sotto la pillola, in vetro come lei
+- [x] **The Last of Us completato** dal materiale in `Sito/TLOU/`: il brief racconta la
+      campagna intera (Twitter, visual con l'AI per Instagram, affissioni, content creator
+      campaign con Quei due sul server e Human Safari), dalla presentazione. Il mosaico ha le tre affissioni (metro, pensilina,
+      verticale), Twitter sul MacBook, il post e il profilo Instagram, i visual AI e le due
+      tavole dei creator. Midjourney tra gli strumenti è dedotto dai nomi dei file: da
+      confermare. Keynote e PSD (oltre 80 MB l'uno) esclusi da git
+- [x] Mastro 1: **output divisi in gruppi** (campo `outputGroups`), nell'ordine del
+      racconto: ogni gruppo ha titolo, testo a epigrafe e un mosaico suo, su 2, 3 o 4
+      colonne. In The Last of Us i gruppi sono i tre canali — social, affissione classica,
+      content creator campaign — con i testi della presentazione, da cui vengono ora anche
+      insight e concept; il brief è ridotto al contesto. Le tre affissioni stanno su una riga
+      sola (quattro colonne: la metro 16:9 e i due manifesti verticali alla stessa altezza).
+      Tolti i visual fatti con l'AI. Moodboard: quella di Giulia, `Sito/TLOU/TLOU moodboard.jpg`
+- [x] Pagina Lavori: «Accademia» diventa **«Progetti accademici»** («Academic projects»).
+      I titoli dei gruppi restano fermi (provati sticky e tolti su richiesta di Giulia). La
+      timeline scorre solo in orizzontale: niente più barra di scorrimento a destra
+- [x] The Last of Us, social: al posto delle schermate nude il **mockup Instagram** di Giulia
+      (`Sito/TLOU/Mockup_Instagram_The_Last_of_Us_trasparente.png`), ritagliato sui telefoni,
+      nel riquadro alto accanto a Twitter, che ora è stretto sul MacBook
+- [x] **Rikka aggiornato** con i materiali in `Sito/RIKKA/` (dallo zip «Smash»): brief dal
+      testo di Giulia e dal PDF del docente (chi è il cliente, la sfida del peperoncino mai
+      protagonista); due riquadri di sticker nel mosaico. Nuova sezione facoltativa del
+      mastro, **stories nel telefono** (`phones`, `components/PhoneStories.tsx`): lo stop
+      motion è una GIF in `public/anim/` (fotogrammi allineati, 261 KB) con il primo
+      fotogramma fermo per chi riduce le animazioni, accanto alle due stories «Kikke in
+      cucina». E le **illustrazioni fluttuanti** (`floaters`, `components/Floaters.tsx`):
+      stelle, mani rock e peperoncini nei margini, dietro ai contenuti, che galleggiano piano
+      e restano fermi con «riduci animazioni». Il testo delle stories è una bozza
+- [x] Rikka, rifiniture: la **moodboard** di Giulia (`Sito/RIKKA/Moodboard Rikka – busta di
+      plastica@2x.png`); lo stop motion **più lento** (1,7 s per fotogramma, 2,6 s l'ultimo)
+      per leggerlo; gli **sticker escono dal mosaico** e diventano adesivi attaccati agli
+      angoli delle sezioni (campo `stickers`, con `at`): due, a lati alterni, sotto il
+      mosaico a sinistra e accanto alle stories a destra; le **icone** sono più piccole,
+      stanno dentro lo schermo nei margini, fanno un wiggle sul posto e, col cursore vicino,
+      girano e lo seguono (fino a 48 px, entro 300 px dal cursore) (`components/FloatMotion.tsx`, spento con
+      «riduci animazioni» e sui dispositivi touch)
+- [x] Rikka: output **divisi per canale** come in The Last of Us — Affissione e stampa,
+      Social (profilo e storie), Merchandising — con testi brevi ricavati dalle didascalie
+      (bozza). Tolto il content creator. Foto di apertura: i peperoncini, titolo bianco
 
 Ancora da fare:
 
@@ -335,7 +374,6 @@ Ancora da fare:
 - [ ] **Serve da Giulia:** la moodboard di Doggo (ora a segnaposto)
 - [ ] Rileggere i testi di Doggo (sottotitolo, brief, concept, insight) e i sottotitoli di
       Rikka e The Last of Us, soprattutto in inglese
-- [ ] **Serve da Giulia:** le moodboard di Rikka e The Last of Us (ora a segnaposto)
 - [ ] Portare sul mastro 1 anche Oculus e Syntonia, che hanno confronto, video e sezioni
       raccontate da ricollocare
 

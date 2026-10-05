@@ -1,0 +1,83 @@
+/* Lo strato degli elementi fluttuanti: copre tutta la pagina progetto, dietro ai contenuti
+   (z-index -1 dentro l'articolo, che isola il suo contesto) */
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Il galleggiare lento, su e giù */
+.item {
+  /* Distanza dal bordo dello schermo: dentro, nel margine della pagina */
+  --edge: clamp(0.25rem, 1.5vw, 1.75rem);
+  position: absolute;
+  width: var(--size);
+  rotate: var(--rotate);
+  animation: float 7s ease-in-out var(--delay) infinite alternate;
+}
+
+/* L'inseguimento del cursore: la posizione la scrive FloatMotion, la transizione la ammorbidisce */
+.follow {
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.3, 1.2);
+}
+
+/* Il wiggle sul posto: piccoli scatti avanti e indietro, poi una pausa */
+.wiggle {
+  animation: wiggle 3.2s ease-in-out var(--delay) infinite;
+  transform-origin: 50% 80%;
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(-10px);
+  }
+  to {
+    transform: translateY(12px);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  60%,
+  100% {
+    transform: rotate(0deg);
+  }
+  68% {
+    transform: rotate(-9deg);
+  }
+  76% {
+    transform: rotate(8deg);
+  }
+  84% {
+    transform: rotate(-5deg);
+  }
+  92% {
+    transform: rotate(3deg);
+  }
+}
+
+/* Al telefono più piccoli, appoggiati al bordo, per non stare sopra ai testi */
+@media (max-width: 760px) {
+  .item {
+    --edge: 0.15rem;
+    width: calc(var(--size) * 0.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item,
+  .wiggle {
+    animation: none;
+  }
+
+  .follow {
+    transition: none;
+  }
+}

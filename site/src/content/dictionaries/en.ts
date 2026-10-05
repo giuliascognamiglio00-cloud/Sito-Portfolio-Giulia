@@ -24,7 +24,7 @@ export const en: Dictionary = {
   },
   categories: {
     works: "Work",
-    academy: "Academic",
+    academy: "Academic projects",
   },
   areas: {
     branding: "Branding",

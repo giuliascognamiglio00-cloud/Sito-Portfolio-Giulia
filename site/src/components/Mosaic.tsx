@@ -15,6 +15,8 @@ export type MosaicItem = {
 
 type Props = {
   items: MosaicItem[];
+  /** Su quante colonne sta il mosaico (3 se non indicato); al telefono sempre una */
+  columns?: 2 | 3 | 4;
   openLabel: string;
   closeLabel: string;
   prevLabel: string;
@@ -31,6 +33,7 @@ type Props = {
  */
 export default function Mosaic({
   items,
+  columns = 3,
   openLabel,
   closeLabel,
   prevLabel,
@@ -54,7 +57,7 @@ export default function Mosaic({
 
   return (
     <>
-      <ul className={styles.mosaic}>
+      <ul className={styles.mosaic} style={{ "--n": columns } as React.CSSProperties}>
         {items.map((item, i) => (
           <li
             key={`${item.label}-${i}`}

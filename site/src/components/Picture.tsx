@@ -13,6 +13,13 @@ export function imageShape(name: string) {
   return { ratio: `${entry.width} / ${entry.height}`, portrait: entry.height > entry.width };
 }
 
+/** L'indirizzo della versione più grande generata, per chi ha bisogno di un file solo */
+export function largestSrc(name: string) {
+  const entry = images[name];
+  if (!entry) throw new Error(`Immagine sconosciuta: "${name}". Manca in assets/img?`);
+  return `/img/${name}-${entry.widths[entry.widths.length - 1]}.${entry.fallback ?? "jpg"}`;
+}
+
 const srcSet = (name: string, widths: number[], ext: string) =>
   widths.map((w) => `/img/${name}-${w}.${ext} ${w}w`).join(", ");
 

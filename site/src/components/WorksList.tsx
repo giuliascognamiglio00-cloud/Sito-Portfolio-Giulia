@@ -19,7 +19,12 @@ type Props = {
  * anno. Il filtro è solo client-side: le liste restano quelle già ordinate dal più recente,
  * la timeline mostra solo gli anni che esistono davvero tra i progetti caricati.
  */
-export default function WorksList({ professional, academic, lang, dict }: Props) {
+export default function WorksList({
+  professional,
+  academic,
+  lang,
+  dict,
+}: Props) {
   const years = useMemo(() => {
     const all = [...professional, ...academic].map((p) => p.date.slice(0, 4));
     return Array.from(new Set(all)).sort();
@@ -27,7 +32,8 @@ export default function WorksList({ professional, academic, lang, dict }: Props)
 
   const [year, setYear] = useState<string | null>(null);
 
-  const byYear = (list: Project[]) => (year ? list.filter((p) => p.date.startsWith(year)) : list);
+  const byYear = (list: Project[]) =>
+    year ? list.filter((p) => p.date.startsWith(year)) : list;
   const filteredWorks = byYear(professional);
   const filteredAcademic = byYear(academic);
 
@@ -44,31 +50,37 @@ export default function WorksList({ professional, academic, lang, dict }: Props)
         />
       ) : null}
 
-      <h2 className={styles.group}>{dict.categories.works}</h2>
-      {filteredWorks.length > 0 ? (
-        <ul className={styles.grid}>
-          {filteredWorks.map((p) => (
-            <li key={p.slug}>
-              <ProjectCard project={p} lang={lang} />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className={styles.empty}>{year ? dict.works.emptyYear : dict.works.emptyWorks}</p>
-      )}
+      <section>
+        <h2 className={styles.group}>{dict.categories.works}</h2>
+        {filteredWorks.length > 0 ? (
+          <ul className={styles.grid}>
+            {filteredWorks.map((p) => (
+              <li key={p.slug}>
+                <ProjectCard project={p} lang={lang} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.empty}>
+            {year ? dict.works.emptyYear : dict.works.emptyWorks}
+          </p>
+        )}
+      </section>
 
-      <h2 className={styles.group}>{dict.categories.academy}</h2>
-      {filteredAcademic.length > 0 ? (
-        <ul className={styles.grid}>
-          {filteredAcademic.map((p) => (
-            <li key={p.slug}>
-              <ProjectCard project={p} lang={lang} />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className={styles.empty}>{dict.works.emptyYear}</p>
-      )}
+      <section>
+        <h2 className={styles.group}>{dict.categories.academy}</h2>
+        {filteredAcademic.length > 0 ? (
+          <ul className={styles.grid}>
+            {filteredAcademic.map((p) => (
+              <li key={p.slug}>
+                <ProjectCard project={p} lang={lang} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.empty}>{dict.works.emptyYear}</p>
+        )}
+      </section>
 
       <p className={styles.note}>{dict.works.academyNote}</p>
     </>

@@ -22,7 +22,7 @@ export const it = {
   },
   categories: {
     works: "Lavori",
-    academy: "Accademia",
+    academy: "Progetti accademici",
   },
   areas: {
     branding: "Branding",
