@@ -6,8 +6,8 @@ type ProfileText = {
   portraitAlt: string;
 };
 
-// Testi italiani ripresi dalla bozza. La riga sull'esperienza attuale è volutamente
-// generica: non nomina il datore di lavoro, che può cambiare. Da rivedere con Giulia.
+// Testi italiani ripresi dalla bozza. Nell'esperienza c'è solo OMEN srl, su richiesta di
+// Giulia (tolti freelance e Idesiervo); ruolo e anni sono da precisare.
 // Traduzione inglese: BOZZA da rileggere da Giulia.
 export const profile: Record<Lang, ProfileText> = {
   it: {
@@ -17,9 +17,7 @@ export const profile: Record<Lang, ProfileText> = {
       {
         label: "Esperienza",
         lines: [
-          "Ruolo attuale in azienda, ultimo anno",
-          "Freelance dal 2019: loghi, volantini e biglietti da visita per piccole agenzie e privati",
-          "Idesiervo SRLS, 2021: consulenza grafica, loghi e template aziendali",
+          "OMEN srl, ruolo attuale",
         ],
       },
       {
@@ -51,9 +49,7 @@ export const profile: Record<Lang, ProfileText> = {
       {
         label: "Experience",
         lines: [
-          "Current in-house role, past year",
-          "Freelance since 2019: logos, flyers and business cards for small agencies and private clients",
-          "Idesiervo SRLS, 2021: graphic consulting, logos and company templates",
+          "OMEN srl, current role",
         ],
       },
       {

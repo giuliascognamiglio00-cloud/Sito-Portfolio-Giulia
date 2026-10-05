@@ -6,7 +6,7 @@ export const rikka: Project = {
   areas: ["campaign", "art-direction", "social"],
   date: "2024-06",
   accent: "#EE4C95",
-  cover: "rikka_thumb",
+  cover: "rikka_cover",
   // Peperoncini rossi a tutto campo (Sito/RIKKA/Rikka sfondo peperoncini.png): lo scrim
   // scuro dell'intestazione fa leggere il titolo bianco
   introImage: "rikka_hero",
@@ -65,7 +65,9 @@ export const rikka: Project = {
       intro:
         "Rikka Peppers è un giovane marchio italiano di peperoncini e salse spalmabili, nato da un imprenditore che dopo anni in Asia ha portato in Italia la cultura delle salse piccanti. L’obiettivo della campagna è aumentare la visibilità di Rikka e farla conoscere a un pubblico più ampio, su piattaforme tradizionali e digitali. La sfida: da noi il peperoncino non è mai protagonista, serve un modo nuovo di vederlo in cucina.",
       insight: "Nella cultura popolare il peperoncino è il portafortuna per eccellenza.",
-      concept: "Rikka porta fortuna ai tuoi piatti.",
+      // BOZZA da rileggere: il concept esteso
+      concept:
+        "Rikka porta così tanta fortuna da ribaltare anche i piatti usciti male. Il peperoncino, portafortuna da sempre, diventa l’amuleto della cucina di tutti i giorni: la pasta scotta, il nigiri sfatto, il sugo che si è attaccato non sono più un fallimento ma un’occasione, perché basta un tocco di Rikka per trasformarli in qualcosa di buono. Quello che va storto si capovolge, e il piccante smette di essere un contorno per diventare la soluzione.",
       case: {
         moodboardAlt:
           "Moodboard di Rikka dentro una busta di plastica: peperoncini rossi con il logo, i barattoli delle salse su fondi colorati, la palette con i codici dei cinque colori e la scritta «It’s hot and I like it!»",
@@ -132,7 +134,7 @@ export const rikka: Project = {
         },
       },
       coverAlt:
-        "Tre manifesti con piatti serviti in cucina e il titolo «Perché Rikka porta bene»",
+        "Il logo Rikka Peppers in bianco su fondo rosso, accanto a una ciotola gialla di salsa piccante con un cucchiaino dorato e un barattolo Rikka",
       images: [
         {
           title: "Stampa",
@@ -176,7 +178,8 @@ export const rikka: Project = {
       intro:
         "Rikka Peppers is a young Italian brand of chili peppers and spreadable sauces, founded by an entrepreneur who brought the culture of hot sauces back to Italy after years in Asia. The campaign aims to raise Rikka’s visibility and introduce it to a wider audience, across traditional and digital platforms. The challenge: in Italy chili is never the star, so it needs a new place in the kitchen.",
       insight: "In popular culture, the chili pepper is the lucky charm par excellence.",
-      concept: "Rikka brings luck to your dishes.",
+      concept:
+        "Rikka brings so much luck it can turn around even the dishes that went wrong. Chili, a lucky charm for as long as anyone remembers, becomes the amulet of everyday cooking: overcooked pasta, a broken nigiri, a sauce that stuck to the pan are no longer failures but a chance, because a touch of Rikka is all it takes to turn them into something good. What goes wrong gets flipped, and chili stops being a side note to become the solution.",
       case: {
         moodboardAlt:
           "Rikka moodboard inside a plastic sleeve: red chili peppers with the logo, sauce jars on coloured backgrounds, the palette with the codes of its five colours and the line “It’s hot and I like it!”",
@@ -242,7 +245,7 @@ export const rikka: Project = {
         },
       },
       coverAlt:
-        "Three posters showing dishes served in a kitchen, with the headline “Why Rikka brings good luck”",
+        "The Rikka Peppers logo in white on red, next to a yellow bowl of hot sauce with a gold spoon and a Rikka jar",
       images: [
         {
           title: "Print",

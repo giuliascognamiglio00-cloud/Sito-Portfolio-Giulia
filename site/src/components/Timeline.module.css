@@ -1,13 +1,11 @@
-/* Resta agganciata sotto la navigazione a pillola mentre si scorre la pagina, così si può
-   cambiare anno senza tornare su. È in vetro smerigliato come la navigazione, e i
-   progetti le passano dietro sfocati. */
+/* Una pillola in vetro smerigliato come la navigazione. Non è più sticky: scorre via con la
+   pagina. */
 .timeline {
-  position: sticky;
-  top: calc(var(--nav-offset) + 8px);
-  z-index: 10;
+  position: relative;
+  display: flex;
+  align-items: center;
   width: fit-content;
   max-width: 100%;
-  margin: clamp(1.5rem, 4vw, 2.5rem) 0 clamp(2.5rem, 5vw, 4rem);
   padding: 0.55rem 1.4rem 0.7rem;
   /* Scorre solo in orizzontale, se gli anni sono tanti: in verticale mai, così non compare
      la barra di scorrimento a destra */
@@ -58,6 +56,7 @@
   background: none;
   color: var(--muted);
   font: 500 0.95rem/1 var(--text);
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -84,8 +83,148 @@
   transform: scale(1.3);
 }
 
+/* Il pulsante "Esplora" esiste solo al telefono */
+.toggle {
+  display: none;
+}
+
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* Al telefono: chiusa nel pulsante "Esplora", si apre allungandosi fino a riempire la riga
+   (meno lo spazio dell'icona dei filtri, --toolbar-side, che decide WorksList) */
+@media (max-width: 700px) {
+  .timeline {
+    --closed: 7.6rem;
+    width: var(--closed);
+    height: 3.6rem;
+    padding: 0 0.4rem 0 0;
+    overflow: hidden;
+    /* Il rimbalzo finale è quello che dà l'effetto elastico, quasi liquido */
+    transition: width 0.75s cubic-bezier(0.3, 1.35, 0.55, 1);
+  }
+
+  .timeline:not([data-state="closed"]) {
+    width: calc(100% - var(--toolbar-side, 0px));
+  }
+
+  .toggle {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.55rem;
+    height: 100%;
+    padding: 0 0.5rem 0 1.1rem;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    font: 500 0.95rem/1 var(--text);
+    cursor: pointer;
+  }
+
+  /* Chiusa: tre pallini su una linea. Aperta: una croce per richiuderla */
+  .toggleIcon {
+    position: relative;
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+    background:
+      radial-gradient(circle, currentColor 0 2.5px, transparent 3px) 0 50% / 0.4rem 0.4rem repeat-x,
+      linear-gradient(currentColor, currentColor) 0 50% / 100% 1.5px no-repeat;
+  }
+
+  .timeline:not([data-state="closed"]) .toggleIcon {
+    background: none;
+  }
+
+  .timeline:not([data-state="closed"]) .toggleIcon::before,
+  .timeline:not([data-state="closed"]) .toggleIcon::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1.1rem;
+    height: 1.5px;
+    background: currentColor;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .timeline:not([data-state="closed"]) .toggleIcon::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .toggleText {
+    overflow: hidden;
+    max-width: 6rem;
+    white-space: nowrap;
+    transition: max-width 0.3s, opacity 0.2s;
+  }
+
+  .timeline:not([data-state="closed"]) .toggleText {
+    max-width: 0;
+    opacity: 0;
+  }
+
+  /* I punti hanno larghezza zero e la riga li distribuisce da un capo all'altro: i loro centri
+     sono sempre alla stessa distanza, qualunque sia la larghezza. Mentre la pillola si
+     allunga si allontanano tra loro, partendo tutti ammucchiati */
+  .track {
+    flex: 1;
+    justify-content: space-between;
+    gap: 0;
+    min-width: 0;
+    padding: var(--pad) 1.4rem var(--pad) 0.9rem;
+    visibility: hidden;
+  }
+
+  .track li {
+    display: flex;
+    flex: 0 0 0;
+    justify-content: center;
+  }
+
+  .track::before {
+    left: 0.9rem;
+    right: 1.4rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .year {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .timeline:not([data-state="closed"]) .track {
+    visibility: visible;
+  }
+
+  /* Mentre si apre: pallini pieni, fusi dal filtro come gocce finché sono vicini */
+  .timeline[data-state="opening"] .track {
+    filter: url(#timeline-goo);
+  }
+
+  .timeline[data-state="opening"] .dot {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  /* A movimento finito compaiono linea ed etichette */
+  .timeline[data-state="open"] .track::before,
+  .timeline[data-state="open"] .year {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .dot {
+  .dot,
+  .timeline,
+  .toggleText,
+  .track::before,
+  .year {
     transition: none;
   }
 }

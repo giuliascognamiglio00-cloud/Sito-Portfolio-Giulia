@@ -1,7 +1,7 @@
 # Roadmap — Sito portfolio Giulia Scognamiglio
 
 > Stato: **M1 completata**, **M2 completata a metà** (mancano i contenuti di Giulia), **M3 in
-> corso** (mastro 1 delle pagine progetto su Doggo, Rikka e The Last of Us), **M4 quasi chiusa**. Ogni milestone è chiusa e verificabile: alla
+> corso** (mastro 1 su tutte le pagine progetto), **M4 quasi chiusa**. Ogni milestone è chiusa e verificabile: alla
 > fine di ciascuna il sito è in uno stato funzionante.
 
 ## Contesto
@@ -155,8 +155,7 @@ IT ed EN; tutti i 992 riferimenti a immagini nell'HTML esportato puntano a file 
 **Ancora aperto:**
 - Le **date dei progetti** in `src/content/projects/index.ts` sono provvisorie (ricavate
   dall'ordine della bozza): Giulia deve dare quelle vere.
-- La riga sull'esperienza attuale in `profile.ts` è generica ("Ruolo attuale in azienda"): da
-  riscrivere insieme, senza nominare il datore di lavoro.
+- La riga sull'esperienza in `profile.ts` è «OMEN srl, ruolo attuale»: mancano ruolo e anni.
 - Rilettura delle traduzioni inglesi (progetti, bio, etichette).
 - **Syntonia** è il primo progetto professionale in linea: la sezione Lavori non è più vuota.
   Le immagini sono quelle vere e Giulia ha confermato che **il rebranding è lavoro suo e si
@@ -365,21 +364,75 @@ Fatto (da verificare a occhio nel browser):
 - [x] Rikka: output **divisi per canale** come in The Last of Us — Affissione e stampa,
       Social (profilo e storie), Merchandising — con testi brevi ricavati dalle didascalie
       (bozza). Tolto il content creator. Foto di apertura: i peperoncini, titolo bianco
+- [x] Rikka: **concept esteso** attorno all'idea «Rikka porta così tanta fortuna da
+      ribaltare anche i piatti usciti male», in IT ed EN (bozza da rileggere)
+- [x] Nuove **cover nella pagina Lavori** per Rikka, The Last of Us e Doggo, dai file
+      `Cover_*.jpg` di Giulia in `Sito/` (logo del progetto a sinistra, foto a destra, 16:9)
+- [x] **Syntonia sul mastro 1**: il rebranding diventa l'Identità visiva (costruzione del
+      marchio, palette, i tre simboli), il video ha un blocco suo subito dopo, con tanto vuoto
+      attorno, e gli output sono due gruppi, Affissione e poster per la sede e Social. Il
+      mastro ora sa mostrare un **video** (campo `video`, come prima) e dei **mockup** nel
+      mosaico: con `artwork` il clic apre il manifesto piatto invece del mockup. Sottotitolo,
+      concept esteso e testi dei gruppi sono bozze da rileggere. Tolti carosello e sezioni
+      raccontate
+- [x] **Oculus sul mastro 1**, con il **confronto prima/dopo** tenuto e portato nel mastro
+      (blocco «Il processo» dopo la moodboard, campo `compare` come prima). Il prima è
+      `Sito/OCULUS/prima_ouculus.jpg` riallineato sull'annuncio finito con OpenCV (stessa
+      scala e inquadratura, a 1600×896): trascinando la stanza resta ferma. Output: tempesta in
+      grande, deserto e scogliera accanto; la tavola del making-of in chiusura. Cover e foto
+      di apertura: `Portfolio_Oculus 1.jpg`. Sottotitolo, concept e insight sono bozze
+- [x] Home: i titoli di sezione («Cosa faccio», «Lavori scelti») passano da Anton a Big
+      Shoulders 500, più sottili (classe `display-slim` in `globals.css`)
+- [x] Pagina Lavori: la timeline **non è più sticky**; sotto, le **pillole delle macroaree**
+      (solo quelle usate dai progetti) filtrano insieme all'anno
+- [x] Pagina Lavori al telefono: più spazio tra un progetto e l'altro; la timeline è un
+      pulsante «Esplora» che si allunga con un rimbalzo, e i pallini si separano come gocce
+      (filtro SVG "goo") fino a mettersi alla stessa distanza; accanto, l'icona dei filtri apre
+      le pillole. Con «riduci animazioni» si apre senza movimento
+- [x] Pagina Lavori: le pillole delle macroaree si aprono **solo dall'icona dei filtri**, anche
+      su desktop, dove l'icona sta accanto alla timeline
+- [x] Home: il nome usa **Anton 400 come nel footer** (prima Big Shoulders), con interlinea
+      0.96 perché le due righe non si tocchino
+- [x] Oculus: la **moodboard** di Giulia; una galleria **Backstage** a scorrimento
+      orizzontale (campo `backstage` del mastro, col carosello esistente) con i 7 scatti di
+      `Sito/OCULUS/BackStage`, i RAW convertiti, e in fondo la tavola del making-of che prima
+      stava in chiusura; le didascalie sono bozze. E due **tentacoli** scontornati dagli
+      AdobeStock (campo `tentacles`, `components/Tentacles.tsx`): uno sale dal bordo sinistro
+      accanto al titolo verso il brief, l'altro entra da destra tra strumenti e moodboard.
+      Ondeggiano dalla base con un ritmo irregolare e un filtro SVG li fa ondulare; fermi con
+      «riduci animazioni»
+- [x] Carosello: la didascalia della prima slide non è più tagliata dall'angolo arrotondato
+- [x] Chi sono: nell'esperienza resta solo **OMEN srl** (tolti freelance e Idesiervo). Ruolo
+      e anni sono da precisare
+- [x] Moodboard tutte nella **stessa forma** (16:11, quella delle buste), segnaposto compreso
+- [x] Oculus: backstage con foto **quadrate e più piccole** e un testo sotto il titolo; le tre
+      edizioni **una alla volta** (`outputLayout: "switch"`, `components/OutputSwitch.tsx`):
+      la tempesta in grande e le altre due come miniature a sinistra, una sopra l'altra, da
+      cliccare; al telefono stanno sotto. Il **prima/dopo** viene subito dopo gli output, più
+      stretto. Il testo del backstage è una bozza
+- [x] Oculus: brief riscritto (ricostruzione fedele di una campagna stampa da zero, dalla
+      ricerca dei materiali allo scatto) e testo del backstage (scatto in università, tre
+      soggetti tra cui Giulia, scontornati e inseriti in contesti diversi). Ordine della
+      pagina: moodboard → backstage → **il processo, a tutta larghezza** → output
+- [x] Moodboard più piccole: larghe quanto basta per vederle **intere nello schermo** senza
+      scorrere, tutte uguali
+- [x] Syntonia: mosaici degli output più stretti (`outputWidth: "narrow"`, 58rem), perché a
+      tutta larghezza le immagini si vedevano sgranate
+- [x] Doggo: output divisi in **tre sezioni**, Primi passi, Trovare un posto (le tavole
+      dell'app a tutta larghezza, così le schermate si leggono) e La landing page, a due
+      colonne. La tavola di presentazione che chiudeva la pagina apre la prima sezione. I testi
+      delle sezioni sono bozze
 
 Ancora da fare:
 
-- [ ] **Serve da Giulia:** l'immagine pre-editing allineata per il confronto di Oculus. Le due
-      attuali inquadrano la scena in modo diverso, quindi trascinando la stanza "salta". Serve
-      un export con la stessa identica inquadratura dell'annuncio finito (per esempio la scena
-      senza il polpo e senza correzione colore): si sostituisce `before` in `oculus.ts` e il
-      confronto diventa pixel su pixel
 - [ ] **Serve da Giulia:** la moodboard di Doggo (ora a segnaposto)
 - [ ] Rileggere i testi di Doggo (sottotitolo, brief, concept, insight), i sottotitoli di
       Rikka e The Last of Us, i testi dei gruppi di output di Rikka e quello delle stories,
       soprattutto in inglese
 - [ ] Confermare Midjourney tra gli strumenti di The Last of Us
-- [ ] Portare sul mastro 1 anche Oculus e Syntonia, che hanno confronto, video e sezioni
-      raccontate da ricollocare
+- [ ] **Serve da Giulia:** la moodboard di Syntonia (ora a segnaposto)
+- [ ] Il vecchio layout delle pagine progetto (carosello, sezioni, galleria sfalsata) non lo
+      usa più nessun progetto: da togliere nella M7
 
 - [ ] Resta un avviso di build su **Big Shoulders**, lo stesso che c'era su Google Sans Flex:
       si risolve allo stesso modo, ma il file sorgente non è in `font/` e andrebbe scaricato.

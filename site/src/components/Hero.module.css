@@ -106,13 +106,14 @@
   container-type: inline-size;
 }
 
-/* Il nome usa Big Shoulders (400–500), non l'Anton dei titoli */
+/* Il nome usa l'Anton dei titoli, come nel footer */
 .name {
-  font-family: var(--name);
-  font-weight: 500;
-  /* 15cqi lascia margine anche se il font di riserva, più largo, sostituisce Big Shoulders */
-  font-size: clamp(2.5rem, 15cqi, 10rem);
-  line-height: 0.88;
+  font-family: var(--display);
+  font-weight: 400;
+  /* Anton è più largo di Big Shoulders: 12cqi tiene "Scognamiglio" dentro la colonna */
+  font-size: clamp(2.25rem, 12cqi, 8rem);
+  /* Anton ha le minuscole alte: sotto 0.95 le due righe si toccano */
+  line-height: 0.96;
   letter-spacing: 0;
 }
 

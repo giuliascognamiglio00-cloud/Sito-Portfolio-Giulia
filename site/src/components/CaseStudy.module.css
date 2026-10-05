@@ -289,9 +289,21 @@
   background: var(--wash);
 }
 
-.widePlaceholder {
-  aspect-ratio: 21 / 9;
+/* Tutte le moodboard nella stessa forma, quella delle buste di plastica (3200×2200), anche
+   il segnaposto: se un file ha un'altra proporzione viene ritagliato al centro. La larghezza
+   è quella che fa stare la moodboard intera nello schermo, sotto il titolo, senza scorrere */
+.moodboard {
+  width: min(100%, (100svh - 12rem) * 16 / 11);
+  aspect-ratio: 16 / 11;
+  object-fit: cover;
   border: 1px solid var(--line-strong);
+}
+
+/* Mosaici degli output più stretti della pagina (outputWidth: "narrow"). È un container
+   anche lui, perché il mosaico misura la propria larghezza con le unità cqi */
+.narrow {
+  max-width: 58rem;
+  container-type: inline-size;
 }
 
 .closing {
@@ -323,4 +335,10 @@
   font: 400 0.75rem/1.2 var(--role);
   letter-spacing: 0.06em;
   text-align: center;
+}
+
+/* Il video sta per conto suo, con più vuoto attorno degli altri blocchi: arrivandoci
+   scorrendo non ha nient'altro vicino che gli rubi l'attenzione */
+.video {
+  margin-block: clamp(5rem, 12vw, 9rem);
 }

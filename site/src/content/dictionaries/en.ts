@@ -73,7 +73,11 @@ export const en: Dictionary = {
     emptyWorks: "Professional projects are coming soon.",
     timelineLabel: "Filter by year",
     allYears: "All",
-    emptyYear: "No project for this year, in this section.",
+    explore: "Explore",
+    areaFilterLabel: "Filter by area",
+    allAreas: "All",
+    filters: "Filters",
+    emptyFiltered: "No project matches these filters, in this section.",
   },
   project: {
     kind: "Type",
@@ -104,6 +108,8 @@ export const en: Dictionary = {
     identity: "Visual identity",
     openImage: "Open preview",
     imageCount: "{n} of {total}",
+    chooseOutput: "Choose the edition",
+    showOutput: "Show: {label}",
     placeholder: "Image coming soon",
   },
   about: {

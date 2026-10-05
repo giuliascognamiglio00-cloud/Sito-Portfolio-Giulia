@@ -73,7 +73,11 @@ export const it = {
     emptyWorks: "I progetti professionali arriveranno presto.",
     timelineLabel: "Filtra per anno",
     allYears: "Tutti",
-    emptyYear: "Nessun progetto per questo anno, in questa sezione.",
+    explore: "Esplora",
+    areaFilterLabel: "Filtra per macroarea",
+    allAreas: "Tutte",
+    filters: "Filtri",
+    emptyFiltered: "Nessun progetto con questi filtri, in questa sezione.",
   },
   project: {
     kind: "Tipo",
@@ -107,6 +111,8 @@ export const it = {
     openImage: "Apri l’anteprima",
     // {n} e {total} vengono sostituiti con la posizione e il numero delle immagini
     imageCount: "{n} di {total}",
+    chooseOutput: "Scegli l’edizione",
+    showOutput: "Mostra: {label}",
     placeholder: "Immagine in arrivo",
   },
   about: {

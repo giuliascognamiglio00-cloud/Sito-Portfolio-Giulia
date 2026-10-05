@@ -1,3 +1,92 @@
+/* La riga dei filtri: la timeline e accanto l'icona che apre le macroaree */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+/* L'icona dei filtri, accanto alla timeline: apre e chiude le pillole delle macroaree */
+.filterToggle {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 3.6rem;
+  height: 3.6rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: var(--glass-shadow);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.filterToggle svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.filterToggle[aria-expanded="true"] {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* Un pallino quando c'è una macroarea scelta, anche a pannello chiuso */
+.filterBadge {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--c4);
+  box-shadow: 0 0 0 2px var(--bg);
+}
+
+/* Le macroaree come pillole, sotto la timeline: si aprono dall'icona, con una discesa breve */
+.areas {
+  display: none;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0;
+}
+
+.areas[data-open="true"] {
+  display: flex;
+  animation: drop 0.3s ease-out;
+}
+
+.pill {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: none;
+  color: var(--muted);
+  font: 500 0.9rem/1 var(--text);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.pill:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.pill[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
 .group {
   margin: clamp(2rem, 4vw, 3rem) 0 clamp(1rem, 2vw, 1.5rem);
   padding-top: 1.25rem;
@@ -13,8 +102,33 @@
 }
 
 @media (max-width: 700px) {
+  .toolbar {
+    /* Lo spazio dell'icona dei filtri, che la timeline aperta lascia libero */
+    --toolbar-side: 4.1rem;
+    justify-content: space-between;
+  }
+
+  /* Più aria tra un progetto e l'altro */
   .grid {
     grid-template-columns: minmax(0, 1fr);
+    row-gap: 3.5rem;
+  }
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill {
+    transition: none;
+  }
+
+  .areas[data-open="true"] {
+    animation: none;
   }
 }
 

@@ -63,7 +63,6 @@
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   cursor: grab;
-  border-radius: var(--r);
 }
 
 .track::-webkit-scrollbar {

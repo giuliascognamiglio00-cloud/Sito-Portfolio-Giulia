@@ -52,3 +52,8 @@ Sito/rikka/stop motion/*.psd
 # serve al sito e pesa quasi 200 MB. Resta solo in locale
 Sito/TLOU/img/
 Sito/TLOU/fase di Ricerca/
+
+# Scatti originali del backstage di Oculus (RAW e JPG a piena risoluzione, oltre 100 MB in
+# tutto): restano solo in locale. Nell'archivio ne va una copia in JPEG leggero, in
+# "Sito/OCULUS/BackStage leggeri/"; quelle usate dal sito stanno in site/assets/img/
+Sito/OCULUS/BackStage/

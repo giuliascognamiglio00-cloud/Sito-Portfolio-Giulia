@@ -1,0 +1,99 @@
+/* Lo strato sta dentro la griglia Brief/Concept/Strumenti, che è il riferimento delle
+   posizioni; i tentacoli escono fino al bordo dello schermo. --out è la distanza tra il
+   bordo della colonna centrale e quello dello schermo */
+.layer {
+  --out: calc((100vw - 100%) / 2);
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.tentacle {
+  position: absolute;
+  width: var(--w);
+  rotate: var(--r);
+  transform-origin: var(--base);
+}
+
+/* A sinistra: sale dal bordo dello schermo nell'intestazione, accanto al titolo, e la punta
+   si arriccia verso il brief. Sta tutto sopra la griglia, così non copre il testo */
+.title {
+  --w: clamp(120px, 18vw, 280px);
+  --r: 18deg;
+  --base: 27% 100%;
+  left: calc(-1 * var(--out) - var(--w) * 0.12);
+  top: calc(var(--w) * -1.42);
+}
+
+/* A destra: la base tagliata resta fuori dallo schermo, il tentacolo entra tra la colonna
+   degli strumenti e la moodboard, nello spazio vuoto sotto gli strumenti */
+.tools {
+  --w: clamp(120px, 16vw, 250px);
+  --r: -6deg;
+  --base: 88% 82%;
+  right: calc(-1 * var(--out) - var(--w) * 0.3);
+  bottom: calc(var(--w) * -0.55);
+}
+
+/* Al telefono il tentacolo di destra scende un po', sotto la riga degli strumenti */
+@media (max-width: 700px) {
+  .tools {
+    bottom: calc(var(--w) * -0.8);
+  }
+}
+
+.sway {
+  transform-origin: var(--base);
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sway {
+    animation: sway 11s ease-in-out infinite;
+  }
+
+  .tools .sway {
+    animation-duration: 13.5s;
+    animation-delay: -4s;
+  }
+
+  .img {
+    filter: url(#tentacle-wave);
+  }
+}
+
+/* Un ondeggiare irregolare dalla base: si allunga un po' quando si piega, si ritrae quando
+   torna indietro, come un muscolo e non come un pendolo */
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  17% {
+    transform: rotate(4deg) scale(1.025, 0.99);
+  }
+  34% {
+    transform: rotate(-2.5deg) scale(0.99, 1.01);
+  }
+  52% {
+    transform: rotate(6deg) scale(1.03, 0.985);
+  }
+  71% {
+    transform: rotate(0.5deg) scale(0.985, 1.015);
+  }
+  86% {
+    transform: rotate(-3deg) scale(1.01);
+  }
+}

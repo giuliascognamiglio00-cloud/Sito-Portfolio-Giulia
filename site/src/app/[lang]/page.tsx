@@ -26,7 +26,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
 
         <section className={styles.section}>
           <div className={styles.head}>
-            <h2 className="display">{dict.home.selectedWorks}</h2>
+            <h2 className="display display-slim">{dict.home.selectedWorks}</h2>
             <Link href={routes.works(typed)} className={styles.seeAll}>
               {dict.home.seeAll}
             </Link>

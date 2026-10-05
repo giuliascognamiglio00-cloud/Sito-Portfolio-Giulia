@@ -69,6 +69,13 @@ button:focus-visible {
   line-height: 1;
 }
 
+/* Variante più sottile, per i titoli della home: Big Shoulders 500, la famiglia del nome,
+   invece dell'Anton che ha un peso solo e molto pesante */
+.display-slim {
+  font-family: var(--name);
+  font-weight: 500;
+}
+
 /* Collegamento di servizio: invisibile finché non riceve il fuoco da tastiera */
 .skip {
   position: absolute;

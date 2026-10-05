@@ -14,7 +14,7 @@ export const theLastOfUs: Project = {
   areas: ["campaign", "social"],
   date: "2024-03",
   accent: "#8FA36B",
-  cover: "tlou_thumb",
+  cover: "tlou_cover",
   // L'infetto nel buio: quasi tutto nero, il testo chiaro sopra si stacca benissimo
   introImage: "tlou_thumb",
   layout: "case",
@@ -107,7 +107,7 @@ export const theLastOfUs: Project = {
           },
         ],
       },
-      coverAlt: "Una creatura infetta appena illuminata su sfondo nero",
+      coverAlt: "Il titolo The Last of Us in bianco su fondo nero, accanto a un infetto appena illuminato",
       images: [
         { alt: "Una creatura infetta appena illuminata su sfondo nero" },
         {
@@ -186,7 +186,7 @@ export const theLastOfUs: Project = {
           },
         ],
       },
-      coverAlt: "An infected creature barely lit against a black background",
+      coverAlt: "The Last of Us title in white on black, next to a barely lit infected creature",
       images: [
         { alt: "An infected creature barely lit against a black background" },
         {

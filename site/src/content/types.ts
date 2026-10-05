@@ -82,11 +82,14 @@ export type ProjectVideo = {
  * Contenuti del layout "case", quello del wireframe definitivo: moodboard, mosaico degli
  * output e immagine di chiusura. Senza nome di file un riquadro mostra un segnaposto.
  */
-/** Un riquadro del mosaico, su tre colonne: `cols` e `rows` dicono quante ne occupa (1 o 2) */
-export type CaseTile = { key?: string; cols?: 1 | 2; rows?: 1 | 2 };
+/**
+ * Un riquadro del mosaico, su tre colonne: `cols` e `rows` dicono quante ne occupa (1 o 2).
+ * Con `artwork` il riquadro è un mockup, e al clic si apre l'opera piatta invece del mockup
+ */
+export type CaseTile = { key?: string; cols?: 1 | 2; rows?: 1 | 2; artwork?: string };
 
-/** L'etichetta di un riquadro; `alt` serve solo se c'è l'immagine */
-export type CaseTileText = { label: string; alt?: string };
+/** L'etichetta di un riquadro; `alt` serve solo se c'è l'immagine, `artworkAlt` se c'è l'opera */
+export type CaseTileText = { label: string; alt?: string; artworkAlt?: string };
 
 export type ProjectCase = {
   moodboard?: string;
@@ -116,6 +119,23 @@ export type ProjectCase = {
   stickers?: { key: string; at: "brief" | "moodboard" | "output" | "phones" }[];
   /** Immagine finale a piena larghezza */
   closing?: string;
+  /** Foto del backstage, quadrate, in una galleria a scorrimento orizzontale dopo la moodboard */
+  backstage?: string[];
+  /**
+   * Con "switch" gli output (il mosaico unico) si vedono uno alla volta: il primo in grande,
+   * gli altri come miniature a sinistra da scegliere
+   */
+  outputLayout?: "switch";
+  /**
+   * Con "narrow" i mosaici degli output sono più stretti della pagina: per le immagini che a
+   * tutta larghezza non reggono la risoluzione
+   */
+  outputWidth?: "narrow";
+  /**
+   * Tentacoli (PNG trasparenti) che entrano dai bordi e si muovono piano: `at` dice dove,
+   * "title" a sinistra tra intestazione e brief, "tools" a destra sopra gli strumenti
+   */
+  tentacles?: { key: string; at: "title" | "tools" }[];
 };
 
 export type ProjectCaseText = {
@@ -132,6 +152,8 @@ export type ProjectCaseText = {
   phones?: { title: string; text?: string; items: CaseTileText[] };
   moodboardAlt?: string;
   closingAlt?: string;
+  /** Titolo della galleria del backstage e, per ogni foto, testo breve e testo alternativo */
+  backstage?: { title: string; text?: string; items: { caption?: string; alt: string }[] };
 };
 
 export type ProjectImageText = {

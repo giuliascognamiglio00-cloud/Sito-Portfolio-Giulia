@@ -10,7 +10,7 @@ export default function Approach({ heading, lede, steps }: Props) {
   return (
     <section className={styles.approach} aria-labelledby="approach">
       <div className={styles.aside}>
-        <h2 id="approach" className="display">
+        <h2 id="approach" className="display display-slim">
           {heading}
         </h2>
         <p className={styles.lede}>{lede}</p>
