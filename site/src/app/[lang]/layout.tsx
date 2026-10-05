@@ -58,11 +58,11 @@ export default async function LangLayout({
   const dict = getDictionary(typed);
 
   return (
-    <html lang={typed} suppressHydrationWarning>
+    <html lang={typed} className={fontVariables} suppressHydrationWarning>
       <head>
         <ThemeScript />
       </head>
-      <body className={fontVariables}>
+      <body>
         <a className="skip" href="#main">
           {dict.common.skipToContent}
         </a>

@@ -1,20 +1,42 @@
+/* Navigazione a pillola fluttuante, in vetro smerigliato. Il <header> resta sticky nel
+   flusso della pagina (così non copre i titoli in apertura) ma è trasparente: quello che si
+   vede è solo la pillola, e scorrendo i contenuti le passano dietro, sfocati.
+   Altezza totale: 12px sopra + 54px di pillola; la timeline dei Lavori si aggancia sotto
+   (--nav-offset in globals.css). */
 .nav {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
   z-index: 20;
-  background: var(--nav-bg);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--line);
+  padding-top: 12px;
+  /* Non occupa spazio: la pagina scorre sotto dal bordo superiore (vedi #main) */
+  margin-bottom: calc(-1 * var(--nav-space));
+  pointer-events: none;
 }
 
 .inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
   gap: 0.25rem 1rem;
-  min-height: 58px;
+  width: min(100% - 2rem, 1100px);
+  min-height: 54px;
+  margin: 0 auto;
+  padding: 0 0.6rem 0 1.5rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: var(--glass-shadow);
+  pointer-events: auto;
+}
+
+/* Senza backdrop-filter il vetro non sfoca: allora la pillola diventa quasi piena, per
+   restare leggibile sopra le foto */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .inner {
+    background: var(--nav-bg);
+  }
 }
 
 .brand {
@@ -51,6 +73,26 @@
 }
 
 @media (max-width: 720px) {
+  /* Al telefono la pillola si allarga quasi a tutto schermo e stringe gli spazi, perché
+     marchio, tre link e strumenti stiano su una riga sola */
+  .inner {
+    width: calc(100% - 1rem);
+    gap: 0.5rem;
+    padding: 0 0.35rem 0 0.9rem;
+  }
+
+  .links {
+    gap: 0.8rem;
+  }
+
+  .links a {
+    white-space: nowrap;
+  }
+
+  .tools {
+    gap: 0.3rem;
+  }
+
   .full {
     display: none;
   }

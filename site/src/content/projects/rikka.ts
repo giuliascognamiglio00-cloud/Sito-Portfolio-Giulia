@@ -9,6 +9,19 @@ export const rikka: Project = {
   cover: "rikka_thumb",
   // Scena notturna alla pensilina: gran parte del cielo scuro regge bene il testo chiaro sopra
   introImage: "rikka_1",
+  // Mastro 1 delle pagine progetto. Due riquadri grandi e quattro piccoli, a scacchiera;
+  // la moodboard manca ancora e mostra il segnaposto
+  layout: "case",
+  case: {
+    output: [
+      { key: "rikka_2", cols: 2, rows: 2 },
+      { key: "rikka_3" },
+      { key: "rikka_4" },
+      { key: "rikka_5" },
+      { key: "rikka_1", cols: 2, rows: 2 },
+      { key: "rikka_6" },
+    ],
+  },
   images: [
     { key: "rikka_2" },
     { key: "rikka_1" },
@@ -20,6 +33,8 @@ export const rikka: Project = {
   content: {
     it: {
       title: "Rikka Peppers",
+      // BOZZA da rileggere
+      subtitle: "Il peperoncino porta fortuna: Rikka salva i piatti quando in cucina va tutto storto.",
       kind: "Campagna integrata",
       made: "Affissione, stampa, social, content creator, merchandising",
       tools: "Photoshop",
@@ -27,6 +42,34 @@ export const rikka: Project = {
         "Campagna integrata per Rikka Peppers, giovane azienda italiana di peperoncini e salse spalmabili. La campagna stampa presenta Rikka come un amuleto salva-piatti: interviene quando in cucina tutto va storto.",
       insight: "Nella cultura popolare il peperoncino è il portafortuna per eccellenza.",
       concept: "Rikka porta fortuna ai tuoi piatti.",
+      case: {
+        output: [
+          {
+            label: "Stampa",
+            alt: "Tre manifesti con piatti serviti in cucina e il titolo «Perché Rikka porta bene»",
+          },
+          {
+            label: "Social",
+            alt: "Profilo Instagram di Rikka Peppers con tre post grafici su fondi colorati",
+          },
+          {
+            label: "Storie",
+            alt: "Due serie di storie Instagram, una su fondo azzurro e una su fondo rosa, con piatti e frasi ironiche",
+          },
+          {
+            label: "Content creator",
+            alt: "Un content creator in cucina con la macchina fotografica; accanto, un telefono con un barattolo e dei peperoncini che fluttuano",
+          },
+          {
+            label: "Affissione",
+            alt: "Affissione in una pensilina con un piatto sospeso sopra i fornelli e la scritta «Perché Rikka porta bene»",
+          },
+          {
+            label: "Merchandising",
+            alt: "Merchandising Rikka su fondo azzurro: shopper, spille, t-shirt e grembiuli colorati",
+          },
+        ],
+      },
       coverAlt:
         "Tre manifesti con piatti serviti in cucina e il titolo «Perché Rikka porta bene»",
       images: [
@@ -65,6 +108,7 @@ export const rikka: Project = {
     // Traduzione inglese: BOZZA da rileggere da Giulia.
     en: {
       title: "Rikka Peppers",
+      subtitle: "Chili peppers bring luck: Rikka saves your dishes when everything goes wrong in the kitchen.",
       kind: "Integrated campaign",
       made: "Out-of-home, print, social, content creator, merchandising",
       tools: "Photoshop",
@@ -72,6 +116,34 @@ export const rikka: Project = {
         "Integrated campaign for Rikka Peppers, a young Italian company making chili peppers and spreadable sauces. The print campaign presents Rikka as a dish-saving charm: it steps in when everything goes wrong in the kitchen.",
       insight: "In popular culture, the chili pepper is the lucky charm par excellence.",
       concept: "Rikka brings luck to your dishes.",
+      case: {
+        output: [
+          {
+            label: "Print",
+            alt: "Three posters showing dishes served in a kitchen, with the headline “Why Rikka brings good luck”",
+          },
+          {
+            label: "Social",
+            alt: "Rikka Peppers Instagram profile with three graphic posts on colored backgrounds",
+          },
+          {
+            label: "Stories",
+            alt: "Two series of Instagram stories, one on a light-blue background and one on pink, with dishes and ironic lines",
+          },
+          {
+            label: "Content creator",
+            alt: "A content creator in a kitchen holding a camera; next to it, a phone showing a jar and chili peppers floating in mid-air",
+          },
+          {
+            label: "Out-of-home",
+            alt: "A bus-shelter poster with a dish hovering above the stove and the line “Why Rikka brings good luck”",
+          },
+          {
+            label: "Merchandising",
+            alt: "Rikka merchandising on a light-blue background: tote bags, pins, t-shirts and colorful aprons",
+          },
+        ],
+      },
       coverAlt:
         "Three posters showing dishes served in a kitchen, with the headline “Why Rikka brings good luck”",
       images: [

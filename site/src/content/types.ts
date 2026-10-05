@@ -82,17 +82,28 @@ export type ProjectVideo = {
  * Contenuti del layout "case", quello del wireframe definitivo: moodboard, mosaico degli
  * output e immagine di chiusura. Senza nome di file un riquadro mostra un segnaposto.
  */
+/** Un riquadro del mosaico, su tre colonne: `cols` e `rows` dicono quante ne occupa (1 o 2) */
+export type CaseTile = { key?: string; cols?: 1 | 2; rows?: 1 | 2 };
+
+/** L'etichetta di un riquadro; `alt` serve solo se c'è l'immagine */
+export type CaseTileText = { label: string; alt?: string };
+
 export type ProjectCase = {
   moodboard?: string;
-  /** Riquadri del mosaico, su tre colonne: `cols` e `rows` dicono quante ne occupa (1 o 2) */
-  output: { key?: string; cols?: 1 | 2; rows?: 1 | 2 }[];
+  /** Identità visiva (marchio, logo, palette), dopo la moodboard. Facoltativa */
+  identity?: CaseTile[];
+  /** Wireframe, in una sezione loro prima degli output. Facoltativi */
+  wireframes?: CaseTile[];
+  output: CaseTile[];
   /** Immagine finale a piena larghezza */
   closing?: string;
 };
 
 export type ProjectCaseText = {
-  /** Un'etichetta per riquadro, nello stesso ordine di `output`; `alt` serve solo se c'è l'immagine */
-  output: { label: string; alt?: string }[];
+  /** Un'etichetta per riquadro, nello stesso ordine di `identity`, `wireframes` e `output` */
+  identity?: CaseTileText[];
+  wireframes?: CaseTileText[];
+  output: CaseTileText[];
   moodboardAlt?: string;
   closingAlt?: string;
 };

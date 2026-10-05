@@ -1,0 +1,208 @@
+/* Il mosaico. Tre colonne; ogni riquadro ne occupa una o due per lato, e `dense` riempie i
+   buchi da solo. L'altezza di una riga è 9/16 della larghezza di una colonna: le tavole sono
+   quasi tutte 16:9, così un riquadro 1×1 o 2×2 le mostra intere invece di tagliarle.
+   100cqi è la larghezza della sezione che lo contiene (container-type in CaseStudy). */
+.mosaic {
+  --gap: clamp(1rem, 1.6vw, 1.4rem);
+  --inset: clamp(1.25rem, 2.5vw, 2rem);
+  --col: calc((100cqi - 2 * var(--inset) - 2px - 2 * var(--gap)) / 3);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: calc(var(--col) * 9 / 16);
+  grid-auto-flow: dense;
+  gap: var(--gap);
+  margin: 0;
+  padding: var(--inset);
+  list-style: none;
+  border: 1px solid var(--line-strong);
+}
+
+.mosaic > li {
+  grid-column: span var(--cols);
+  grid-row: span var(--rows);
+  min-width: 0;
+}
+
+.tile {
+  position: relative;
+  height: 100%;
+  margin: 0;
+  border: 1px solid var(--line-strong);
+  background: var(--wash);
+}
+
+/* Il riquadro cliccabile: tutto il riquadro è il pulsante */
+.trigger {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.trigger img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.15s;
+}
+
+.trigger:hover img {
+  opacity: 0.88;
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* L'etichetta appoggiata sul bordo in alto a sinistra, come un cartellino */
+.label {
+  position: absolute;
+  top: -0.7rem;
+  left: 0.75rem;
+  padding: 0.35rem 0.6rem;
+  background: var(--wash);
+  border: 1px solid var(--line);
+  font: 400 0.72rem/1 var(--role);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .mosaic {
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: auto;
+  }
+
+  .mosaic > li {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .tile {
+    aspect-ratio: 16 / 9;
+  }
+
+  .tall .tile {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+/* L'anteprima a tutto schermo */
+.dialog {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+}
+
+.dialog[open] {
+  display: grid;
+  place-items: center;
+}
+
+.dialog::backdrop {
+  background: rgba(10, 8, 20, 0.92);
+}
+
+.view {
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0 clamp(1rem, 7vw, 6rem);
+}
+
+.full img {
+  display: block;
+  max-width: min(100%, 1600px);
+  max-height: 80dvh;
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.caption {
+  display: flex;
+  gap: 1.25rem;
+  font: 400 0.8rem/1 var(--role);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.caption span + span {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.nav,
+.close {
+  position: fixed;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  background: rgba(10, 8, 20, 0.85);
+  color: #fff;
+  font: 400 1.2rem/1 var(--text);
+  cursor: pointer;
+}
+
+.nav {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.prev {
+  left: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+.next {
+  right: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+.close {
+  top: clamp(0.75rem, 2vw, 1.5rem);
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  font-size: 1.5rem;
+}
+
+.nav:hover,
+.close:hover {
+  background: #000;
+}
+
+.nav:focus-visible,
+.close:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+/* Sul telefono le frecce scendono in basso, per non coprire l'immagine */
+@media (max-width: 640px) {
+  .nav {
+    top: auto;
+    bottom: 1rem;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trigger img {
+    transition: none;
+  }
+}

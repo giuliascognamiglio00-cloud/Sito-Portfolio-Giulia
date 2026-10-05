@@ -94,19 +94,22 @@ CSS: cambiando un valore lì cambia in tutto il sito, tema chiaro e tema scuro c
 
 ## Il font del corpo del testo
 
-Il testo del sito è in Google Sans Flex, servito da un file nostro in
-`site/src/fonts/GoogleSansFlex-9pt-latin.woff2` (51 KB). Non va modificato a mano: si
-rigenera dal file variabile in `font/`, che pesa 4 MB e contiene sei assi. Il comando fissa
-l'ottico a 9 (la versione "da testo"), toglie gli assi che non usiamo, riduce ai caratteri
-latini e comprime. Serve [fonttools](https://fonttools.readthedocs.io):
+Il testo del sito è in Google Sans, servito da un file nostro in
+`site/src/fonts/GoogleSans-latin.woff2` (44 KB). Non va modificato a mano: si rigenera dal
+file variabile in `font/Google_Sans/`. Il comando fissa l'ottico a 17 (la versione "da
+testo") e il grado a 0, lascia variabile solo il peso (400–700), riduce ai caratteri latini e
+comprime. Serve [fonttools](https://fonttools.readthedocs.io):
 
 ```powershell
 py -m pip install --user fonttools brotli
 
-py -m fontTools.varLib.instancer "font/Google_Sans_Flex/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf" opsz=9 GRAD=0 ROND=0 slnt=0 wdth=100 -o "$env:TEMP\GSF-9pt-var.ttf"
+py -m fontTools.varLib.instancer "font/Google_Sans/GoogleSans-VariableFont_GRAD,opsz,wght.ttf" opsz=17 GRAD=0 -o "$env:TEMP\GS-17pt-var.ttf"
 
-py -m fontTools.subset "$env:TEMP\GSF-9pt-var.ttf" --unicodes="U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-2199,U+2212,U+2215,U+FEFF,U+FFFD" --layout-features="*" --flavor=woff2 --output-file="site/src/fonts/GoogleSansFlex-9pt-latin.woff2"
+py -m fontTools.subset "$env:TEMP\GS-17pt-var.ttf" --unicodes="U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-2199,U+2212,U+2215,U+FEFF,U+FFFD" --layout-features="*" --flavor=woff2 --output-file="site/src/fonts/GoogleSans-latin.woff2"
 ```
+
+Prima era Google Sans Flex (`GoogleSansFlex-9pt-latin.woff2`, tolto): il file variabile resta
+in `font/Google_Sans_Flex/` se servisse tornare indietro.
 
 ## I video dei progetti
 

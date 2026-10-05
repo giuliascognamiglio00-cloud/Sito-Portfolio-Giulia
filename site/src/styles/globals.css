@@ -7,8 +7,11 @@
 }
 
 html {
-  /* Lo scroll verso un'ancora non deve finire sotto la barra di navigazione */
-  scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px);
+  /* Spazio occupato in alto dalla navigazione a pillola (12px sopra + 54px di pillola):
+     lo usa la timeline dei Lavori, e lo scroll verso un'ancora non deve finirci sotto */
+  --nav-space: 66px;
+  --nav-offset: calc(env(safe-area-inset-top, 0px) + var(--nav-space));
+  scroll-padding-top: calc(var(--nav-offset) + 16px);
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
@@ -19,7 +22,7 @@ body {
   padding-bottom: env(safe-area-inset-bottom, 0px);
   background: var(--bg);
   color: var(--ink);
-  font: 300 1rem/1.7 var(--text);
+  font: 400 1rem/1.7 var(--text);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -85,8 +88,19 @@ button:focus-visible {
   font: 500 0.9rem var(--text);
 }
 
+/* La navigazione a pillola non occupa spazio: galleggia sopra la pagina. Il contenuto
+   parte quindi più in basso della stessa misura, per non finirle sotto */
 #main {
   outline: none;
+  padding-top: var(--nav-space);
+}
+
+/* Le aperture con uno sfondo (i colori della home, le foto dei progetti) risalgono fino al
+   bordo superiore e passano dietro la pillola, senza la fascia vuota in alto; il loro
+   contenuto resta dov'era */
+.under-nav {
+  margin-top: calc(-1 * var(--nav-space));
+  padding-top: var(--nav-space);
 }
 
 @media (prefers-reduced-motion: reduce) {

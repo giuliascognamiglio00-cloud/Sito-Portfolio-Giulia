@@ -16,7 +16,7 @@ export default function Hero({
   portraitAlt: string;
 }) {
   return (
-    <section className={styles.hero}>
+    <section className={`${styles.hero} under-nav`}>
       <div className={styles.blobs} aria-hidden="true">
         <i className={styles.b1} />
         <i className={styles.b2} />

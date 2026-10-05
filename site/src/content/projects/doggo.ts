@@ -1,10 +1,11 @@
 import type { Project } from "../types";
 
-// Ricavato dal portfolio 2023 (pagine 3-5): le tavole sono quelle originali estratte dal PDF
-// e il testo di presentazione è quello che Giulia aveva già scritto.
-// DA CONFERMARE: `date`, `tools` e `areas`.
-// È il primo progetto con l'impostazione del wireframe definitivo (`layout: "case"`).
-// Dove manca un'immagine la pagina mostra un segnaposto: moodboard e sei riquadri degli output.
+// Ricavato dalla presentazione d'esame di Giulia (Sito/doggo2/2B_…_InterfaceInteraction.pdf)
+// e dai mockup della landing nella stessa cartella. Brief, concept e insight vengono dal PDF;
+// i dati della ricerca (sondaggi, personas, card sorting) restano fuori dalla pagina, come
+// ha chiesto Giulia, e compaiono solo come insight nei testi.
+// Le schermate dell'app sono pagine del PDF; i mockup sono ritagliati sul dispositivo.
+// DA CONFERMARE: `date`, `tools` e `areas`. Manca la moodboard: si vede il segnaposto.
 export const doggo: Project = {
   slug: "doggo",
   category: "academy",
@@ -14,22 +15,36 @@ export const doggo: Project = {
   // L'arancione dei pulsanti dell'app
   accent: "#FE6B28",
   cover: "doggo_1",
-  // La tavola dei flussi: ha ampie zone chiare e vuote, il testo sopra si legge
-  introImage: "doggo_2",
+  // La foto della copertina del PDF: cani al guinzaglio in un parco
+  introImage: "doggo_hero",
   layout: "case",
   case: {
-    // Senza `moodboard` compare il segnaposto
-    // Stessa geometria del wireframe: tre colonne, cinque righe, nessun buco
+    // Tutte le immagini sono 16:9: nei riquadri 1×1 e 2×2 si vedono intere.
+    // I wireframe sono pagine del PDF ritagliate sul grigio, senza le linee dei flussi;
+    // Giulia ha scelto di mostrare solo Esplora, Ristoranti e Profilo
+    // L'identità visiva: il marchio sul giallo, il logo in positivo e la palette, ricavati
+    // dalla tavola e dal logo in Sito/doggo2/identity/
+    identity: [
+      { key: "doggo_marchio", cols: 2, rows: 2 },
+      { key: "doggo_logo" },
+      { key: "doggo_palette" },
+    ],
+    wireframes: [
+      { key: "doggo_wf_esplora" },
+      { key: "doggo_wf_ristoranti" },
+      { key: "doggo_wf_profilo" },
+    ],
     output: [
-      { key: "doggo_2", cols: 2 },
-      { rows: 2 },
-      { rows: 2 },
-      { rows: 2 },
-      {},
-      {},
-      { key: "doggo_3", cols: 2 },
-      { cols: 2 },
-      {},
+      // Il profilo in apertura, in grande: scelta di Giulia
+      { key: "doggo_profilo", cols: 2, rows: 2 },
+      { key: "doggo_onboarding" },
+      { key: "doggo_esplora" },
+      { key: "doggo_mappa" },
+      { key: "doggo_ricerca" },
+      { key: "doggo_landing" },
+      { key: "doggo_landing_desktop" },
+      { key: "doggo_landing_esplora", cols: 2, rows: 2 },
+      { key: "doggo_landing_tablet" },
     ],
     closing: "doggo_1",
   },
@@ -37,32 +52,83 @@ export const doggo: Project = {
   content: {
     it: {
       title: "Doggo",
-      // BOZZA da rileggere: sottotitolo e concept
-      subtitle: "Un’app per trovare, visitare e prenotare i luoghi dove i cani sono i benvenuti.",
-      kind: "App mobile",
-      made: "Flussi, interfaccia, prototipo",
+      subtitle:
+        "L’app per organizzare in tutta comodità le giornate in compagnia del tuo amico a quattro zampe.",
+      kind: "App mobile e landing page",
+      made: "Interfaccia dell’app, landing page per desktop, tablet e smartphone, prototipo navigabile",
       tools: "Figma, Illustrator, Photoshop",
       intro:
-        "Progettazione di un’applicazione per gli amanti degli amici a quattro zampe. L’obiettivo è dare un’esperienza a 360° per trovare, visitare ed eventualmente prenotare luoghi esclusivamente dog e pet friendly.",
+        "Doggo è un’applicazione dedicata agli amanti dei cani: un’esperienza a 360° per trovare, visitare ed eventualmente prenotare luoghi esclusivamente dog e pet friendly. Il progetto comprende l’app per iOS e la landing page che la presenta, costruita attorno a un’unica azione: scaricare l’app.",
       concept:
-        "I cani sono i protagonisti: escono dalle schermate e danno all’app un tono ironico e riconoscibile, su un giallo caldo con i pulsanti arancioni. La navigazione invece resta essenziale, in tre gesti: cerca, prenota, esplora.",
+        "Minimale e giocosa. Il bianco come colore principale e l’arancione come accento rendono l’app semplice da usare; icone outline, forme morbide e fotografie vivaci di cani le danno un carattere allegro, mai banale.",
+      insight:
+        "Per il 60% dei padroni poter portare il cane ovunque è essenziale. Doggo non parla della voglia di tornare a casa da lui, ma di portarlo con sé nella vita di tutti i giorni.",
       case: {
+        identity: [
+          {
+            label: "Marchio",
+            alt: "Il marchio di Doggo su fondo giallo: un cuore bianco e arancione sopra il muso stilizzato di un cane, e la scritta DOGGO",
+          },
+          {
+            label: "Logo in positivo",
+            alt: "Il logo di Doggo su fondo bianco, con mezzo cuore arancione sopra il muso e la scritta DOGGO in nero",
+          },
+          {
+            label: "Palette",
+            alt: "La palette di Doggo: nero #000000, bianco #FFFFFF, arancione #FE6B28 e giallo #FFD217",
+          },
+        ],
+        wireframes: [
+          {
+            label: "Esplora",
+            alt: "Due wireframe della sezione Esplora con le categorie, i luoghi vicini e la bacheca degli smarrimenti",
+          },
+          {
+            label: "Ristoranti",
+            alt: "Tre wireframe della ricerca dei ristoranti, della scheda del locale e della prenotazione",
+          },
+          {
+            label: "Profilo",
+            alt: "Quattro wireframe del profilo utente e del profilo del cane, con foto, amici e libretto delle vaccinazioni",
+          },
+        ],
         output: [
           {
-            label: "I flussi",
-            alt: "Diagramma dei percorsi dell’app Doggo con i riquadri delle schermate collegati da frecce, accanto alle schermate della mappa e della sezione Esplora",
+            label: "Profilo",
+            alt: "Un iPhone rosa con il profilo utente di Doggo: foto, pulsante Doggos e i propri amici",
           },
-          { label: "Onboarding" },
-          { label: "Esplora" },
-          { label: "Mappa" },
-          { label: "Profilo" },
-          { label: "Icone" },
           {
-            label: "Le schermate",
-            alt: "Quattro schermate dell’app Doggo: la sezione Esplora con le categorie, la mappa, il profilo utente e l’elenco dei locali più frequentati",
+            label: "Onboarding",
+            alt: "Quattro schermate di benvenuto dell’app: registrazione completata, «Unisciti a Doggo», «Crea un profilo» e «Iniziare è una passeggiata», con le foto di tre cani",
           },
-          { label: "Logo" },
-          { label: "Palette" },
+          {
+            label: "Esplora",
+            alt: "Quattro schermate della sezione Esplora con le categorie in pulsanti gialli, i locali consigliati e i parchi vicini",
+          },
+          {
+            label: "Mappa",
+            alt: "Tre schermate della mappa con la ricerca «Dove vuoi andare?» e i luoghi dog friendly segnati in arancione",
+          },
+          {
+            label: "Ricerca",
+            alt: "Tre schermate della ricerca dei ristoranti, con le schede dei locali, le stelle e le fasce di prezzo",
+          },
+          {
+            label: "Landing page",
+            alt: "La landing page di Doggo su tablet e smartphone: fondo giallo, il titolo «Just for Doggo lovers» e il pulsante arancione per scaricare l’app",
+          },
+          {
+            label: "Desktop",
+            alt: "La landing page di Doggo su un MacBook, con il titolo «Just for Doggo lovers» e il telefono con l’app",
+          },
+          {
+            label: "Pagina Esplora",
+            alt: "La pagina Esplora della landing su due iPad: in alto i cani su fondo giallo, sotto «Esplorando Doggo» con le foto dei luoghi e «Ma non finisce qui…»",
+          },
+          {
+            label: "Tablet",
+            alt: "La landing page di Doggo su due iPad: la home con un ragazzo e il suo cane in montagna, e la sezione «Entra nella nostra community» con un carlino",
+          },
         ],
         closingAlt:
           "Tre schermate di benvenuto dell’app Doggo — Cerca, Prenota, Esplora — su fondo giallo, con un bulldog con gli occhiali da sole in primo piano",
@@ -90,31 +156,82 @@ export const doggo: Project = {
     // Traduzione inglese: BOZZA da rileggere da Giulia.
     en: {
       title: "Doggo",
-      subtitle: "An app for finding, visiting and booking the places where dogs are welcome.",
-      kind: "Mobile app",
-      made: "Flows, interface, prototype",
+      subtitle: "The app for planning your days with your four-legged friend, effortlessly.",
+      kind: "Mobile app and landing page",
+      made: "App interface, landing page for desktop, tablet and smartphone, clickable prototype",
       tools: "Figma, Illustrator, Photoshop",
       intro:
-        "An app designed for people who love their four-legged friends. The goal is a complete experience for finding, visiting and booking places that are strictly dog and pet friendly.",
+        "Doggo is an app for dog lovers: a complete experience for finding, visiting and booking places that are strictly dog and pet friendly. The project covers the iOS app and the landing page that presents it, built around a single action: downloading the app.",
       concept:
-        "The dogs are the stars: they step out of the screens and give the app a playful, recognisable tone, on a warm yellow with orange buttons. Navigation stays essential, in three moves: search, book, explore.",
+        "Minimal and playful. White as the main colour and orange as the accent keep the app easy to use; outline icons, soft shapes and lively photos of dogs give it a cheerful character that never feels ordinary.",
+      insight:
+        "For 60% of owners, being able to take their dog anywhere is essential. Doggo isn’t about wanting to get home to your dog, but about bringing it along in everyday life.",
       case: {
+        identity: [
+          {
+            label: "Brand mark",
+            alt: "The Doggo brand mark on yellow: a white and orange heart above a stylised dog’s muzzle, and the word DOGGO",
+          },
+          {
+            label: "Positive logo",
+            alt: "The Doggo logo on white, with half an orange heart above the muzzle and the word DOGGO in black",
+          },
+          {
+            label: "Palette",
+            alt: "The Doggo palette: black #000000, white #FFFFFF, orange #FE6B28 and yellow #FFD217",
+          },
+        ],
+        wireframes: [
+          {
+            label: "Explore",
+            alt: "Two wireframes of the Explore section with categories, nearby places and the lost-dog board",
+          },
+          {
+            label: "Restaurants",
+            alt: "Three wireframes of restaurant search, the venue page and booking",
+          },
+          {
+            label: "Profile",
+            alt: "Four wireframes of the user and dog profiles, with photo, friends and vaccination record",
+          },
+        ],
         output: [
           {
-            label: "The flows",
-            alt: "A flow diagram of the Doggo app with screen boxes joined by arrows, next to the map and Explore screens",
+            label: "Profile",
+            alt: "A pink iPhone showing the Doggo user profile: photo, Doggos button and friends",
           },
-          { label: "Onboarding" },
-          { label: "Explore" },
-          { label: "Map" },
-          { label: "Profile" },
-          { label: "Icons" },
           {
-            label: "The screens",
-            alt: "Four Doggo app screens: the Explore section with its categories, the map, the user profile and the list of most visited venues",
+            label: "Onboarding",
+            alt: "Four app welcome screens: sign-up complete, “Join Doggo”, “Create a profile” and “Getting started is a walk in the park”, with photos of three dogs",
           },
-          { label: "Logo" },
-          { label: "Palette" },
+          {
+            label: "Explore",
+            alt: "Four screens of the Explore section with categories as yellow buttons, recommended venues and nearby parks",
+          },
+          {
+            label: "Map",
+            alt: "Three map screens with the “Where do you want to go?” search and dog-friendly places marked in orange",
+          },
+          {
+            label: "Search",
+            alt: "Three restaurant search screens, with venue cards, star ratings and price ranges",
+          },
+          {
+            label: "Landing page",
+            alt: "The Doggo landing page on a tablet and a smartphone: yellow background, the headline “Just for Doggo lovers” and the orange download button",
+          },
+          {
+            label: "Desktop",
+            alt: "The Doggo landing page on a MacBook, with the headline “Just for Doggo lovers” and a phone showing the app",
+          },
+          {
+            label: "Explore page",
+            alt: "The landing page’s Explore page on two iPads: dogs on a yellow background at the top, then “Esplorando Doggo” with photos of places and “Ma non finisce qui…”",
+          },
+          {
+            label: "Tablet",
+            alt: "The Doggo landing page on two iPads: the home with a young man and his dog in the mountains, and the “Join our community” section with a pug",
+          },
         ],
         closingAlt:
           "Three Doggo welcome screens — Cerca, Prenota, Esplora — on a yellow background, with a bulldog wearing sunglasses in the foreground",

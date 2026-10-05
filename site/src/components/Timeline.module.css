@@ -1,6 +1,21 @@
+/* Resta agganciata sotto la navigazione a pillola mentre si scorre la pagina, così si può
+   cambiare anno senza tornare su. È in vetro smerigliato come la navigazione, e i
+   progetti le passano dietro sfocati. */
 .timeline {
+  position: sticky;
+  top: calc(var(--nav-offset) + 8px);
+  z-index: 10;
+  width: fit-content;
+  max-width: 100%;
   margin: clamp(1.5rem, 4vw, 2.5rem) 0 clamp(2.5rem, 5vw, 4rem);
+  padding: 0.55rem 1.4rem 0.7rem;
   overflow-x: auto;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: var(--glass-shadow);
 }
 
 .track {

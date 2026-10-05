@@ -14,7 +14,7 @@ export default function Nav({ lang, dict }: { lang: Lang; dict: Dictionary }) {
 
   return (
     <header className={styles.nav}>
-      <div className={`wrap ${styles.inner}`}>
+      <div className={styles.inner}>
         <Link className={styles.brand} href={routes.home(lang)} aria-label={dict.nav.home}>
           <span className={styles.full}>Giulia Scognamiglio</span>
           <span className={styles.mono} aria-hidden="true">

@@ -4,13 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LANGS, getDictionary, isLang } from "@/lib/i18n";
 import { routes } from "@/lib/routes";
-import {
-  getNextProject,
-  getPrevProject,
-  getProject,
-  getProjectNumber,
-  getProjects,
-} from "@/content/projects";
+import { getNextProject, getProject, getProjects } from "@/content/projects";
 import Picture, { imageShape } from "@/components/Picture";
 import Carousel from "@/components/Carousel";
 import Compare from "@/components/Compare";
@@ -53,17 +47,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
   // L'impostazione del wireframe definitivo: per ora la usa solo Doggo
   if (project.layout === "case") {
-    return (
-      <CaseStudy
-        project={project}
-        text={text}
-        dict={dict}
-        lang={lang}
-        number={getProjectNumber(slug)}
-        prev={getPrevProject(slug)}
-        next={next}
-      />
-    );
+    return <CaseStudy project={project} text={text} dict={dict} lang={lang} />;
   }
 
   // Carosello e galleria si adattano alla forma delle immagini del progetto: orizzontali per
@@ -181,7 +165,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
         } as React.CSSProperties
       }
     >
-      <header className={styles.head}>
+      <header className={`${styles.head} under-nav`}>
         {/* Sfondo fotografico a piena pagina: titolo, macroaree e la griglia Tipo/Cosa ho
             realizzato/Strumenti stanno sopra, non è più un riquadro contenuto come prima */}
         <Picture

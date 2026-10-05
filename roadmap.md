@@ -278,16 +278,52 @@ Fatto (da verificare a occhio nel browser):
       progetti, quindi cresce da sola man mano che le date si aggiungono o cambiano;
       compare solo quando c'è più di un anno tra cui scegliere. Il filtro è lato client
       (`components/WorksList.tsx`), le liste restano ordinate dal più recente
-- [x] **Impostazione definitiva delle pagine progetto**, dal wireframe di Giulia, per ora
-      applicata **solo a Doggo** (`layout: "case"`, `components/CaseStudy.tsx`). Intestazione
-      centrata sulla foto di sfondo (resta lo scrim): numero del progetto, titolo, sottotitolo,
-      macroaree. Sotto, un riquadro Brief / Concept / Tools; poi **Moodboard** a piena
-      larghezza, **Output** come mosaico di riquadri etichettati su un foglio a quadretti (tre
-      colonne, ogni riquadro occupa 1 o 2 colonne e righe), un'immagine di chiusura e in fondo
-      la barra progetto precedente · firma · progetto successivo. Tipo e Cosa ho realizzato
-      non compaiono più in questo layout. Dove manca un'immagine c'è un segnaposto con le
-      diagonali, come nel wireframe. Il numero "Progetto 04" è la posizione nell'elenco dal
-      più recente: cambia quando si aggiungono progetti più nuovi
+- [x] **Mastro 1 delle pagine progetto**, dal wireframe di Giulia, applicato a **Doggo,
+      Rikka e The Last of Us** (`layout: "case"`, `components/CaseStudy.tsx`). Intestazione centrata
+      sulla foto di sfondo (resta lo scrim): titolo, sottotitolo, macroaree. Sotto, Brief /
+      Concept / Strumenti come tre epigrafi a sé stanti, senza cornice, ognuna con una linea
+      sottile sopra al titolo; poi **Moodboard** a piena larghezza, **Output** come mosaico di
+      riquadri etichettati (tre colonne, ogni riquadro occupa 1 o 2 colonne e righe) e
+      un'immagine di chiusura. Tipo e Cosa ho realizzato non compaiono in questo layout. Dove
+      manca un'immagine c'è un segnaposto con le diagonali, come nel wireframe. Tolti, su
+      richiesta di Giulia, il numero "Progetto 0N", lo sfondo a quadretti degli output e, per
+      ora, la barra progetto precedente · firma · progetto successivo. Nella colonna
+      Strumenti ogni software ha la sua icona (`components/ToolIcon.tsx`: Figma col suo logo,
+      le app Adobe come quadrato e sigla nei loro colori, una sigla neutra per gli altri);
+      dove c'è un insight, sta sotto al concept. Le righe del mosaico sono alte 9/16 di una
+      colonna, così le tavole 16:9 nei riquadri 1×1 e 2×2 si vedono intere
+- [x] **I font non si caricavano su nessuna pagina**: tutto il sito usciva in Times. Le
+      classi di `next/font` erano sul `<body>`, ma `tokens.css` compone `--text` e `--display`
+      su `:root`, un livello sopra, dove quelle variabili non esistevano ancora. Spostate su
+      `<html>`. Era la causa delle schermate di prova "con i font di sistema"
+- [x] Corpo del testo passato da Google Sans Flex a **Google Sans**, servito da un file
+      nostro ricavato dal variabile in `font/Google_Sans/` (44 KB, comando nel README). Parte
+      dal peso 400: il corpo, che era a 300, ora è a 400
+- [x] **Doggo rifatto dal materiale d'esame** (`Sito/doggo2/`): brief, concept e insight dalla
+      presentazione PDF, riscritti brevi; i dati della ricerca (sondaggi, personas, card
+      sorting, architettura) restano fuori dalla pagina su richiesta di Giulia e compaiono
+      solo come insight («per il 60% dei padroni…»). Il mosaico mostra solo il lavoro
+      finito: la landing (mockup tablet+telefono, MacBook, iPad, pagina Esplora) e l'app
+      (onboarding, Esplora, mappa, ricerca, profilo). Le schermate dell'app sono pagine del
+      PDF ritagliate sul contenuto, i mockup sono ritagliati sul dispositivo e messi in 16:9.
+      Foto di apertura: i cani al parco della copertina del PDF. Il PDF (587 MB) è escluso
+      da git: GitHub rifiuta i file oltre i 100 MB
+- [x] Mastro 1: sezione **Wireframe** facoltativa, separata e prima degli Output (campo
+      `wireframes`, stesso mosaico). Doggo ne mostra tre, scelti da Giulia: Esplora, Ristoranti
+      e Profilo, pagine del PDF ritagliate sul grigio senza le linee dei flussi. Nel
+      mosaico degli Output i mockup in prospettiva difficili da leggere sono stati sostituiti
+      da tavole con i dispositivi di fronte (tablet e pagina Esplora)
+- [x] Mastro 1: sezione **Identità visiva** facoltativa, dopo la moodboard (campo
+      `identity`). Doggo mostra il marchio sul giallo, il logo in positivo e la palette,
+      ricavati da `Sito/doggo2/identity/`. Il riquadro del profilo apre gli Output
+- [x] Mosaici **navigabili** (`components/Mosaic.tsx`): il clic su un riquadro apre
+      l'immagine intera in un `<dialog>`, con etichetta e "2 di 3"; si scorre alle altre
+      dello stesso mosaico con i pulsanti, le frecce della tastiera o il dito, Esc chiude
+- [x] **Navigazione a pillola fluttuante**, sticky, in vetro smerigliato (token `--glass-*`
+      in `tokens.css`, con la versione scura). Non occupa spazio: le aperture con uno sfondo
+      (home, foto dei progetti) partono dal bordo superiore e le passano dietro, grazie alla
+      classe `under-nav`; il resto delle pagine ha lo spazio in alto da `#main`
+- [x] Pagina Lavori: la **timeline è sticky**, agganciata sotto la pillola, in vetro come lei
 
 Ancora da fare:
 
@@ -296,17 +332,13 @@ Ancora da fare:
       un export con la stessa identica inquadratura dell'annuncio finito (per esempio la scena
       senza il polpo e senza correzione colore): si sostituisce `before` in `oculus.ts` e il
       confronto diventa pixel su pixel
-- [ ] **Serve da Giulia:** le immagini di Doggo per il nuovo layout. Oggi sono a segnaposto
-      la moodboard e sei riquadri degli output (Onboarding, Esplora, Mappa, Profilo, Icone,
-      Logo, Palette — etichette provvisorie, si cambiano in `doggo.ts`); I flussi e Le
-      schermate usano le tavole esistenti, la chiusura è la tavola dell'onboarding.
-      Formati utili: moodboard orizzontale larga, riquadri alti in verticale ~4:5, quelli
-      larghi in orizzontale
-- [ ] Rileggere sottotitolo e Concept di Doggo (IT/EN), sono una bozza ricavata dalle tavole
-- [ ] Portare gli altri progetti sull'impostazione definitiva, uno alla volta
+- [ ] **Serve da Giulia:** la moodboard di Doggo (ora a segnaposto)
+- [ ] Rileggere i testi di Doggo (sottotitolo, brief, concept, insight) e i sottotitoli di
+      Rikka e The Last of Us, soprattutto in inglese
+- [ ] **Serve da Giulia:** le moodboard di Rikka e The Last of Us (ora a segnaposto)
+- [ ] Portare sul mastro 1 anche Oculus e Syntonia, che hanno confronto, video e sezioni
+      raccontate da ricollocare
 
-- [ ] Controllo dei font in Big Shoulders e Roboto Condensed nel browser: nelle schermate di
-      prova headless comparivano i font di sistema, da verificare
 - [ ] Resta un avviso di build su **Big Shoulders**, lo stesso che c'era su Google Sans Flex:
       si risolve allo stesso modo, ma il file sorgente non è in `font/` e andrebbe scaricato.
       Riguarda solo il nome nell'apertura della home, quindi può aspettare

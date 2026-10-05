@@ -19,11 +19,11 @@ export const metadata: Metadata = {
  */
 export default function GlobalNotFound() {
   return (
-    <html lang="it" suppressHydrationWarning>
+    <html lang="it" className={fontVariables} suppressHydrationWarning>
       <head>
         <ThemeScript />
       </head>
-      <body className={fontVariables}>
+      <body>
         <main className={styles.page}>
           <div className={styles.blobs} aria-hidden="true" />
           <p className={styles.code}>404</p>

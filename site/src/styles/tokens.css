@@ -13,6 +13,10 @@
   --line-strong: rgba(31, 27, 51, 0.4);
   --wash: #efe9f9;
   --nav-bg: rgba(251, 249, 255, 0.86);
+  /* Vetro smerigliato della navigazione a pillola e della timeline */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.75);
+  --glass-shadow: 0 8px 32px rgba(31, 27, 51, 0.12), inset 0 0 0 1px rgba(31, 27, 51, 0.06);
 
   /* I quattro colori dei blob dell'hero e dei gradienti dei contatti */
   --c1: #cda9ee;
@@ -44,6 +48,9 @@
     --line-strong: rgba(243, 239, 250, 0.45);
     --wash: #221d36;
     --nav-bg: rgba(21, 18, 34, 0.86);
+    --glass-bg: rgba(34, 29, 54, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.14);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
     --c1: #5b4382;
     --c2: #2f6577;
     --c3: #6e6529;
@@ -62,6 +69,9 @@
   --line-strong: rgba(243, 239, 250, 0.45);
   --wash: #221d36;
   --nav-bg: rgba(21, 18, 34, 0.86);
+  --glass-bg: rgba(34, 29, 54, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
   --c1: #5b4382;
   --c2: #2f6577;
   --c3: #6e6529;

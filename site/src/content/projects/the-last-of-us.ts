@@ -10,10 +10,18 @@ export const theLastOfUs: Project = {
   // L'infetto nel buio: quasi tutto nero, il testo chiaro sopra si stacca benissimo.
   // Non compare in galleria, così non si vede due volte nella stessa pagina
   introImage: "tlou_thumb",
+  // Mastro 1 delle pagine progetto: le affissioni in grande, i social accanto in verticale.
+  // La moodboard manca ancora e mostra il segnaposto
+  layout: "case",
+  case: {
+    output: [{ key: "tlou_2", cols: 2, rows: 2 }, { key: "tlou_3", rows: 2 }],
+  },
   images: [{ key: "tlou_1" }, { key: "tlou_2" }, { key: "tlou_3" }],
   content: {
     it: {
       title: "The Last of Us, stagione 2",
+      // BOZZA da rileggere
+      subtitle: "Una campagna per la seconda stagione, costruita sugli oggetti che ci portiamo dietro.",
       kind: "Campagna integrata",
       made: "Affissione, social",
       tools: "Photoshop",
@@ -22,6 +30,18 @@ export const theLastOfUs: Project = {
       insight:
         "Gli oggetti sono un pezzo della nostra vita, una parte di noi che non vorremmo mai dimenticare.",
       concept: "Ciò che ci portiamo dietro definisce chi siamo.",
+      case: {
+        output: [
+          {
+            label: "Affissioni",
+            alt: "Due affissioni della campagna: una su un edificio con la scritta «Hai quello che serve per sopravvivere?», una in metropolitana con «Porta con te solo il necessario.»",
+          },
+          {
+            label: "Social",
+            alt: "Post di Twitter e Instagram della campagna, con fotografie di oggetti",
+          },
+        ],
+      },
       coverAlt: "Una creatura infetta appena illuminata su sfondo nero",
       images: [
         { alt: "Una creatura infetta appena illuminata su sfondo nero" },
@@ -40,6 +60,7 @@ export const theLastOfUs: Project = {
     // Traduzione inglese: BOZZA da rileggere da Giulia.
     en: {
       title: "The Last of Us, season 2",
+      subtitle: "A campaign for the second season, built on the things we carry with us.",
       kind: "Integrated campaign",
       made: "Out-of-home, social",
       tools: "Photoshop",
@@ -48,6 +69,18 @@ export const theLastOfUs: Project = {
       insight:
         "Objects are a piece of our life, a part of us we would never want to forget.",
       concept: "What we carry with us defines who we are.",
+      case: {
+        output: [
+          {
+            label: "Out-of-home",
+            alt: "Two posters from the campaign: one on a building reading “Do you have what it takes to survive?”, one in the subway reading “Carry only what you need.”",
+          },
+          {
+            label: "Social",
+            alt: "Twitter and Instagram posts from the campaign, with photographs of objects",
+          },
+        ],
+      },
       coverAlt: "An infected creature barely lit against a black background",
       images: [
         { alt: "An infected creature barely lit against a black background" },

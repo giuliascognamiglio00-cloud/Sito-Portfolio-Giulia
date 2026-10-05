@@ -27,15 +27,3 @@ export function getNextProject(slug: string): Project {
   return list[(i + 1) % list.length];
 }
 
-/** Il progetto che precede nell'elenco, tornando all'ultimo prima del primo. */
-export function getPrevProject(slug: string): Project {
-  const list = getProjects();
-  const i = list.findIndex((p) => p.slug === slug);
-  return list[(i - 1 + list.length) % list.length];
-}
-
-/** Posizione nell'elenco dal più recente, a due cifre: "05". Cambia se si aggiungono progetti più recenti. */
-export function getProjectNumber(slug: string): string {
-  const i = getProjects().findIndex((p) => p.slug === slug);
-  return String(i + 1).padStart(2, "0");
-}

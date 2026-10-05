@@ -9,13 +9,13 @@ const display = Anton({
   display: "swap",
 });
 
-// Corpo del testo. Il file è ricavato una volta sola da `font/GoogleSansFlex-VariableFont…ttf`
-// (vedi README): ottico fissato a 9, quello "da testo", solo il peso lasciato variabile e
-// caratteri ridotti al latino. Da un file nostro Next ricava le metriche e genera il ripiego
-// calibrato, cosa che con next/font/google non riusciva a fare: il testo non sobbalza più.
+// Corpo del testo: Google Sans. Il file è ricavato una volta sola da
+// `font/Google_Sans/GoogleSans-VariableFont…ttf` (vedi README): ottico fissato a 17, quello
+// "da testo", solo il peso lasciato variabile (400–700) e caratteri ridotti al latino. Da un
+// file nostro Next ricava le metriche e genera il ripiego calibrato: il testo non sobbalza.
 const text = localFont({
-  src: "../fonts/GoogleSansFlex-9pt-latin.woff2",
-  weight: "1 1000",
+  src: "../fonts/GoogleSans-latin.woff2",
+  weight: "400 700",
   variable: "--font-text",
   display: "swap",
 });
@@ -39,5 +39,9 @@ const role = Roboto_Condensed({
   display: "swap",
 });
 
-/** Classi da mettere sul <body>: definiscono le variabili CSS dei quattro font. */
+/**
+ * Classi da mettere su <html>, non su <body>: definiscono le variabili dei quattro font, e
+ * tokens.css le legge su :root (cioè <html>) per comporre --text e --display. Messe sul body,
+ * a quel livello non esistevano ancora e tutto il sito ricadeva sul Times.
+ */
 export const fontVariables = [display, text, name, role].map((f) => f.variable).join(" ");

@@ -35,3 +35,7 @@ desktop.ini
 # Generati da scripts/optimize-images.mjs
 site/public/img/
 site/src/content/image-manifest.json
+
+# Presentazione d'esame di Doggo: 587 MB, oltre il limite di 100 MB per file di GitHub.
+# Le immagini usate dal sito ne sono state ricavate e stanno in site/assets/img/
+Sito/doggo2/*.pdf
