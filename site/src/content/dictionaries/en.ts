@@ -79,6 +79,25 @@ export const en: Dictionary = {
     filters: "Filters",
     emptyFiltered: "No project matches these filters, in this section.",
   },
+  camera: {
+    model: "3D model of a camera: drag or use the arrow keys to turn it",
+    hint: "drag to rotate",
+    prev: "Previous photo",
+    next: "Next photo",
+    count: "{n} of {total}",
+    colors: "Camera colour",
+    palettes: { nero: "Black", antracite: "Anthracite", grafite: "Graphite", cenere: "Ash" },
+    empty: "Photos coming soon",
+  },
+  instant: {
+    model:
+      "3D model of an instant camera covered in stickers: drag or use the arrow keys to turn it, press Enter to take a photo",
+    hint: "Press the red button to take a photo",
+    shoot: "Take a photo",
+    colors: "Instant camera colour",
+    developed: "Photo developed: {alt}",
+    sample: "a sample scene, while the polaroids are on their way",
+  },
   project: {
     kind: "Type",
     made: "What I made",

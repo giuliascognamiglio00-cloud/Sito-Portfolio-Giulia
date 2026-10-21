@@ -22,13 +22,6 @@ export const doggo: Project = {
     // Tutte le immagini sono 16:9: nei riquadri 1×1 e 2×2 si vedono intere.
     // I wireframe sono pagine del PDF ritagliate sul grigio, senza le linee dei flussi;
     // Giulia ha scelto di mostrare solo Esplora, Ristoranti e Profilo
-    // L'identità visiva: il marchio sul giallo, il logo in positivo e la palette, ricavati
-    // dalla tavola e dal logo in Sito/doggo2/identity/
-    identity: [
-      { key: "doggo_marchio", cols: 2, rows: 2 },
-      { key: "doggo_logo" },
-      { key: "doggo_palette" },
-    ],
     wireframes: [
       { key: "doggo_wf_esplora" },
       { key: "doggo_wf_ristoranti" },
@@ -85,20 +78,6 @@ export const doggo: Project = {
       insight:
         "Per il 60% dei padroni poter portare il cane ovunque è essenziale. Doggo non parla della voglia di tornare a casa da lui, ma di portarlo con sé nella vita di tutti i giorni.",
       case: {
-        identity: [
-          {
-            label: "Marchio",
-            alt: "Il marchio di Doggo su fondo giallo: un cuore bianco e arancione sopra il muso stilizzato di un cane, e la scritta DOGGO",
-          },
-          {
-            label: "Logo in positivo",
-            alt: "Il logo di Doggo su fondo bianco, con mezzo cuore arancione sopra il muso e la scritta DOGGO in nero",
-          },
-          {
-            label: "Palette",
-            alt: "La palette di Doggo: nero #000000, bianco #FFFFFF, arancione #FE6B28 e giallo #FFD217",
-          },
-        ],
         wireframes: [
           {
             label: "Esplora",
@@ -210,20 +189,6 @@ export const doggo: Project = {
       insight:
         "For 60% of owners, being able to take their dog anywhere is essential. Doggo isn’t about wanting to get home to your dog, but about bringing it along in everyday life.",
       case: {
-        identity: [
-          {
-            label: "Brand mark",
-            alt: "The Doggo brand mark on yellow: a white and orange heart above a stylised dog’s muzzle, and the word DOGGO",
-          },
-          {
-            label: "Positive logo",
-            alt: "The Doggo logo on white, with half an orange heart above the muzzle and the word DOGGO in black",
-          },
-          {
-            label: "Palette",
-            alt: "The Doggo palette: black #000000, white #FFFFFF, orange #FE6B28 and yellow #FFD217",
-          },
-        ],
         wireframes: [
           {
             label: "Explore",

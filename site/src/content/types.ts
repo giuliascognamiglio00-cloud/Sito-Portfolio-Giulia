@@ -93,6 +93,11 @@ export type CaseTileText = { label: string; alt?: string; artworkAlt?: string };
 
 export type ProjectCase = {
   moodboard?: string;
+  /**
+   * Altre tavole nello stesso riquadro della moodboard, dopo di lei: si raggiungono con un
+   * pulsante. In Oculus è la tavola del making-of
+   */
+  moodboardMore?: string[];
   /** Identità visiva (marchio, logo, palette), dopo la moodboard. Facoltativa */
   identity?: CaseTile[];
   /** Wireframe, in una sezione loro prima degli output. Facoltativi */
@@ -151,6 +156,8 @@ export type ProjectCaseText = {
   /** Titolo, testo e un'etichetta per telefono, nello stesso ordine di `phones` */
   phones?: { title: string; text?: string; items: CaseTileText[] };
   moodboardAlt?: string;
+  /** Nome e testo alternativo delle tavole di `moodboardMore`, nello stesso ordine */
+  moodboardMore?: { label: string; alt: string }[];
   closingAlt?: string;
   /** Titolo della galleria del backstage e, per ogni foto, testo breve e testo alternativo */
   backstage?: { title: string; text?: string; items: { caption?: string; alt: string }[] };

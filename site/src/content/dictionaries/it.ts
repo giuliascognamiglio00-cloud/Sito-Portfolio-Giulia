@@ -79,6 +79,25 @@ export const it = {
     filters: "Filtri",
     emptyFiltered: "Nessun progetto con questi filtri, in questa sezione.",
   },
+  camera: {
+    model: "Modello 3D di una fotocamera: trascina o usa le frecce per girarla",
+    hint: "trascina per ruotare",
+    prev: "Foto precedente",
+    next: "Foto successiva",
+    count: "{n} di {total}",
+    colors: "Colore della fotocamera",
+    palettes: { nero: "Nero", antracite: "Antracite", grafite: "Grafite", cenere: "Cenere" },
+    empty: "Foto in arrivo",
+  },
+  instant: {
+    model:
+      "Modello 3D di una fotocamera istantanea coperta di sticker: trascina o usa le frecce per girarla, premi Invio per scattare",
+    hint: "Premi il tasto rosso per scattare",
+    shoot: "Scatta una foto",
+    colors: "Colore della fotocamera istantanea",
+    developed: "Foto sviluppata: {alt}",
+    sample: "una scena di prova, in attesa delle polaroid",
+  },
   project: {
     kind: "Tipo",
     made: "Cosa ho realizzato",

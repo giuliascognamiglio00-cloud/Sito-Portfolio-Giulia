@@ -19,8 +19,9 @@ export const oculus: Project = {
   case: {
     // La moodboard di Giulia: Sito/OCULUS/Moodboard Oculus – busta di plastica@2x.png
     moodboard: "oculus_moodboard",
-    // Gli scatti del set (Sito/OCULUS/BackStage, i RAW convertiti) nell'ordine della
-    // giornata, e in fondo la tavola del making-of che prima stava in chiusura
+    // La tavola del making-of è la seconda moodboard: ci si arriva col pulsante
+    moodboardMore: ["oculus_4"],
+    // Gli scatti del set (Sito/OCULUS/BackStage, i RAW convertiti) nell'ordine della giornata
     backstage: [
       "oculus_bs_1",
       "oculus_bs_2",
@@ -29,7 +30,6 @@ export const oculus: Project = {
       "oculus_bs_5",
       "oculus_bs_6",
       "oculus_bs_7",
-      "oculus_4",
     ],
     // Le tre edizioni una alla volta: la tempesta in grande, deserto e scogliera come
     // miniature a sinistra, una sopra l'altra, da scegliere
@@ -69,6 +69,12 @@ export const oculus: Project = {
       case: {
         moodboardAlt:
           "Moodboard di Oculus dentro una busta di plastica: il salotto con la libreria, un granchio su uno scoglio, il visore e i controller, un polpo, due tentacoli, le piante, la lampada, un portatile e uno spruzzo d’acqua, attorno a un annuncio di riferimento con un salotto invaso dal mare",
+        moodboardMore: [
+          {
+            label: "Making-of",
+            alt: "La tavola del making-of: una mano con lo smartphone inquadra la scena, accanto ai livelli fotografici assemblati",
+          },
+        ],
         // BOZZA da rileggere: le didascalie del backstage
         backstage: {
           title: "Backstage",
@@ -101,10 +107,6 @@ export const oculus: Project = {
             {
               caption: "Si controllano gli scatti al computer.",
               alt: "Un gruppo di ragazzi guarda gli scatti sullo schermo di un portatile in studio",
-            },
-            {
-              caption: "La tavola del making-of: dagli scatti all’annuncio.",
-              alt: "La tavola del making-of: una mano con lo smartphone inquadra la scena, accanto ai livelli fotografici assemblati",
             },
           ],
         },
@@ -167,6 +169,12 @@ export const oculus: Project = {
       case: {
         moodboardAlt:
           "Oculus moodboard inside a plastic sleeve: the living room with the bookcase, a crab on a rock, the headset and controllers, an octopus, two tentacles, the plants, the lamp, a laptop and a splash of water, around a reference ad of a living room flooded by the sea",
+        moodboardMore: [
+          {
+            label: "Making-of",
+            alt: "The making-of board: a hand holding a smartphone frames the scene, next to the assembled photographic layers",
+          },
+        ],
         backstage: {
           title: "Backstage",
           text: "The shoot took place at university. Three subjects, me among them, were photographed in a range of mid-air poses, held up by hand or lying on a box; I then cut them out in post-production and placed them in different settings, following a shared visual world.",
@@ -198,10 +206,6 @@ export const oculus: Project = {
             {
               caption: "Checking the shots on the laptop.",
               alt: "A group of students looks at the shots on a laptop screen in the studio",
-            },
-            {
-              caption: "The making-of board: from the shots to the ad.",
-              alt: "The making-of board: a hand holding a smartphone frames the scene, next to the assembled photographic layers",
             },
           ],
         },

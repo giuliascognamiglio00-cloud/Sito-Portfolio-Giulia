@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instant Cam</title>
+<style>
+  /* Font del portfolio — percorsi relativi alla cartella "Sito Portfolio Giulia" */
+  @font-face { font-family: "Anton"; src: url("font/Anton/Anton-Regular.ttf") format("truetype"); font-display: swap; }
+  @font-face { font-family: "Google Sans Flex"; src: url("font/Google_Sans_Flex/static/GoogleSansFlex_24pt-Regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Google Sans Flex"; src: url("font/Google_Sans_Flex/static/GoogleSansFlex_24pt-Medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+
+  /* Layout: oggetto al centro su fondo chiaro, didascalia sotto con filetto */
+  :root {
+    --bg: #f2f2f1;
+    --ink: #0e0e0f;
+    --muted: #77777a;
+    --line: #d4d4d3;
+    --accent: #d6342a;
+    color-scheme: light;
+  }
+  html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--ink); font-family: "Google Sans Flex", "Google Sans", system-ui, sans-serif; }
+  body { display: grid; place-items: center; min-height: 100vh; padding: 24px 16px; box-sizing: border-box; }
+
+  /* ===== Blocco da copiare nel sito: il div .instant-cam + lo script ===== */
+  .instant-cam { width: 100%; max-width: 600px; margin: 0 auto; }
+  .instant-cam .stage { position: relative; width: 100%; max-width: 100%; aspect-ratio: 1 / 1; }
+  .instant-cam canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: pan-y; outline: none; }
+  .instant-cam canvas.is-dragging { cursor: grabbing; }
+  .instant-cam canvas.is-shutter { cursor: pointer; }
+  .instant-cam canvas:focus-visible { outline: 1px dashed var(--muted); outline-offset: -8px; }
+  .instant-cam .hint {
+    position: absolute; top: 3%; width: 100%; text-align: center; pointer-events: none; transition: opacity .6s;
+    font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  }
+  .instant-cam .caption {
+    display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;
+    border-top: 1px solid var(--line); padding-top: 14px;
+  }
+  .instant-cam .overline { margin: 0 0 4px; font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .instant-cam .title { margin: 0; font-family: "Anton", Impact, "Arial Narrow", sans-serif; font-weight: 400; font-size: clamp(28px, 7vw, 40px); line-height: .95; letter-spacing: .01em; text-transform: uppercase; }
+  .instant-cam .controls { display: flex; align-items: center; gap: 18px; padding-bottom: 4px; }
+  .instant-cam .swatches { display: flex; gap: 10px; }
+  .instant-cam .swatches button {
+    width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--bg); padding: 0; cursor: pointer;
+    box-shadow: 0 0 0 1px var(--line); transition: transform .2s, box-shadow .2s;
+  }
+  .instant-cam .swatches button[aria-pressed="true"] { transform: scale(1.2); box-shadow: 0 0 0 1.5px var(--ink); }
+  .instant-cam .shoot {
+    display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px 8px 10px; border-radius: 999px;
+    border: 1px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer;
+    font: 500 12px/1 "Google Sans Flex", system-ui, sans-serif; letter-spacing: .12em; text-transform: uppercase;
+    transition: background .2s, color .2s;
+  }
+  .instant-cam .shoot::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+  .instant-cam .shoot:hover { background: var(--ink); color: var(--bg); }
+  .instant-cam .shoot:disabled { opacity: .45; cursor: default; background: transparent; color: var(--ink); }
+  .instant-cam .sound { border: 0; background: none; padding: 6px 2px; cursor: pointer; color: var(--muted); font: 500 11px/1 "Google Sans Flex", system-ui, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+  .instant-cam .sound:hover { color: var(--ink); }
+  .instant-cam button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<div class="instant-cam" id="instantCam">
+  <div class="stage">
+    <div class="hint">Trascina per ruotare · clicca i tasti</div>
+  </div>
+  <div class="caption">
+    <div>
+      <p class="overline">Oggetto 02 — Fotografia istantanea</p>
+      <h2 class="title">Instant Cam</h2>
+    </div>
+    <div class="controls">
+      <div class="swatches" role="group" aria-label="Tonalità">
+        <button data-p="nero" style="background:#121213" aria-label="Nero" title="Nero" aria-pressed="true"></button>
+        <button data-p="antracite" style="background:#2c2c2e" aria-label="Antracite" title="Antracite" aria-pressed="false"></button>
+        <button data-p="grafite" style="background:#55555a" aria-label="Grafite" title="Grafite" aria-pressed="false"></button>
+        <button data-p="cenere" style="background:#9a9a9e" aria-label="Cenere" title="Cenere" aria-pressed="false"></button>
+      </div>
+      <button class="sound" id="soundBtn" type="button" aria-pressed="true">Suono sì</button>
+      <button class="shoot" id="shootBtn" type="button">Scatta</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  const host = document.getElementById('instantCam');
+  const stage = host.querySelector('.stage');
+  const hint = host.querySelector('.hint');
+  const shootBtn = document.getElementById('shootBtn');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+  Promise.all([fontsReady, document.fonts ? document.fonts.load('40px "Anton"').catch(() => {}) : 0]).then(init);
+
+  function init() {
+  // =====================================================================
+  // Renderer / scena / luci
+  // =====================================================================
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.domElement.setAttribute('tabindex', '0');
+  renderer.domElement.setAttribute('aria-label', 'Modello 3D di una fotocamera istantanea con sticker. Trascina per ruotare, clicca i tasti, Invio per scattare, O per accendere o spegnere.');
+  stage.prepend(renderer.domElement);
+  const maxAniso = renderer.capabilities.getMaxAnisotropy();
+
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(26, 1, 0.1, 100);
+  const target = new THREE.Vector3(0, 0.1, 0.4);
+
+  (function makeEnv() {
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const env = new THREE.Scene();
+    env.background = new THREE.Color(0x1c1c1c);
+    const panel = (w, h, pos, rot, k) => {
+      const mat = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }); mat.color.setScalar(k);
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat); m.position.set(...pos); m.rotation.set(...rot); env.add(m);
+    };
+    panel(7, 4, [0, 7, 1], [Math.PI / 2, 0, 0], 3.0);
+    panel(2.2, 7, [-7, 2, 3], [0, Math.PI / 2, 0], 2.0);
+    panel(1.6, 7, [7, 2, -1], [0, -Math.PI / 2, 0], 1.5);
+    panel(6, 2.5, [0, 1.5, 8], [0, Math.PI, 0], 0.8);
+    panel(6, 2.5, [0, 2, -8], [0, 0, 0], 0.9);
+    panel(20, 20, [0, -4, 0], [-Math.PI / 2, 0, 0], 0.25);
+    scene.environment = pmrem.fromScene(env, 0.02).texture;
+    pmrem.dispose();
+  })();
+
+  const key = new THREE.DirectionalLight(0xffffff, 1.45);
+  key.position.set(-4.5, 9, 6);
+  key.castShadow = true;
+  key.shadow.mapSize.set(2048, 2048);
+  Object.assign(key.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6, near: 1, far: 30 });
+  key.shadow.bias = -0.0004; key.shadow.normalBias = 0.02; key.shadow.radius = 4;
+  scene.add(key);
+  const rim = new THREE.DirectionalLight(0xffffff, 0.85); rim.position.set(5, 4, -6); scene.add(rim);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x3a3a3a, 0.28));
+
+  // =====================================================================
+  // Texture procedurali
+  // =====================================================================
+  function normalMapFromHeight(w, h, heightFn, strength, rx = 1, ry = 1) {
+    const H = new Float32Array(w * h);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) H[y * w + x] = heightFn(x / w, y / h);
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const ctx = c.getContext('2d'); const img = ctx.createImageData(w, h);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const l = H[y * w + (x - 1 + w) % w], r = H[y * w + (x + 1) % w];
+      const u = H[((y - 1 + h) % h) * w + x], d = H[((y + 1) % h) * w + x];
+      let nx = (l - r) * strength, ny = (d - u) * strength, nz = 1;
+      const len = Math.hypot(nx, ny, nz);
+      const i = (y * w + x) * 4;
+      img.data[i] = (nx / len * 0.5 + 0.5) * 255; img.data[i + 1] = (ny / len * 0.5 + 0.5) * 255;
+      img.data[i + 2] = (nz / len * 0.5 + 0.5) * 255; img.data[i + 3] = 255;
+    }
+    ctx.putImageData(img, 0, 0);
+    const t = new THREE.CanvasTexture(c);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rx, ry); t.anisotropy = maxAniso;
+    return t;
+  }
+  // plastica opaca leggermente goffrata (come il guscio della fotocamera)
+  const blur = (() => { const N = 128, a = new Float32Array(N * N); for (let i = 0; i < a.length; i++) a[i] = Math.random();
+    return (u, v) => { const x = Math.floor(u * N), y = Math.floor(v * N); let s = 0;
+      for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) s += a[((y + j + N) % N) * N + (x + i + N) % N]; return s / 9; }; })();
+  const plasticN = normalMapFromHeight(256, 256, blur, 3, 3, 3);
+  const ribsN = normalMapFromHeight(64, 64, (u, v) => Math.abs(Math.sin(v * Math.PI * 6)), 4, 1, 1);
+  const ribsFlash = normalMapFromHeight(64, 64, (u) => Math.abs(Math.sin(u * Math.PI * 10)), 5, 1, 1);
+
+  // =====================================================================
+  // Materiali
+  // =====================================================================
+  const plastic = (color, rough = 0.58, ns = 0.4) => new THREE.MeshPhysicalMaterial({
+    color, roughness: rough, metalness: 0, clearcoat: 0.08, clearcoatRoughness: 0.55,
+    normalMap: plasticN, normalScale: new THREE.Vector2(ns, ns)
+  });
+  const M = {
+    body:   plastic(0x141415, 0.6, 0.45),
+    trim:   plastic(0x1a1a1c, 0.5, 0.3),
+    soft:   plastic(0x202022, 0.85, 0.7),
+    gloss:  new THREE.MeshPhysicalMaterial({ color: 0x0e0e0f, roughness: 0.22, clearcoat: 0.7, clearcoatRoughness: 0.15 }),
+    black:  new THREE.MeshStandardMaterial({ color: 0x030303, roughness: 0.95, side: THREE.DoubleSide }),
+    red:    new THREE.MeshPhysicalMaterial({ color: 0xd8301f, roughness: 0.32, clearcoat: 0.6, clearcoatRoughness: 0.2 }),
+    redRib: new THREE.MeshPhysicalMaterial({ color: 0xd8301f, roughness: 0.42, clearcoat: 0.3, normalMap: ribsN }),
+    glass:  new THREE.MeshPhysicalMaterial({ color: 0x06100c, roughness: 0.02, clearcoat: 1, clearcoatRoughness: 0.01, envMapIntensity: 3.2 }),
+    coatG:  new THREE.MeshStandardMaterial({ color: 0x22604a, roughness: 0.06, metalness: 1, envMapIntensity: 1.4 }),
+    coatP:  new THREE.MeshStandardMaterial({ color: 0x3a2a4a, roughness: 0.08, metalness: 1, envMapIntensity: 1.1 }),
+    clear:  new THREE.MeshPhysicalMaterial({ color: 0xa4aaae, roughness: 0.06, metalness: 0.15, clearcoat: 1, envMapIntensity: 2.4 }),
+    metal:  new THREE.MeshStandardMaterial({ color: 0xc9c9cb, roughness: 0.16, metalness: 1 }),
+    metalR: new THREE.MeshStandardMaterial({ color: 0xd8d8da, roughness: 0.22, metalness: 1, normalMap: ribsFlash }),
+    paper:  new THREE.MeshStandardMaterial({ color: 0xf7f6f2, roughness: 0.85 }),
+    grey:   new THREE.MeshStandardMaterial({ color: 0x8a8a8c, roughness: 0.5 }),
+    hole:   new THREE.MeshStandardMaterial({ color: 0x050505, roughness: 0.6, emissive: 0xffc77a, emissiveIntensity: 0 })
+  };
+  const PALETTES = {
+    nero:      { body: 0x141415, trim: 0x1a1a1c, soft: 0x202022 },
+    antracite: { body: 0x2e2e31, trim: 0x353538, soft: 0x3a3a3d },
+    grafite:   { body: 0x55555a, trim: 0x5e5e63, soft: 0x4a4a4e },
+    cenere:    { body: 0x9c9ca0, trim: 0xa6a6aa, soft: 0x7c7c80 }
+  };
+
+  // =====================================================================
+  // Utilità geometriche
+  // =====================================================================
+  function roundedRectShape(w, h, r) {
+    const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
+    s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r);
+    s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r);
+    s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y);
+    return s;
+  }
+  function slab(shape, depth, bevel, seg = 5) {
+    const g = new THREE.ExtrudeGeometry(shape, { depth: Math.max(0.001, depth - 2 * bevel), bevelEnabled: true,
+      bevelThickness: bevel, bevelSize: bevel, bevelSegments: seg, curveSegments: 18 });
+    g.translate(0, 0, -(depth - 2 * bevel) / 2); g.computeVertexNormals(); return g;
+  }
+  // box(w,h,d, raggio angoli in vista frontale, smusso)
+  function box(w, h, d, r, bevel, seg) { return slab(roundedRectShape(w - 2 * bevel, h - 2 * bevel, Math.max(0.01, r - bevel)), d, bevel, seg); }
+  function cylZ(r, len, seg = 72, open = false) { const g = new THREE.CylinderGeometry(r, r, len, seg, 1, open); g.rotateX(Math.PI / 2); return g; }
+  function lathe(pts, seg = 120) { const g = new THREE.LatheGeometry(pts.map(p => new THREE.Vector2(p[0], p[1])), seg); g.rotateX(Math.PI / 2); return g; }
+  function canvasTex(c) { const t = new THREE.CanvasTexture(c); t.anisotropy = maxAniso; t.encoding = THREE.sRGBEncoding; return t; }
+  function textPlane(text, w, h, px, color = '#d9d9d9', weight = 500, family = '"Google Sans Flex", Arial, sans-serif') {
+    const c = document.createElement('canvas'); c.width = Math.round(w * 400); c.height = Math.round(h * 400);
+    const g = c.getContext('2d'); g.fillStyle = color; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.font = `${weight} ${px}px ${family}`; g.fillText(text, c.width / 2, c.height / 2);
+    return new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshStandardMaterial({ map: canvasTex(c), transparent: true, roughness: 0.6, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -4 }));
+  }
+
+  // =====================================================================
+  // Modello (unità ≈ 2.8 cm; +Z = frontale con obiettivo; +X = lato mirino)
+  // =====================================================================
+  const model = new THREE.Group();
+  const add = (geo, mat, x = 0, y = 0, z = 0, parent = model) => {
+    const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = true; m.receiveShadow = true; parent.add(m); return m;
+  };
+  // Oggetti cliccabili: ogni gruppo con userData.onClick
+  const clickables = [];
+  function clickable(obj, fn) { obj.userData.onClick = fn; clickables.push(obj); return obj; }
+  // Animazione di pressione: spinge il gruppo lungo una direzione e lo fa tornare
+  const presses = [];
+  function pressAnim(obj, dir, depth) { presses.push({ obj, base: obj.position.clone(), dir: dir.clone(), depth, t: 0, active: true }); }
+  function updatePresses(dt) {
+    presses.forEach(p => {
+      if (!p.active) return;
+      p.t += dt; const t = p.t;
+      const k = t < 0.08 ? t / 0.08 : Math.max(0, 1 - (t - 0.08) / 0.18);
+      p.obj.position.copy(p.base).addScaledVector(p.dir, -p.depth * k);
+      if (t > 0.3) { p.active = false; p.obj.position.copy(p.base); }
+    });
+  }
+  function press(obj, dir, depth) {
+    const ex = presses.find(p => p.obj === obj);
+    if (ex) { ex.t = 0; ex.active = true; } else pressAnim(obj, dir, depth);
+  }
+  const FWD = new THREE.Vector3(0, 0, 1), BWD = new THREE.Vector3(0, 0, -1);
+
+  const W = 4.0;
+  const BASE_H = 1.0, BASE_FRONT = 2.3, BASE_BACK = -2.3;
+  const HEAD_FRONT = 1.6, HEAD_BACK = 0.75, HEAD_TOP = 3.55;
+  const SLOT_Y = 0.62;
+
+  // --- Base porta-pellicola (sporge in avanti fin sotto l'obiettivo)
+  add(box(W, BASE_H, BASE_FRONT - BASE_BACK, 0.14, 0.09, 6), M.body, 0, BASE_H / 2, (BASE_FRONT + BASE_BACK) / 2);
+  // Fessura di uscita della foto, incassata, con labbro superiore
+  add(box(3.56, 0.12, 0.08, 0.04, 0.015, 2), M.black, 0, SLOT_Y, BASE_FRONT - 0.02);
+  add(box(3.7, 0.08, 0.1, 0.03, 0.02, 2), M.trim, 0, SLOT_Y + 0.1, BASE_FRONT + 0.015);
+  add(box(3.7, 0.05, 0.06, 0.02, 0.01, 1), M.trim, 0, SLOT_Y - 0.09, BASE_FRONT + 0.0);
+  // pannello frontale inferiore incassato con filetto
+  add(box(3.76, 0.36, 0.03, 0.06, 0.012, 2), M.gloss, 0, 0.27, BASE_FRONT + 0.002);
+  // giunzioni sui fianchi: orizzontale sul retro e diagonale dello sportello pellicola
+  [-1, 1].forEach(sx => {
+    const xx = sx * (W / 2 + 0.003);
+    add(new THREE.BoxGeometry(0.02, 0.022, 2.15), M.black, xx, 0.42, -1.22);
+    const dg = add(new THREE.BoxGeometry(0.02, 1.05, 0.022), M.black, xx, 0.5, -0.02); dg.rotation.x = 0.29;
+  });
+  // ganci posteriori dello sportello
+  [-1.35, 1.35].forEach(x => {
+    add(box(0.6, 0.24, 0.12, 0.05, 0.03, 3), M.trim, x, 0.3, BASE_BACK - 0.03);
+    add(box(0.44, 0.05, 0.14, 0.02, 0.01, 1), M.trim, x, 0.44, BASE_BACK - 0.06);
+  });
+  // fondo: piedini, viti e attacco treppiede con anelli concentrici
+  [[-1.65, 1.9], [1.65, 1.9], [-1.65, -1.95], [1.65, -1.95]].forEach(([x, z]) => add(new THREE.CylinderGeometry(0.09, 0.1, 0.03, 24), M.soft, x, -0.01, z));
+  [[-1.2, 0.9], [1.2, 0.9], [-1.2, -1.2], [1.2, -1.2]].forEach(([x, z]) => add(new THREE.CylinderGeometry(0.035, 0.035, 0.01, 16), M.metal, x, -0.002, z));
+  [0.32, 0.24, 0.16].forEach((r, i) => add(new THREE.CylinderGeometry(r, r, 0.01 + i * 0.004, 48), i % 2 ? M.trim : M.body, 0, -0.004 - i * 0.002, -0.3));
+  add(new THREE.CylinderGeometry(0.05, 0.05, 0.03, 20), M.black, 0, -0.012, -0.3);
+
+  // --- Blocco frontale inferiore (meccanica di espulsione), a filo con la base
+  add(box(W, 0.56, BASE_FRONT - HEAD_FRONT + 0.15, 0.1, 0.07, 5), M.trim, 0, BASE_H + 0.27, (BASE_FRONT + HEAD_FRONT - 0.15) / 2);
+  add(new THREE.BoxGeometry(W - 0.1, 0.02, 0.02), M.black, 0, BASE_H + 0.005, BASE_FRONT - 0.004);
+  // incavo centrale con cursore
+  add(box(1.5, 0.28, 0.1, 0.12, 0.03, 3), M.black, 0.3, BASE_H + 0.28, BASE_FRONT - 0.02);
+  const ejector = new THREE.Group(); ejector.position.set(0.66, BASE_H + 0.28, BASE_FRONT + 0.02); model.add(ejector);
+  add(box(0.34, 0.22, 0.12, 0.1, 0.045, 4), M.trim, 0, 0, 0, ejector);
+  // scanalature laterali del blocco
+  [-1.32, 1.32].forEach(x => add(box(0.025, 0.46, 0.02, 0.01, 0.005, 1), M.black, x, BASE_H + 0.27, BASE_FRONT + 0.0));
+
+  // --- Frontale verticale
+  add(box(W, HEAD_TOP - BASE_H, HEAD_FRONT - HEAD_BACK, 0.34, 0.11, 6), M.body, 0, (HEAD_TOP + BASE_H) / 2, (HEAD_FRONT + HEAD_BACK) / 2);
+
+  // Obiettivo: corpo cilindrico sporgente, anelli concentrici a imbuto, lenti
+  const LX = 0.12, LY = 2.5;
+  (function lens() {
+    const g = new THREE.Group(); g.position.set(LX, LY, HEAD_FRONT); model.add(g);
+    const a = (geo, mat, z = 0) => add(geo, mat, 0, 0, z, g);
+    // base di raccordo con il frontale
+    a(lathe([[1.0, 0.0], [0.97, 0.03], [0.95, 0.06]]), M.body);
+    // fusto sporgente con spigolo frontale arrotondato
+    a(lathe([[0.95, 0.06], [0.955, 0.12], [0.955, 0.48], [0.95, 0.52], [0.93, 0.56], [0.9, 0.58], [0.86, 0.585]]), M.body);
+    // anelli concentrici che scendono verso la lente
+    const pts = []; let r = 0.86, z = 0.585;
+    for (let i = 0; i < 10; i++) { pts.push([r, z]); r -= 0.02; z -= 0.004; pts.push([r, z + 0.012]); r -= 0.014; z -= 0.012; }
+    pts.push([r, z]); pts.push([r - 0.02, z - 0.03]); pts.push([0.44, z - 0.05]);
+    a(lathe(pts, 140), M.trim);
+    const zIn = z - 0.05;
+    a(cylZ(0.44, 0.35, 64, true), M.black, zIn - 0.17);
+    // lenti interne e frontale con trattamento (riflesso verde)
+    const capG = (R, rr) => { const t = Math.asin(Math.min(0.999, rr / R)); const geo = new THREE.SphereGeometry(R, 64, 16, 0, Math.PI * 2, 0, t); geo.rotateX(Math.PI / 2); return geo; };
+    const cap = (R, rr, apex, mat) => { const m = a(capG(R, rr), mat, apex - R); m.castShadow = false; return m; };
+    cap(1.2, 0.3, zIn - 0.2, M.coatP);
+    cap(0.9, 0.36, zIn - 0.08, M.coatG);
+    a(new THREE.TorusGeometry(0.43, 0.02, 10, 72), M.black, zIn - 0.02);
+    cap(0.7, 0.42, zIn + 0.08, M.glass);
+    a(new THREE.TorusGeometry(0.44, 0.022, 12, 96), M.trim, zIn);
+  })();
+
+  // Flash: cornice, riflettore metallico rigato, diffusore a prisma
+  (function flash() {
+    const x = -1.38, y = 2.78;
+    add(box(0.88, 1.02, 0.1, 0.12, 0.03, 3), M.gloss, x, y, HEAD_FRONT + 0.02);
+    add(box(0.72, 0.86, 0.04, 0.08, 0.01, 2), M.metalR, x, y, HEAD_FRONT + 0.04);
+    const c = document.createElement('canvas'); c.width = 256; c.height = 320;
+    const g = c.getContext('2d');
+    const lg = g.createLinearGradient(0, 0, 256, 0);
+    for (let i = 0; i <= 20; i++) lg.addColorStop(i / 20, i % 2 ? 'rgba(255,255,255,.95)' : 'rgba(170,176,180,.55)');
+    g.fillStyle = lg; g.fillRect(0, 0, 256, 320);
+    g.fillStyle = 'rgba(255,255,255,.7)'; g.fillRect(64, 0, 56, 320); g.fillRect(150, 0, 22, 320);
+    for (let yy = 0; yy < 320; yy += 5) { g.fillStyle = 'rgba(0,0,0,.07)'; g.fillRect(0, yy, 256, 1.5); }
+    const flashMat = new THREE.MeshPhysicalMaterial({ map: canvasTex(c), transparent: true, roughness: 0.1, metalness: 0.1, clearcoat: 1, emissive: 0xffffff, emissiveIntensity: 0 });
+    model.userData.flashMat = flashMat;
+    add(box(0.72, 0.86, 0.03, 0.08, 0.01, 2), flashMat, x, y, HEAD_FRONT + 0.07);
+    const fl = new THREE.PointLight(0xffffff, 0, 14, 1.6); fl.position.set(x, y, HEAD_FRONT + 0.6); model.add(fl);
+    model.userData.flashLight = fl;
+  })();
+
+  // Finestra del mirino
+  (function viewfinder() {
+    const x = 1.42, y = 2.98;
+    add(box(0.9, 0.86, 0.1, 0.16, 0.035, 3), M.gloss, x, y, HEAD_FRONT + 0.02);
+    add(box(0.7, 0.66, 0.04, 0.12, 0.012, 2), M.black, x, y, HEAD_FRONT + 0.05);
+    const g = new THREE.SphereGeometry(0.6, 48, 12, 0, Math.PI * 2, 0, 0.5); g.rotateX(Math.PI / 2); g.scale(0.95, 0.9, 0.5);
+    add(g, M.clear, x, y, HEAD_FRONT - 0.19);
+    add(box(0.42, 0.4, 0.02, 0.06, 0.006, 1), M.clear, x, y, HEAD_FRONT + 0.06);
+    add(box(0.1, 0.1, 0.01, 0.01, 0.003, 1), M.paper, x, y, HEAD_FRONT + 0.075);
+  })();
+
+  // Cursore esposizione "– +" (3 posizioni)
+  add(box(0.6, 0.18, 0.04, 0.09, 0.015, 2), M.black, 1.42, 2.3, HEAD_FRONT + 0.005);
+  const expo = new THREE.Group(); expo.position.set(1.42, 2.3, HEAD_FRONT + 0.035); model.add(expo);
+  add(box(0.24, 0.16, 0.06, 0.08, 0.025, 3), M.trim, 0, 0, 0, expo);
+  add(cylZ(0.055, 0.03, 32), M.gloss, 0.04, 0, 0.03, expo);
+  [['–', 1.0], ['+', 1.84]].forEach(([t, x]) => { const p = textPlane(t, 0.16, 0.16, 54, '#8a8a8c'); p.position.set(x, 2.3, HEAD_FRONT + 0.003); model.add(p); });
+  let expoStep = 1; const EXPO_X = [-0.16, 0, 0.16];
+  clickable(expo, () => { SFX.slide(); expoStep = (expoStep + 1) % 3; expo.userData.tx = 1.42 + EXPO_X[expoStep]; });
+  expo.userData.tx = 1.42;
+
+  // Tasto "+" quadrato (si preme)
+  const plusBtn = new THREE.Group(); plusBtn.position.set(-0.78, 3.22, HEAD_FRONT); model.add(plusBtn);
+  add(box(0.24, 0.24, 0.08, 0.06, 0.025, 3), M.gloss, 0, 0, 0.02, plusBtn);
+  (() => { const p = textPlane('+', 0.2, 0.2, 64, '#e6e6e6', 500); p.position.set(0, 0, 0.065); plusBtn.add(p); })();
+  add(box(0.3, 0.3, 0.02, 0.07, 0.008, 1), M.black, -0.78, 3.22, HEAD_FRONT + 0.0);
+  clickable(plusBtn, () => { SFX.button(); press(plusBtn, FWD, 0.035); });
+  // sensore di luce
+  add(cylZ(0.11, 0.04, 32), M.trim, -0.78, 2.85, HEAD_FRONT + 0.01);
+  add(cylZ(0.06, 0.05, 24), M.glass, -0.78, 2.85, HEAD_FRONT + 0.02);
+  // tasto tondo frontale (autoscatto)
+  add(cylZ(0.15, 0.03, 40), M.black, 1.22, 1.88, HEAD_FRONT + 0.0);
+  const timerBtn = new THREE.Group(); timerBtn.position.set(1.22, 1.88, HEAD_FRONT); model.add(timerBtn);
+  add(cylZ(0.11, 0.09, 40), M.gloss, 0, 0, 0.04, timerBtn);
+  clickable(timerBtn, () => { SFX.button(); press(timerBtn, FWD, 0.04); });
+
+  // Pulsante di scatto rosso
+  const shutter = new THREE.Group(); shutter.position.set(-1.4, 1.9, HEAD_FRONT); model.add(shutter);
+  add(cylZ(0.28, 0.05, 64), M.black, 0, 0, 0.01, shutter);
+  const shutterCap = new THREE.Group(); shutter.add(shutterCap);
+  add(cylZ(0.235, 0.1, 64), M.red, 0, 0, 0.06, shutterCap);
+  (() => { const g = new THREE.SphereGeometry(0.6, 48, 10, 0, Math.PI * 2, 0, 0.405); g.rotateX(Math.PI / 2); add(g, M.red, 0, 0, 0.11 - 0.6 + 0.025, shutterCap); })();
+
+  // --- Cursore superiore rosso: scorre da destra a sinistra in una guida
+  const TOPZ = 1.15;
+  (() => { const m = add(box(0.62, 0.16, 0.04, 0.07, 0.012, 2), M.black, -0.25, HEAD_TOP - 0.012, TOPZ); m.rotation.x = Math.PI / 2; })();
+  const topSlider = new THREE.Group(); topSlider.position.set(-0.08, HEAD_TOP, TOPZ); model.add(topSlider);
+  add(new THREE.CylinderGeometry(0.075, 0.08, 0.18, 32), M.red, 0, 0.06, 0, topSlider);
+  add(new THREE.SphereGeometry(0.075, 24, 8, 0, Math.PI * 2, 0, Math.PI / 2), M.red, 0, 0.15, 0, topSlider);
+  let topLeft = false; topSlider.userData.tx = -0.08;
+  clickable(topSlider, () => { SFX.slide(); topLeft = !topLeft; topSlider.userData.tx = topLeft ? -0.42 : -0.08; });
+  // simboli incisi vicino alla guida
+  [['|', -0.62], ['||', 0.12]].forEach(([t, x]) => { const p = textPlane(t, 0.14, 0.14, 50, '#6e6e70'); p.rotation.x = -Math.PI / 2; p.position.set(x, HEAD_TOP + 0.002, TOPZ); model.add(p); });
+
+  // --- 8 fori sopra (si illuminano con l'interruttore "on")
+  const HOLES = [];
+  for (let i = 0; i < 4; i++) for (let j = 0; j < 2; j++) {
+    const x = 0.45 + i * 0.1, z = TOPZ - 0.05 + j * 0.1;
+    add(new THREE.CylinderGeometry(0.03, 0.03, 0.03, 16), M.trim, x, HEAD_TOP - 0.004, z);
+    HOLES.push(add(new THREE.CylinderGeometry(0.022, 0.022, 0.032, 16), M.hole, x, HEAD_TOP - 0.003, z));
+  }
+  const holeLight = new THREE.PointLight(0xffc77a, 0, 1.6, 2); holeLight.position.set(0.6, HEAD_TOP + 0.25, TOPZ); model.add(holeLight);
+
+  // --- Dorso inclinato (sagoma laterale estrusa in larghezza)
+  const SL_X0 = -1.3, SL_X1 = 2.0, SL_BEV = 0.11;
+  const D = { z: -2.2, y: 1.0 }, C = { z: 0.15, y: 3.0 };
+  (function slope() {
+    const s = new THREE.Shape(); // coordinate (−z, y)
+    s.moveTo(-0.8, 0.95); s.lineTo(-0.8, 3.0); s.lineTo(-C.z, C.y); s.lineTo(-D.z, D.y); s.lineTo(-0.8, 0.95);
+    const depth = (SL_X1 - SL_X0) - 2 * SL_BEV;
+    const g = new THREE.ExtrudeGeometry(s, { depth, bevelEnabled: true, bevelThickness: SL_BEV, bevelSize: SL_BEV, bevelSegments: 6, curveSegments: 8 });
+    g.rotateY(Math.PI / 2); g.translate(SL_X0 + SL_BEV, 0, 0); g.computeVertexNormals();
+    add(g, M.body);
+  })();
+  // Oculare del mirino (tubo in gomma sul retro)
+  (function eyepiece() {
+    const x = 1.38, y = 2.72;
+    add(box(0.84, 0.78, 1.5, 0.26, 0.14, 6), M.soft, x, y, -0.42);
+    add(box(0.6, 0.54, 0.05, 0.14, 0.02, 3), M.black, x, y, -1.17);
+    add(box(0.3, 0.3, 0.02, 0.04, 0.006, 1), M.grey, x, y, -1.2);
+  })();
+  // Pannello posteriore: interruttore "on" (scorre in verticale), porta USB, tasto, LED
+  const BX = -1.66, BZ = HEAD_BACK;
+  add(box(0.5, 0.74, 0.03, 0.06, 0.01, 2), M.black, BX, 2.96, BZ - 0.005);
+  const power = new THREE.Group(); power.position.set(BX, 3.12, BZ - 0.03); model.add(power);
+  add(box(0.42, 0.34, 0.1, 0.06, 0.025, 3), M.redRib, 0, 0, 0, power);
+  (() => { const p = textPlane('on', 0.26, 0.12, 60, '#ffffff', 500); p.position.set(0, 0.08, -0.056); p.rotation.y = Math.PI; power.add(p); })();
+  add(box(0.26, 0.08, 0.04, 0.03, 0.01, 1), M.black, BX - 0.05, 1.9, BZ - 0.005);
+  const flashOff = new THREE.Group(); flashOff.position.set(BX - 0.05, 1.58, BZ); model.add(flashOff);
+  add(cylZ(0.13, 0.06, 40), M.gloss, 0, 0, -0.02, flashOff);
+  clickable(flashOff, () => { SFX.button(); press(flashOff, BWD, 0.03); });
+  const led = add(cylZ(0.024, 0.02, 12), new THREE.MeshStandardMaterial({ color: 0x333333, emissive: 0xffd34d, emissiveIntensity: 0 }), BX + 0.22, 1.9, BZ - 0.01);
+
+  // =====================================================================
+  // Suoni (sintetizzati con Web Audio: un'unica "voce" di clic, stesso timbro e volume per tutti i tasti)
+  // =====================================================================
+  let ac = null, noiseBuf = null, master = null, soundOn = true;
+  const VOL = 0.5;            // volume generale
+  const CLICK_HZ = 1800;      // timbro base del clic
+  const THUMP_HZ = 140;       // corpo del clic
+  function actx() {
+    if (!soundOn) return null;
+    try {
+      if (!ac) {
+        ac = new (window.AudioContext || window.webkitAudioContext)();
+        const n = ac.sampleRate; noiseBuf = ac.createBuffer(1, n, n); const d = noiseBuf.getChannelData(0); for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+        const comp = ac.createDynamicsCompressor(); comp.threshold.value = -24; comp.ratio.value = 4;
+        master = ac.createGain(); master.gain.value = VOL; comp.connect(master).connect(ac.destination);
+        master.input = comp;
+      }
+      if (ac.state === 'suspended') ac.resume();
+      return ac;
+    } catch (e) { return null; }
+  }
+  const out = () => master.input;
+  // clic standard: rumore filtrato + piccolo colpo grave. pitch sposta il timbro, level il volume relativo
+  function click(at = 0, pitch = 1, level = 1) {
+    const a = actx(); if (!a) return; const t = a.currentTime + at;
+    const src = a.createBufferSource(); src.buffer = noiseBuf;
+    const bp = a.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = CLICK_HZ * pitch; bp.Q.value = 1.4;
+    const lp = a.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 3600;
+    const g = a.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.35 * level, t + 0.002); g.gain.exponentialRampToValueAtTime(0.0005, t + 0.03);
+    src.connect(bp).connect(lp).connect(g).connect(out()); src.start(t, Math.random() * 0.5); src.stop(t + 0.05);
+    const o = a.createOscillator(); o.type = 'sine'; o.frequency.setValueAtTime(THUMP_HZ * pitch, t); o.frequency.exponentialRampToValueAtTime(THUMP_HZ * pitch * 0.6, t + 0.06);
+    const og = a.createGain(); og.gain.setValueAtTime(0, t); og.gain.linearRampToValueAtTime(0.3 * level, t + 0.003); og.gain.exponentialRampToValueAtTime(0.0005, t + 0.07);
+    o.connect(og).connect(out()); o.start(t); o.stop(t + 0.09);
+  }
+  // fruscio breve di scorrimento, stesso filtro del clic
+  function swish(dur = 0.12, level = 1) {
+    const a = actx(); if (!a) return; const t = a.currentTime;
+    const src = a.createBufferSource(); src.buffer = noiseBuf;
+    const bp = a.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 2.5; bp.frequency.setValueAtTime(CLICK_HZ * 0.45, t); bp.frequency.linearRampToValueAtTime(CLICK_HZ * 0.8, t + dur);
+    const g = a.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.1 * level, t + 0.03); g.gain.linearRampToValueAtTime(0, t + dur);
+    src.connect(bp).connect(g).connect(out()); src.start(t); src.stop(t + dur + 0.02);
+  }
+  function tone(freqs, at = 0, level = 1) {
+    const a = actx(); if (!a) return; const t = a.currentTime + at;
+    freqs.forEach((f, i) => {
+      const o = a.createOscillator(); o.type = 'sine'; o.frequency.value = f;
+      const g = a.createGain(); const s = t + i * 0.1;
+      g.gain.setValueAtTime(0, s); g.gain.linearRampToValueAtTime(0.06 * level, s + 0.01); g.gain.exponentialRampToValueAtTime(0.0005, s + 0.4);
+      o.connect(g).connect(out()); o.start(s); o.stop(s + 0.45);
+    });
+  }
+  const SFX = {
+    button()  { click(0, 1, 1); click(0.1, 1.25, 0.45); },          // premi + rilascio
+    slide()   { swish(0.12); click(0.12, 1.1, 0.9); },              // scorre + scatto in posizione
+    chime(on) { tone(on ? [659.25, 987.77] : [783.99, 523.25], 0.15); },
+    shutter() { click(0, 0.85, 1); click(0.06, 1.1, 0.6); },         // otturatore: clic doppio
+    motor(dur) {
+      const a = actx(); if (!a) return; const t = a.currentTime;
+      const o = a.createOscillator(); o.type = 'sawtooth'; o.frequency.setValueAtTime(95, t); o.frequency.linearRampToValueAtTime(82, t + dur);
+      const lfo = a.createOscillator(); lfo.frequency.value = 23; const lg = a.createGain(); lg.gain.value = 6; lfo.connect(lg).connect(o.frequency);
+      const lp = a.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 520;
+      const g = a.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.07, t + 0.08); g.gain.setValueAtTime(0.07, t + dur - 0.15); g.gain.linearRampToValueAtTime(0, t + dur);
+      o.connect(lp).connect(g).connect(out()); o.start(t); lfo.start(t); o.stop(t + dur + 0.05); lfo.stop(t + dur + 0.05);
+      click(dur, 1, 0.7);
+    }
+  };
+  const soundBtn = document.getElementById('soundBtn');
+  soundBtn.addEventListener('click', () => { soundOn = !soundOn; soundBtn.setAttribute('aria-pressed', soundOn); soundBtn.textContent = soundOn ? 'Suono sì' : 'Suono no'; });
+
+  // =====================================================================
+  // Sticker di viaggio (disegnati in canvas, fustellati con bordo bianco)
+  // =====================================================================
+  const STK = 512;
+  function sticker(pathFn, drawFn) {
+    const c = document.createElement('canvas'); c.width = c.height = STK;
+    const g = c.getContext('2d');
+    g.save(); pathFn(g); g.lineJoin = 'round'; g.lineWidth = 34; g.strokeStyle = '#f7f4ec'; g.stroke(); g.fillStyle = '#f7f4ec'; g.fill();
+    g.clip(); drawFn(g); g.restore();
+    // grana e lieve usura
+    const img = g.getImageData(0, 0, STK, STK);
+    for (let i = 0; i < img.data.length; i += 4) { if (!img.data[i + 3]) continue; const n = (Math.random() - 0.5) * 14; img.data[i] += n; img.data[i + 1] += n; img.data[i + 2] += n; }
+    g.putImageData(img, 0, 0);
+    return canvasTex(c);
+  }
+  const P = {
+    circle: (r = 220) => g => { g.beginPath(); g.arc(256, 256, r, 0, Math.PI * 2); },
+    oval: (rx, ry) => g => { g.beginPath(); g.ellipse(256, 256, rx, ry, 0, 0, Math.PI * 2); },
+    rect: (w, h, r) => g => { g.beginPath(); const x = 256 - w / 2, y = 256 - h / 2; g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); },
+    arch: (w, h) => g => { g.beginPath(); const x = 256 - w / 2, top = 256 - h / 2 + w / 2, bot = 256 + h / 2; g.moveTo(x, bot - 20); g.lineTo(x, top); g.arc(256, top, w / 2, Math.PI, 0); g.lineTo(x + w, bot - 20); g.quadraticCurveTo(x + w, bot, x + w - 20, bot); g.lineTo(x + 20, bot); g.quadraticCurveTo(x, bot, x, bot - 20); g.closePath(); },
+    shield: (w, h) => g => { g.beginPath(); const x = 256 - w / 2, y = 256 - h / 2; g.moveTo(x + 24, y); g.lineTo(x + w - 24, y); g.quadraticCurveTo(x + w, y, x + w, y + 24); g.lineTo(x + w, y + h * 0.55); g.quadraticCurveTo(x + w, y + h * 0.85, 256, y + h); g.quadraticCurveTo(x, y + h * 0.85, x, y + h * 0.55); g.lineTo(x, y + 24); g.quadraticCurveTo(x, y, x + 24, y); g.closePath(); },
+    pebble: g => { g.beginPath(); g.moveTo(256, 470); g.bezierCurveTo(120, 440, 40, 300, 50, 180); g.bezierCurveTo(60, 70, 180, 40, 256, 40); g.bezierCurveTo(332, 40, 452, 70, 462, 180); g.bezierCurveTo(472, 300, 392, 440, 256, 470); g.closePath(); }
+  };
+  function arcText(g, text, cx, cy, r, center, bottom, font, color) {
+    g.save(); g.font = font; g.fillStyle = color; g.textAlign = 'center'; g.textBaseline = 'middle';
+    const widths = [...text].map(ch => g.measureText(ch).width + 2), total = widths.reduce((a, b) => a + b, 0);
+    let cum = 0;
+    [...text].forEach((ch, i) => {
+      const off = (cum + widths[i] / 2 - total / 2) / r;
+      const a = bottom ? center - off : center + off;
+      g.save(); g.translate(cx + Math.cos(a) * r, cy + Math.sin(a) * r); g.rotate(bottom ? a - Math.PI / 2 : a + Math.PI / 2);
+      g.fillText(ch, 0, 0); g.restore(); cum += widths[i];
+    });
+    g.restore();
+  }
+  const serif = (px, w = 700) => `${w} ${px}px Georgia, "Times New Roman", serif`;
+  const display = px => `400 ${px}px "Anton", Impact, sans-serif`;
+  const stars = (g, n, col = '#fff', area = [0, 0, 512, 300]) => { g.fillStyle = col; for (let i = 0; i < n; i++) { g.beginPath(); g.arc(area[0] + Math.random() * area[2], area[1] + Math.random() * area[3], Math.random() * 3 + 1, 0, 7); g.fill(); } };
+
+  const STICKERS = {
+    china: sticker(P.pebble, g => {
+      g.fillStyle = '#e39a35'; g.fillRect(0, 0, 512, 512);
+      g.fillStyle = '#f4ead2';
+      g.beginPath(); g.ellipse(256, 230, 160, 150, 0, 0, 7); g.fill();
+      g.strokeStyle = '#b8352a'; g.lineWidth = 6; g.stroke();
+      // drago stilizzato
+      g.strokeStyle = '#2f7d55'; g.lineWidth = 22; g.lineCap = 'round';
+      g.beginPath(); g.moveTo(150, 300); g.bezierCurveTo(170, 180, 260, 330, 290, 210); g.bezierCurveTo(305, 150, 360, 170, 352, 220); g.stroke();
+      g.lineWidth = 8; [[190, 250, 170, 280], [240, 270, 255, 305], [300, 215, 330, 240]].forEach(([a, b, c2, d]) => { g.beginPath(); g.moveTo(a, b); g.lineTo(c2, d); g.stroke(); });
+      g.fillStyle = '#2f7d55'; g.beginPath(); g.ellipse(355, 205, 26, 18, -0.4, 0, 7); g.fill();
+      g.fillStyle = '#b8352a'; g.font = serif(58); g.textAlign = 'center'; g.fillText('CHINA', 256, 430);
+    }),
+    norway: sticker(P.rect(400, 330, 70), g => {
+      const sky = g.createLinearGradient(0, 90, 0, 420); sky.addColorStop(0, '#cfe3ea'); sky.addColorStop(1, '#8fb9c8');
+      g.fillStyle = sky; g.fillRect(0, 0, 512, 512);
+      g.fillStyle = '#3d6f8f'; g.fillRect(0, 300, 512, 140);
+      // vela a righe
+      g.save(); g.beginPath(); g.moveTo(250, 120); g.lineTo(350, 140); g.lineTo(345, 255); g.lineTo(250, 245); g.closePath(); g.clip();
+      for (let i = 0; i < 8; i++) { g.fillStyle = i % 2 ? '#f6f2ea' : '#c9302c'; g.fillRect(250 + i * 13, 100, 13, 170); } g.restore();
+      g.strokeStyle = '#5b3a24'; g.lineWidth = 8; g.beginPath(); g.moveTo(250, 105); g.lineTo(250, 290); g.stroke();
+      // scafo
+      g.fillStyle = '#7a4b2c'; g.beginPath(); g.moveTo(120, 255); g.quadraticCurveTo(250, 340, 390, 255); g.lineTo(370, 300); g.quadraticCurveTo(250, 340, 140, 300); g.closePath(); g.fill();
+      g.fillStyle = '#d9d2c3'; for (let i = 0; i < 5; i++) { g.beginPath(); g.arc(175 + i * 40, 280, 15, 0, 7); g.fill(); g.strokeStyle = '#5b3a24'; g.lineWidth = 4; g.stroke(); }
+      g.fillStyle = '#f7f4ec'; g.fillRect(0, 345, 512, 70);
+      g.fillStyle = '#1f3f63'; g.font = serif(60, 700); g.textAlign = 'center'; g.fillText('NORWAY', 256, 395);
+    }),
+    uk: sticker(P.circle(220), g => {
+      g.fillStyle = '#b52a2f'; g.fillRect(0, 0, 512, 512);
+      for (let i = 0; i < 22; i++) { const a = i / 22 * Math.PI * 2; if (Math.abs(Math.sin(a)) > 0.75) continue; g.fillStyle = '#f7f4ec'; g.beginPath(); g.arc(256 + Math.cos(a) * 185, 256 + Math.sin(a) * 185, 7, 0, 7); g.fill(); }
+      const sky = g.createLinearGradient(0, 100, 0, 420); sky.addColorStop(0, '#7fb2d6'); sky.addColorStop(1, '#d8e8ee');
+      g.fillStyle = sky; g.beginPath(); g.arc(256, 256, 150, 0, 7); g.fill();
+      // torre con orologio
+      g.fillStyle = '#c8a46a'; g.fillRect(225, 175, 62, 230); g.beginPath(); g.moveTo(220, 178); g.lineTo(256, 110); g.lineTo(292, 178); g.fill();
+      g.fillStyle = '#f7f4ec'; g.beginPath(); g.arc(256, 215, 22, 0, 7); g.fill(); g.strokeStyle = '#5a4630'; g.lineWidth = 3; g.beginPath(); g.moveTo(256, 215); g.lineTo(256, 200); g.moveTo(256, 215); g.lineTo(267, 220); g.stroke();
+      g.fillStyle = '#8c6f45'; for (let i = 0; i < 5; i++) g.fillRect(232 + i * 11, 260, 5, 120);
+      g.fillStyle = '#3b5f45'; g.fillRect(100, 360, 312, 60);
+      arcText(g, 'UNITED', 256, 256, 186, -Math.PI / 2, false, serif(46), '#f7f4ec');
+      arcText(g, 'KINGDOM', 256, 256, 186, Math.PI / 2, true, serif(46), '#f7f4ec');
+    }),
+    mexico: sticker(P.circle(200), g => {
+      g.fillStyle = '#2f3170'; g.fillRect(0, 0, 512, 512);
+      // teschio decorato stilizzato
+      g.fillStyle = '#fbfaf6'; g.strokeStyle = '#2a2a3a'; g.lineWidth = 6;
+      g.beginPath(); g.ellipse(256, 225, 125, 130, 0, 0, 7); g.fill(); g.stroke();
+      const flower = (x, y, r, c1, c2) => { for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4; g.fillStyle = c1; g.beginPath(); g.ellipse(x + Math.cos(a) * r, y + Math.sin(a) * r, r * 0.6, r * 0.35, a, 0, 7); g.fill(); } g.fillStyle = c2; g.beginPath(); g.arc(x, y, r * 0.5, 0, 7); g.fill(); };
+      flower(205, 230, 30, '#e8566c', '#f2b134'); flower(307, 230, 30, '#3aa0c8', '#f2b134'); flower(256, 135, 20, '#f08a24', '#7b4bb3');
+      g.fillStyle = '#2a2a3a'; g.beginPath(); g.moveTo(256, 268); g.lineTo(242, 292); g.lineTo(270, 292); g.fill();
+      g.strokeStyle = '#2a2a3a'; g.lineWidth = 4; g.beginPath(); g.moveTo(205, 318); g.quadraticCurveTo(256, 345, 307, 318); g.stroke();
+      for (let i = 0; i < 7; i++) { g.beginPath(); g.moveTo(214 + i * 14, 315 + Math.sin(i / 6 * Math.PI) * 10); g.lineTo(214 + i * 14, 334 + Math.sin(i / 6 * Math.PI) * 8); g.stroke(); }
+      g.strokeStyle = '#f2b134'; g.lineWidth = 6; g.beginPath(); g.arc(140, 330, 30, 0, 4); g.stroke(); g.strokeStyle = '#e8566c'; g.beginPath(); g.arc(372, 330, 26, 3, 7); g.stroke();
+      g.fillStyle = '#f2b134'; g.fillRect(150, 385, 212, 66);
+      g.fillStyle = '#2a2a3a'; g.font = display(52); g.textAlign = 'center'; g.fillText('MEXICO', 256, 436);
+    }),
+    morocco: sticker(P.arch(330, 430), g => {
+      const sky = g.createLinearGradient(0, 40, 0, 470); sky.addColorStop(0, '#2b3f8f'); sky.addColorStop(0.7, '#6b5fae'); sky.addColorStop(1, '#a98cc4');
+      g.fillStyle = sky; g.fillRect(0, 0, 512, 512); stars(g, 26, '#f3e9c6', [100, 60, 312, 200]);
+      g.fillStyle = '#f3e9c6'; g.beginPath(); g.arc(300, 140, 40, 0, 7); g.fill(); g.fillStyle = '#34428f'; g.beginPath(); g.arc(318, 128, 36, 0, 7); g.fill();
+      g.fillStyle = '#d9b27c'; g.beginPath(); g.moveTo(60, 340); g.quadraticCurveTo(200, 270, 300, 330); g.quadraticCurveTo(380, 290, 460, 320); g.lineTo(460, 512); g.lineTo(60, 512); g.fill();
+      g.fillStyle = '#c4955d'; g.beginPath(); g.moveTo(60, 380); g.quadraticCurveTo(250, 320, 460, 390); g.lineTo(460, 512); g.lineTo(60, 512); g.fill();
+      // palma
+      g.strokeStyle = '#4a3a2a'; g.lineWidth = 8; g.beginPath(); g.moveTo(180, 345); g.quadraticCurveTo(170, 280, 190, 230); g.stroke();
+      g.strokeStyle = '#2f6b4a'; g.lineWidth = 9; [[-60, 10], [-40, -25], [0, -35], [40, -20], [55, 15]].forEach(([dx, dy]) => { g.beginPath(); g.moveTo(190, 230); g.quadraticCurveTo(190 + dx * 0.5, 230 + dy - 15, 190 + dx, 230 + dy + 20); g.stroke(); });
+      g.fillStyle = '#f7f4ec'; g.font = serif(52); g.textAlign = 'center'; g.fillText('MOROCCO', 256, 445);
+    }),
+    france: sticker(P.rect(320, 440, 18), g => {
+      const sky = g.createLinearGradient(0, 30, 0, 480); sky.addColorStop(0, '#1d2f6b'); sky.addColorStop(1, '#5d7fb8');
+      g.fillStyle = sky; g.fillRect(0, 0, 512, 512); stars(g, 30, '#e8eefc', [100, 40, 312, 260]);
+      // torre a traliccio
+      g.strokeStyle = '#e8eefc'; g.lineWidth = 5;
+      g.beginPath(); g.moveTo(256, 60); g.lineTo(200, 380); g.moveTo(256, 60); g.lineTo(312, 380); g.stroke();
+      g.lineWidth = 3; for (let i = 0; i < 12; i++) { const t = i / 12, y = 80 + t * 290, hw = 6 + t * 50; g.beginPath(); g.moveTo(256 - hw, y); g.lineTo(256 + hw, y + 24); g.moveTo(256 + hw, y); g.lineTo(256 - hw, y + 24); g.stroke(); }
+      g.lineWidth = 6; [[150, 26], [260, 44]].forEach(([y, hw]) => { g.beginPath(); g.moveTo(256 - hw, y); g.lineTo(256 + hw, y); g.stroke(); });
+      g.beginPath(); g.arc(256, 400, 40, Math.PI, 0); g.stroke();
+      g.fillStyle = '#c8302c'; g.fillRect(96, 390, 320, 70);
+      g.fillStyle = '#f7f4ec'; g.font = serif(54); g.textAlign = 'center'; g.fillText('FRANCE', 256, 442);
+    }),
+    japan: sticker(P.circle(215), g => {
+      g.fillStyle = '#9b3a3a'; g.fillRect(0, 0, 512, 512);
+      const sky = g.createLinearGradient(0, 80, 0, 430); sky.addColorStop(0, '#f6e3e3'); sky.addColorStop(1, '#e9eef2');
+      g.fillStyle = sky; g.beginPath(); g.arc(256, 256, 170, 0, 7); g.fill();
+      // pagoda
+      g.fillStyle = '#3a3f4a';
+      for (let i = 0; i < 5; i++) { const y = 150 + i * 48, w = 60 + i * 22; g.beginPath(); g.moveTo(256 - w, y + 18); g.quadraticCurveTo(256, y - 8, 256 + w, y + 18); g.lineTo(256 + w - 18, y + 26); g.lineTo(256 - w + 18, y + 26); g.fill(); g.fillRect(256 - w * 0.45, y + 26, w * 0.9, 22); }
+      g.fillRect(252, 100, 8, 55);
+      // fiori di ciliegio
+      for (let i = 0; i < 70; i++) { const a = Math.random() * 7, r = 120 + Math.random() * 55; g.fillStyle = Math.random() > 0.5 ? '#f2a9bf' : '#f7c9d6'; g.beginPath(); g.arc(256 + Math.cos(a) * r, 256 + Math.sin(a) * r * 0.9 - 30, 5 + Math.random() * 6, 0, 7); g.fill(); }
+      arcText(g, 'JAPAN', 256, 256, 192, Math.PI / 2, true, serif(42), '#f7f4ec');
+    }),
+    canada: sticker(P.shield(330, 400), g => {
+      g.fillStyle = '#f7f4ec'; g.fillRect(0, 0, 512, 512);
+      g.fillStyle = '#c3272b'; g.fillRect(0, 0, 512, 160);
+      g.fillStyle = '#f7f4ec'; g.font = display(84); g.textAlign = 'center'; g.fillText('CANADA', 256, 140);
+      g.fillStyle = '#8fa8c0'; g.beginPath(); g.moveTo(91, 380); g.lineTo(170, 230); g.lineTo(230, 320); g.lineTo(300, 205); g.lineTo(421, 380); g.fill();
+      g.fillStyle = '#f7f4ec'; [[170, 230, 14], [300, 205, 17]].forEach(([x, y, s]) => { g.beginPath(); g.moveTo(x, y); g.lineTo(x - s, y + s * 1.6); g.lineTo(x + s, y + s * 1.6); g.fill(); });
+      const leaf = [[0, -1], [.12, -.7], [.32, -.8], [.27, -.38], [.62, -.6], [.55, -.42], [.85, -.38], [.7, -.15], [.78, -.05], [.4, .1], [.45, .28], [.06, .2], [.06, .6], [-.06, .6], [-.06, .2], [-.45, .28], [-.4, .1], [-.78, -.05], [-.7, -.15], [-.85, -.38], [-.55, -.42], [-.62, -.6], [-.27, -.38], [-.32, -.8], [-.12, -.7]];
+      g.fillStyle = '#c3272b'; g.beginPath(); leaf.forEach(([x, y], i) => g[i ? 'lineTo' : 'moveTo'](256 + x * 85, 330 + y * 85)); g.closePath(); g.fill();
+    }),
+    germany: sticker(P.oval(220, 175), g => {
+      g.fillStyle = '#d9a83a'; g.fillRect(0, 0, 512, 512);
+      g.fillStyle = '#f4ead2'; g.beginPath(); g.ellipse(256, 256, 170, 125, 0, 0, 7); g.fill();
+      g.strokeStyle = '#8b5a2b'; g.lineWidth = 4; g.stroke();
+      // bretzel
+      g.strokeStyle = '#8a4e22'; g.lineWidth = 30; g.lineCap = 'round';
+      g.beginPath(); g.moveTo(256, 330); g.bezierCurveTo(140, 330, 150, 190, 230, 200); g.bezierCurveTo(300, 210, 260, 300, 205, 315); g.stroke();
+      g.beginPath(); g.moveTo(256, 330); g.bezierCurveTo(372, 330, 362, 190, 282, 200); g.bezierCurveTo(212, 210, 252, 300, 307, 315); g.stroke();
+      g.fillStyle = '#f4ead2'; for (let i = 0; i < 18; i++) g.fillRect(170 + Math.random() * 170, 200 + Math.random() * 120, 4, 3);
+      arcText(g, 'GERMANY', 256, 300, 205, -Math.PI / 2, false, serif(44), '#9b2a24');
+    })
+  };
+  const stickerMat = tex => new THREE.MeshPhysicalMaterial({ map: tex, alphaTest: 0.5, roughness: 0.38, clearcoat: 0.5, clearcoatRoughness: 0.3, polygonOffset: true, polygonOffsetFactor: -2 });
+  // Sticker sul piano inclinato: s = distanza dal fondo lungo la pendenza, x = posizione in larghezza
+  const SL_U = new THREE.Vector3(0, C.y - D.y, C.z - D.z).normalize();
+  const SL_N = new THREE.Vector3(0, C.z - D.z, -(C.y - D.y)).normalize();
+  const SL_LEN = Math.hypot(C.y - D.y, C.z - D.z);
+  function placeSticker(name, size, pos, basis, rot = 0, bend = 0) {
+    const g = new THREE.PlaneGeometry(size, size, 8, 8); g.rotateZ(rot);
+    if (bend) { const p = g.attributes.position; for (let i = 0; i < p.count; i++) { const x = p.getX(i); p.setZ(i, -bend * x * x); } g.computeVertexNormals(); }
+    const m = new THREE.Mesh(g, stickerMat(STICKERS[name]));
+    m.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(...basis));
+    m.position.copy(pos); m.castShadow = false; m.receiveShadow = true; model.add(m); return m;
+  }
+  const slopeBasis = [new THREE.Vector3(-1, 0, 0), SL_U.clone(), SL_N.clone()];
+  const onSlope = (name, size, x, s, rot) => placeSticker(name, size,
+    new THREE.Vector3(x, D.y, D.z).addScaledVector(SL_U, s).addScaledVector(SL_N, SL_BEV + 0.008), slopeBasis, rot);
+  onSlope('china', 1.0, 0.25, 2.5, 0.05);
+  onSlope('norway', 0.98, 0.2, 1.55, -0.08);
+  onSlope('uk', 1.0, 1.08, 0.72, 0.12);
+  onSlope('mexico', 0.82, 0.0, 0.48, -0.2);
+  onSlope('morocco', 1.02, -0.86, 1.05, 0.18);
+  onSlope('france', 0.9, 1.5, 1.68, -0.25);
+  // Sticker sul fianco (+X, sotto l'oculare)
+  const sideBasis = [new THREE.Vector3(0, 0, -1), new THREE.Vector3(0, 1, 0), new THREE.Vector3(1, 0, 0)];
+  const onSide = (name, size, z, y, rot) => placeSticker(name, size, new THREE.Vector3(SL_X1 + 0.008, y, z), sideBasis, rot);
+  onSide('japan', 0.98, 0.05, 2.2, 0.1);
+  onSide('canada', 0.8, 0.42, 1.35, -0.12);
+  onSide('germany', 0.95, -0.85, 1.42, 0.05);
+
+  // =====================================================================
+  // La foto istantanea (esce dalla fessura allo scatto)
+  // =====================================================================
+  const PR_W = 3.1, PR_L = 3.75, IMG = 2.7, PR_T = 0.022;
+  const printPivot = new THREE.Group(); printPivot.position.set(0, SLOT_Y, BASE_FRONT); model.add(printPivot);
+  const print = new THREE.Group(); printPivot.add(print);
+  const frameMat = new THREE.MeshStandardMaterial({ color: 0xf6f5f1, roughness: 0.8, transparent: true });
+  const frame = add(new THREE.BoxGeometry(PR_W, PR_T, PR_L), frameMat, 0, 0, PR_L / 2, print);
+  const photoCanvas = document.createElement('canvas'); photoCanvas.width = photoCanvas.height = 512;
+  const photoTex = canvasTex(photoCanvas);
+  const photoMat = new THREE.MeshStandardMaterial({ map: photoTex, roughness: 0.35, transparent: true, polygonOffset: true, polygonOffsetFactor: -2 });
+  const photoGeo = new THREE.PlaneGeometry(IMG, IMG); photoGeo.rotateX(-Math.PI / 2);
+  const photo = add(photoGeo, photoMat, 0, PR_T / 2 + 0.002, 0.2 + IMG / 2, print); photo.castShadow = false;
+  const dateC = document.createElement('canvas'); dateC.width = 512; dateC.height = 96;
+  (() => { const g = dateC.getContext('2d'); g.fillStyle = '#2b3a67'; g.font = '400 44px "Google Sans Flex", Arial, sans-serif'; g.textAlign = 'right'; g.textBaseline = 'middle';
+    const d = new Date(); g.fillText(`${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`, 500, 50); })();
+  const dateGeo = new THREE.PlaneGeometry(1.6, 0.3); dateGeo.rotateX(-Math.PI / 2);
+  const dateMat = new THREE.MeshStandardMaterial({ map: canvasTex(dateC), transparent: true, roughness: 0.7, depthWrite: false });
+  const dateM = add(dateGeo, dateMat, 0.55, PR_T / 2 + 0.003, 0.2 + IMG + 0.45, print); dateM.castShadow = false;
+  print.visible = false;
+
+  const SCENES = [
+    g => { // tramonto sul mare
+      const s = g.createLinearGradient(0, 0, 0, 300); s.addColorStop(0, '#f2a65a'); s.addColorStop(0.6, '#f6c98b'); s.addColorStop(1, '#f9e0b5');
+      g.fillStyle = s; g.fillRect(0, 0, 512, 300);
+      g.fillStyle = '#fff1d0'; g.beginPath(); g.arc(300, 270, 60, 0, 7); g.fill();
+      const sea = g.createLinearGradient(0, 290, 0, 512); sea.addColorStop(0, '#5f8ea3'); sea.addColorStop(1, '#244b63');
+      g.fillStyle = sea; g.fillRect(0, 290, 512, 222);
+      g.strokeStyle = 'rgba(255,230,190,.55)'; g.lineWidth = 3; for (let i = 0; i < 14; i++) { const y = 305 + i * 14; g.beginPath(); g.moveTo(240 - i * 6, y); g.lineTo(360 + i * 6, y); g.stroke(); }
+      g.fillStyle = '#1d2a35'; g.beginPath(); g.moveTo(120, 380); g.lineTo(175, 380); g.lineTo(165, 392); g.lineTo(128, 392); g.fill(); g.beginPath(); g.moveTo(150, 378); g.lineTo(150, 320); g.lineTo(178, 372); g.fill();
+    },
+    g => { // montagne e lago
+      const s = g.createLinearGradient(0, 0, 0, 280); s.addColorStop(0, '#9cc3d9'); s.addColorStop(1, '#e8eef0');
+      g.fillStyle = s; g.fillRect(0, 0, 512, 512);
+      g.fillStyle = '#6f86a0'; g.beginPath(); g.moveTo(0, 300); g.lineTo(140, 120); g.lineTo(230, 220); g.lineTo(330, 90); g.lineTo(512, 300); g.fill();
+      g.fillStyle = '#f4f6f7'; [[140, 120, 36], [330, 90, 44]].forEach(([x, y, w]) => { g.beginPath(); g.moveTo(x, y); g.lineTo(x - w, y + w * 1.2); g.lineTo(x + w, y + w * 1.2); g.fill(); });
+      g.fillStyle = '#3e5f4c'; g.fillRect(0, 290, 512, 40);
+      const l = g.createLinearGradient(0, 330, 0, 512); l.addColorStop(0, '#6c94a8'); l.addColorStop(1, '#2f4f61'); g.fillStyle = l; g.fillRect(0, 330, 512, 182);
+      g.fillStyle = '#2c4636'; for (let i = 0; i < 18; i++) { const x = i * 30 + 5; g.beginPath(); g.moveTo(x, 300); g.lineTo(x + 12, 250 - (i % 3) * 10); g.lineTo(x + 24, 300); g.fill(); }
+    },
+    g => { // città al crepuscolo
+      const s = g.createLinearGradient(0, 0, 0, 512); s.addColorStop(0, '#30406e'); s.addColorStop(0.55, '#c77a8a'); s.addColorStop(1, '#f2b38a');
+      g.fillStyle = s; g.fillRect(0, 0, 512, 512);
+      let x = 0; g.fillStyle = '#1e2235';
+      while (x < 512) { const w = 30 + Math.random() * 50, h = 120 + Math.random() * 200; g.fillRect(x, 512 - h, w, h); x += w + 4; }
+      g.fillStyle = '#f6d58a'; for (let i = 0; i < 160; i++) g.fillRect(Math.random() * 512, 300 + Math.random() * 212, 4, 6);
+    }
+  ];
+  let sceneIdx = Math.floor(Math.random() * SCENES.length);
+  function newPhoto() {
+    const g = photoCanvas.getContext('2d');
+    SCENES[sceneIdx](g); sceneIdx = (sceneIdx + 1) % SCENES.length;
+    // tono vintage: velatura calda, vignettatura, grana
+    g.fillStyle = 'rgba(255,200,140,.12)'; g.fillRect(0, 0, 512, 512);
+    const v = g.createRadialGradient(256, 256, 160, 256, 256, 380); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(30,20,10,.45)');
+    g.fillStyle = v; g.fillRect(0, 0, 512, 512);
+    const img = g.getImageData(0, 0, 512, 512); for (let i = 0; i < img.data.length; i += 4) { const n = (Math.random() - 0.5) * 22; img.data[i] += n; img.data[i + 1] += n; img.data[i + 2] += n; } g.putImageData(img, 0, 0);
+    photoTex.needsUpdate = true;
+  }
+
+  // Centro di rotazione e posizione verticale
+  model.position.set(0, -1.75, 0);
+  const pivot = new THREE.Group(); pivot.add(model); scene.add(pivot);
+
+  // Piano d'appoggio con ombre
+  const groundY = -1.75 - 0.02;
+  const shadowPlane = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({ opacity: 0.2 }));
+  shadowPlane.rotation.x = -Math.PI / 2; shadowPlane.position.y = groundY; shadowPlane.receiveShadow = true; scene.add(shadowPlane);
+  const contact = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+    const g = x.createRadialGradient(128, 128, 0, 128, 128, 128); g.addColorStop(0, 'rgba(0,0,0,0.55)'); g.addColorStop(0.45, 'rgba(0,0,0,0.25)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    x.fillStyle = g; x.fillRect(0, 0, 256, 256);
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(6.6, 6.6), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false, opacity: 0.75 }));
+    m.rotation.x = -Math.PI / 2; m.position.y = groundY + 0.002; scene.add(m); return m;
+  })();
+
+  // =====================================================================
+  // Palette
+  // =====================================================================
+  function setPalette(name) {
+    const p = PALETTES[name]; if (!p) return;
+    M.body.color.setHex(p.body); M.trim.color.setHex(p.trim); M.soft.color.setHex(p.soft);
+    host.querySelectorAll('.swatches button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p === name));
+  }
+  host.querySelectorAll('.swatches button').forEach(b => b.addEventListener('click', () => setPalette(b.dataset.p)));
+
+  // =====================================================================
+  // Accensione: l'interruttore scorre e illumina gli 8 fori
+  // =====================================================================
+  let isOn = true, glow = 1;
+  const POWER_ON_Y = 2.8, POWER_OFF_Y = 3.12;
+  power.userData.ty = POWER_ON_Y; power.position.y = POWER_ON_Y;
+  function setPower(on) {
+    SFX.slide(); SFX.chime(on);
+    isOn = on; power.userData.ty = on ? POWER_ON_Y : POWER_OFF_Y;
+    shootBtn.textContent = on ? 'Scatta' : 'Accendi e scatta';
+  }
+  clickable(power, () => setPower(!isOn));
+
+  // =====================================================================
+  // Scatto: pressione del tasto, flash, uscita e sviluppo della foto
+  // =====================================================================
+  const shot = { busy: false, t: 0, state: 'hidden', out: 0, dev: 1, leaveT: 0 };
+  const EJECT_DUR = 2.0;
+  function shoot() {
+    press(shutterCap, FWD, 0.06);
+    if (!isOn || shot.busy) { SFX.button(); return; }
+    SFX.shutter();
+    shot.busy = true; shot.t = 0; shootBtn.disabled = true; hint.style.opacity = 0;
+    if (shot.state === 'out') { shot.state = 'leaving'; shot.leaveT = 0; }
+  }
+  clickable(shutter, shoot);
+  shootBtn.addEventListener('click', () => {
+    if (!isOn) { setPower(true); setTimeout(shoot, 450); } else shoot();
+  });
+
+  function updateShot(dt) {
+    const fl = model.userData.flashLight, fm = model.userData.flashMat;
+    if (shot.state === 'leaving') {
+      shot.leaveT += dt; const k = Math.min(1, shot.leaveT / 0.5);
+      print.position.z = (PR_L - 0.35) - PR_L + k * 1.6; print.position.y = -k * k * 1.6;
+      print.rotation.x = k * 0.6; frameMat.opacity = photoMat.opacity = dateMat.opacity = 1 - k;
+      if (k >= 1) { shot.state = 'hidden'; print.visible = false; }
+    }
+    if (!shot.busy) { fl.intensity = 0; fm.emissiveIntensity = 0; return; }
+    shot.t += dt; const t = shot.t;
+    const f = t > 0.08 ? Math.exp(-(t - 0.08) * 9) : 0;
+    fl.intensity = 7 * f; fm.emissiveIntensity = 2.5 * f;
+    const start = 0.75;
+    if (t >= start && shot.state !== 'leaving') {
+      if (shot.state === 'hidden') {
+        newPhoto(); shot.state = 'ejecting'; print.visible = true;
+        frameMat.opacity = photoMat.opacity = dateMat.opacity = 1; print.position.y = 0; print.rotation.x = 0;
+        shot.dev = 0; SFX.motor(EJECT_DUR);
+      }
+      const k = Math.min(1, (t - start) / EJECT_DUR);
+      const e = 1 - Math.pow(1 - k, 2.2) + (k < 1 ? Math.sin(t * 70) * 0.004 : 0);
+      shot.out = e * (PR_L - 0.35);
+      print.position.z = shot.out - PR_L;
+      printPivot.rotation.x = 0.1 * e * e;
+      if (k >= 1) { shot.state = 'out'; shot.busy = false; shootBtn.disabled = false; }
+    }
+  }
+  const DEV_FROM = new THREE.Color(0x3a403b), DEV_TO = new THREE.Color(0xffffff);
+  function updateDevelop(dt) {
+    if (shot.state !== 'ejecting' && shot.state !== 'out') return;
+    shot.dev = Math.min(1, shot.dev + dt / 7);
+    const d = shot.dev, ease = d * d * (3 - 2 * d);
+    photoMat.color.copy(DEV_FROM).lerp(DEV_TO, ease);
+  }
+
+  // Cursori: scorrono morbidamente verso la posizione scelta
+  function updateSliders(dt) {
+    const k = 1 - Math.exp(-dt * 14);
+    topSlider.position.x += (topSlider.userData.tx - topSlider.position.x) * k;
+    expo.position.x += (expo.userData.tx - expo.position.x) * k;
+    power.position.y += (power.userData.ty - power.position.y) * k;
+    // luce dei fori: accensione con breve sfarfallio
+    const target = isOn ? 1 : 0;
+    glow += (target - glow) * (1 - Math.exp(-dt * (isOn ? 6 : 10)));
+    const flick = isOn && glow < 0.95 ? (Math.random() * 0.4 + 0.6) : 1;
+    M.hole.emissiveIntensity = 2.2 * glow * flick;
+    holeLight.intensity = 0.6 * glow * flick;
+    led.material.emissiveIntensity = shot.busy && isOn ? 1.5 : 0;
+  }
+
+  // =====================================================================
+  // Interazione
+  // =====================================================================
+  let yaw = 0.55, tYaw = yaw, elev = 0.3, tElev = elev;
+  let dragging = false, moved = 0, lastX = 0, lastY = 0, idle = 0, vel = 0;
+  const el = renderer.domElement;
+  const ELEV_MIN = 0.04, ELEV_MAX = 1.05;
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  function pick(e) {
+    const r = el.getBoundingClientRect();
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, cam);
+    const hits = ray.intersectObjects(model.children, true);
+    if (!hits.length) return null;
+    let o = hits[0].object; while (o) { if (o.userData.onClick) return o; o = o.parent; } return null;
+  }
+  el.addEventListener('pointerdown', e => { dragging = true; moved = 0; lastX = e.clientX; lastY = e.clientY; el.setPointerCapture(e.pointerId); el.classList.add('is-dragging'); });
+  el.addEventListener('pointermove', e => {
+    if (!dragging) { el.classList.toggle('is-shutter', !!pick(e)); return; }
+    const dx = e.clientX - lastX, dy = e.clientY - lastY; lastX = e.clientX; lastY = e.clientY;
+    moved += Math.abs(dx) + Math.abs(dy);
+    if (moved > 4) { hint.style.opacity = 0; vel = dx * 0.01; tYaw += vel; tElev = Math.max(ELEV_MIN, Math.min(ELEV_MAX, tElev + dy * 0.005)); idle = 0; }
+  });
+  el.addEventListener('pointerup', e => {
+    dragging = false; el.classList.remove('is-dragging');
+    if (moved <= 4) { const o = pick(e); if (o) { o.userData.onClick(); idle = 0; } }
+  });
+  el.addEventListener('pointercancel', () => { dragging = false; el.classList.remove('is-dragging'); });
+  el.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') tYaw -= 0.3;
+    if (e.key === 'ArrowRight') tYaw += 0.3;
+    if (e.key === 'ArrowUp') tElev = Math.min(ELEV_MAX, tElev + 0.12);
+    if (e.key === 'ArrowDown') tElev = Math.max(ELEV_MIN, tElev - 0.12);
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (!isOn) setPower(true); shoot(); }
+    if (e.key === 'o' || e.key === 'O') setPower(!isOn);
+    idle = 0;
+  });
+
+  // =====================================================================
+  // Resize + loop
+  // =====================================================================
+  const DIST = 18;
+  function resize() { const w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); }
+  new ResizeObserver(resize).observe(stage); resize();
+
+  let visible = true, t0 = performance.now(), running = false;
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible && !running) { t0 = performance.now(); requestAnimationFrame(loop); } }).observe(stage);
+
+  function loop(now) {
+    if (!visible) { running = false; return; }
+    running = true;
+    const dt = Math.min(0.05, (now - t0) / 1000); t0 = now; idle += dt;
+    if (!dragging) { tYaw += vel; vel *= 0.92; if (!reduceMotion && idle > 3 && !shot.busy) tYaw += dt * 0.25; }
+    yaw += (tYaw - yaw) * 0.12; elev += (tElev - elev) * 0.12;
+    pivot.rotation.y = yaw;
+    const bob = reduceMotion ? 0 : Math.sin(now / 1100) * 0.09;
+    pivot.position.y = 0.24 + bob;
+    const k = (bob + 0.09) / 0.18; contact.scale.setScalar(1 + k * 0.12); contact.material.opacity = 0.75 - k * 0.25;
+    updatePresses(dt); updateSliders(dt); updateShot(dt); updateDevelop(dt);
+    cam.position.set(0, target.y + Math.sin(elev) * DIST, Math.cos(elev) * DIST); cam.lookAt(target);
+    renderer.render(scene, cam);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+  }
+})();
+</script>
+</body>
+</html>

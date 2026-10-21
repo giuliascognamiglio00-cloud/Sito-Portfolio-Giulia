@@ -422,6 +422,35 @@ Fatto (da verificare a occhio nel browser):
       dell'app a tutta larghezza, così le schermate si leggono) e La landing page, a due
       colonne. La tavola di presentazione che chiudeva la pagina apre la prima sezione. I testi
       delle sezioni sono bozze
+- [x] Rikka: la moodboard aggiornata da Giulia; nell'output Affissione e stampa la pensilina
+      è ritagliata in verticale senza la sfumatura nera (`rikka_affissione`, da `rikka_1`) e
+      sta accanto ai manifesti, alla stessa altezza
+- [x] Doggo: tolta la sezione Identità visiva. Marchio, logo e palette restano in
+      `site/assets/img/` se servissero di nuovo
+- [x] Oculus: la tavola del making-of è la **seconda moodboard** (campo `moodboardMore`,
+      `components/BoardSlides.tsx`): si vede prima la moodboard, poi un pulsante col nome
+      della tavola successiva fa scorrere al making-of (anche col dito o con le frecce). Esce
+      dalla galleria del backstage
+- [x] Chi sono: i dati del **CV** riscritti in modo discorsivo (OMEN da aprile 2025 e cosa fa,
+      AANT con il diploma nel 2025, il corso Learnn del 2026, cosa sa fare, Intercultura) e
+      tolto **Cinema 4D** dagli strumenti; aggiunti quelli del CV (Firefly, Canva, Notion,
+      ChatGPT). Testi in bozza
+- [x] Chi sono: nuova sezione **Fuori dal lavoro** con gli interessi e la **fotocamera 3D**
+      (`components/PhotoCamera.tsx`, three.js 0.186.1 installato con versione fissata e
+      scaricato solo quando la sezione si avvicina allo schermo). Si gira col mouse, col dito o
+      con le frecce, cambia colore, e sul display posteriore mostra la galleria delle foto di
+      Giulia: cambiando foto si volta da sola. Si ferma quando esce dallo schermo; con «riduci
+      animazioni» niente rotazione a riposo
+- [x] Chi sono: sopra al titolo una **fascia di oggetti 3D che fluttuano**
+      (`components/FloatingObjects.tsx`), trasparente sullo sfondo della pagina. Per ora c'è
+      la fotocamera in miniatura, che vaga piano da un capo all'altro su un percorso morbido,
+      si inclina dove va e gira su sé stessa; ferma con «riduci animazioni», nascosta ai
+      lettori di schermo. Il modello della fotocamera ora sta in `components/cameraModel.ts`,
+      condiviso con la galleria; per aggiungere un oggetto basta una voce in `OBJECTS`
+- [ ] **Serve da Giulia:** gli altri oggetti 3D per la fascia di "Chi sono"
+- [ ] **Serve da Giulia:** le foto per la fotocamera (vanno in `site/assets/img/` e i nomi in
+      `photos` di `profile.ts`, con i testi alternativi). Finché mancano, il display dice
+      «Foto in arrivo»
 
 Ancora da fare:
 

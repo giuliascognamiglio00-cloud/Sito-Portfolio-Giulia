@@ -1,0 +1,14 @@
+/* La fascia sopra a "Chi sono", a tutta larghezza: lo sfondo è quello della pagina, gli
+   oggetti ci vagano dentro */
+.band {
+  position: relative;
+  width: 100%;
+  height: clamp(200px, 32vh, 340px);
+  pointer-events: none;
+}
+
+.band canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

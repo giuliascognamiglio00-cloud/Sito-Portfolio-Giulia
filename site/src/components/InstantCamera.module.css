@@ -1,0 +1,161 @@
+.wrap {
+  margin: 0;
+}
+
+/* Il riquadro quadrato della scena 3D */
+.cam {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+/* Su due colonne il fondo trasparente sborda a destra, nello spazio fra le colonne: così la
+   stampa, quando esce di lato, resta intera */
+@media (min-width: 821px) {
+  .cam {
+    width: calc(100% + 3rem);
+    max-width: 620px;
+    margin: 0 -3rem 0 auto;
+  }
+}
+
+.cam canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  /* Col dito si scorre ancora la pagina in verticale */
+  touch-action: pan-y;
+}
+
+.cam canvas.dragging {
+  cursor: grabbing;
+}
+
+/* Sopra il tasto rosso il puntatore diventa la manina: si capisce che si può premere */
+.cam canvas.onShutter {
+  cursor: pointer;
+}
+
+.cam canvas:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+.hint {
+  position: absolute;
+  top: 4%;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  transition: opacity 0.6s;
+}
+
+/* Sotto la fotocamera: i colori e il pulsante per scattare */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.swatches {
+  display: flex;
+  gap: 10px;
+}
+
+.swatches button {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.swatches button[aria-pressed="true"] {
+  transform: scale(1.25);
+  box-shadow: 0 0 0 2px var(--ink);
+}
+
+/* Il pulsante "Scatta", con il pallino rosso del tasto di scatto */
+.shoot {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.2rem 0.65rem 0.9rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink);
+  font: 500 0.9rem/1 var(--text);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, opacity 0.15s;
+}
+
+.shoot::before {
+  content: "";
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: #d6342a;
+  box-shadow: 0 0 0 0 rgba(214, 52, 42, 0.5);
+  animation: pulse 2s ease-out infinite;
+}
+
+.shoot:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.shoot:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.shoot:disabled::before {
+  animation: none;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(214, 52, 42, 0.5);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 0.6rem rgba(214, 52, 42, 0);
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hint,
+  .swatches button,
+  .shoot {
+    transition: none;
+  }
+
+  .shoot::before {
+    animation: none;
+  }
+}

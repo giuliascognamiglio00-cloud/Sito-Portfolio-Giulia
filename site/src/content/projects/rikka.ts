@@ -20,8 +20,12 @@ export const rikka: Project = {
     // Output divisi per canale, come in The Last of Us. Il content creator è stato tolto
     output: [],
     outputGroups: [
-      // Affissione e stampa: la pensilina e i tre manifesti, affiancati alla stessa altezza
-      { columns: 2, tiles: [{ key: "rikka_1" }, { key: "rikka_2" }] },
+      // Affissione e stampa: la pensilina ritagliata in verticale senza la sfumatura nera
+      // (rikka_affissione, da rikka_1) e accanto i tre manifesti, alla stessa altezza
+      {
+        columns: 3,
+        tiles: [{ key: "rikka_affissione", rows: 2 }, { key: "rikka_2", cols: 2, rows: 2 }],
+      },
       // Social: il profilo e le storie
       { columns: 2, tiles: [{ key: "rikka_3" }, { key: "rikka_4" }] },
       { columns: 2, tiles: [{ key: "rikka_6", cols: 2, rows: 2 }] },

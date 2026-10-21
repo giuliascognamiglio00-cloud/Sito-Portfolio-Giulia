@@ -10,6 +10,7 @@ import PhoneStories from "./PhoneStories";
 import ProjectVideo from "./ProjectVideo";
 import Compare from "./Compare";
 import Carousel from "./Carousel";
+import BoardSlides from "./BoardSlides";
 import OutputSwitch from "./OutputSwitch";
 import Tentacles from "./Tentacles";
 import Floaters from "./Floaters";
@@ -181,7 +182,25 @@ export default function CaseStudy({ project, text, dict, lang }: Props) {
         <section className={styles.block}>
           <h2 className={styles.blockTitle}>{dict.project.moodboard}</h2>
           {stickersAt("moodboard")}
-          {content.moodboard ? (
+          {content.moodboard && content.moodboardMore?.length ? (
+            <BoardSlides
+              label={dict.project.moodboard}
+              slides={[content.moodboard, ...content.moodboardMore].map((key, i) => ({
+                label: i === 0 ? dict.project.moodboard : (caseText.moodboardMore?.[i - 1]?.label ?? ""),
+                node: (
+                  <Picture
+                    name={key}
+                    alt={
+                      i === 0
+                        ? (caseText.moodboardAlt ?? "")
+                        : (caseText.moodboardMore?.[i - 1]?.alt ?? "")
+                    }
+                    sizes="100vw"
+                  />
+                ),
+              }))}
+            />
+          ) : content.moodboard ? (
             <Picture
               name={content.moodboard}
               alt={caseText.moodboardAlt ?? ""}
