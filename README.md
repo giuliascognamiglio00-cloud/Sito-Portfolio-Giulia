@@ -153,13 +153,15 @@ di ricerca con `hreflang`, così non vengono trattate come contenuto duplicato.
 
 ## Pubblicazione
 
-Il sito verrà pubblicato su Cloudflare Pages con queste impostazioni:
+Il sito è pubblicato come Worker di Cloudflare (`sito-portfolio-giulia`, in Workers &
+Pages), con queste impostazioni in *Settings → Build*:
 
-- Cartella radice del progetto: `site`
-- Comando di build: `npm run build`
-- Cartella di output: `out`
+- Root directory: `site`
+- Build command: `npm run build && npm run check`
+- Deploy command: `npx --yes wrangler@4.143.0 deploy`
 
-Ogni push sul ramo `main` farà partire un nuovo deploy. Cloudflare legge la versione di
+Il Worker non ha codice: `site/wrangler.jsonc` gli dice di servire i file di `out/`.
+Ogni push sul ramo di produzione (`main`) fa partire un nuovo deploy. Cloudflare legge la versione di
 Node da `site/.node-version`, quindi costruisce il sito con la stessa usata in locale.
 
 Due file in `site/public/` parlano direttamente con Cloudflare:

@@ -1,0 +1,14 @@
+// Configurazione del Worker "sito-portfolio-giulia" su Cloudflare.
+// Il sito è statico: il Worker non ha codice, serve soltanto i file generati da
+// `npm run build` in out/. Cloudflare lo pubblica con `npx wrangler deploy`.
+{
+  "name": "sito-portfolio-giulia",
+  "compatibility_date": "2026-10-21",
+  "assets": {
+    "directory": "./out",
+    // /it/works → /it/works/, come le cartelle create da trailingSlash in next.config.ts
+    "html_handling": "auto-trailing-slash",
+    // Un indirizzo inesistente risponde 404 con la pagina del sito (out/404.html)
+    "not_found_handling": "404-page"
+  }
+}
