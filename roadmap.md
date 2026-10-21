@@ -1,7 +1,8 @@
 # Roadmap — Sito portfolio Giulia Scognamiglio
 
-> Stato: **M1 completata**, **M2 completata a metà** (mancano i contenuti di Giulia), **M3 in
-> corso** (mastro 1 su tutte le pagine progetto), **M4 quasi chiusa**. Ogni milestone è chiusa e verificabile: alla
+> Stato: **M1 completata**, **M2 completata a metà** (mancano i contenuti di Giulia), **M3 quasi
+> chiusa** (mastro 1 su tutte le pagine progetto, Goliosi e Muta comprese; mancano i materiali
+> di Giulia elencati sotto), **M4 quasi chiusa**, **M5 da fare**: il sito non è ancora online. Ogni milestone è chiusa e verificabile: alla
 > fine di ciascuna il sito è in uno stato funzionante.
 
 ## Contesto
@@ -447,16 +448,155 @@ Fatto (da verificare a occhio nel browser):
       si inclina dove va e gira su sé stessa; ferma con «riduci animazioni», nascosta ai
       lettori di schermo. Il modello della fotocamera ora sta in `components/cameraModel.ts`,
       condiviso con la galleria; per aggiungere un oggetto basta una voce in `OBJECTS`
+- [x] **Giro di rifiniture del 6 ottobre**, deciso con Giulia:
+      - Chi sono: tolte le **tre polaroid fisse** sotto «Un anno in California» (con i campi
+        `captions` ed `empty` di `profile.ts`): le polaroid si vedono solo stampate
+        dall'istantanea. Tolta la **scelta dei colori** da tutte e due le fotocamere (restano
+        nere) e il pulsante **«Scatta una foto»**: resta l'invito in alto, si scatta col tasto
+        rosso o con Invio
+      - Chi sono, fascia degli oggetti: ai bordi la prospettiva li stirava. Ora la vista è un
+        teleobiettivo (14° invece di 30°, da più lontano) e gli oggetti non escono da
+        `MAX_ANGLE` (20°) dal centro, la zona in cui non si deformano
+      - Rikka: il **merchandising** sono le foto nuove di Giulia (`Sito/rikka/`), su una riga
+        di quattro: in tavola, grembiuli, canovacci, ciotole e cucchiai. La vecchia tavola
+        azzurra esce dal mosaico. Lasciati fuori i doppioni (`merch rikka (5)` è uguale a
+        `Senza titolo … 11.42`)
+      - **Goliosi torna**, sul mastro 1 (`content/projects/goliosi.ts`), accademico, giugno
+        2025: identità visiva (tavola brand identity, marchio, marchio e payoff), poi Fiere,
+        Merchandising e packaging, Social (la tavola Instagram dal PDF). Apertura: l'uliveto
+        tra gli scatti della tavola Instagram. Testi ricavati dal brief del docente, in bozza
+      - Esclusi da git i sorgenti pesanti finiti in stage: PSD e PDF Instagram di Goliosi,
+        PDF di Doggo per telefono e tablet (fino a 182 MB, oltre il limite di GitHub)
+      - **Accessibilità**: axe (WCAG 2.1 A/AA e buone pratiche) su tutte le 22 pagine, in tema
+        chiaro e scuro, nessuna violazione; giro col solo Tab su ogni pagina, ogni elemento
+        mostra il focus; contrasto del testo bianco sulle foto di apertura misurato sui pixel,
+        sempre sopra le soglie (minimo 4,5:1, sul titolo di Doggo)
+- [x] **Doggo, dal wireframe all'app**: un confronto prima/dopo con le 22 schermate di Giulia
+      (undici coppie, nell'ordine del percorso: onboarding, registrazione, verifica, Esplora),
+      subito dopo i wireframe. Il confronto ora sa avere **più coppie** (`compare.more`, con
+      l'elenco per sceglierle accanto, `components/CompareSet.tsx`; il divisore resta dov'è
+      cambiando schermata), la **cornice da telefono** (`frame: "phone"`, alta al massimo quanto
+      lo schermo) ed **etichette sue** (Wireframe/App invece di Prima/Dopo). Oculus non cambia.
+      La tavola di presentazione (`doggo_1`) è tagliata a sinistra, dove era vuota. Nella prima
+      coppia il wireframe è «Iniziare è una passeggiata» e l'app «Unisciti a Doggo»: da
+      controllare
+- [x] **Doggo, i testi di Giulia**: brief («Il progetto»), sottotitolo, tipo («App iOS + Landing
+      page»), anno 2022 (`date` ora 2022-01, il mese è da precisare) e tutto il racconto. Il
+      mastro ha un nuovo campo facoltativo, `story`: sezioni di testo con titolo a sinistra,
+      paragrafi, citazioni in evidenza e schede, in quattro punti della pagina (`at`: dopo
+      Brief e Strumenti, prima dei wireframe, prima degli output, in fondo). Doggo ora è:
+      Brief e Strumenti → Il problema, La ricerca (l'insight come citazione), Le persone (le
+      quattro personas come schede), Dalle esigenze alle funzionalità, Architettura e flusso →
+      Moodboard → Wireframe → Dal wireframe alla UI (il testo di Giulia accanto al confronto)
+      → Visual identity (con i tre caratteri come schede) → Output (il testo della landing sul
+      suo gruppo) → Chiusura. Tolti concept e insight di prima. Le personas e i dati della
+      ricerca ora sono in pagina: è il testo che ha scritto Giulia. L'inglese è una traduzione
+      da rileggere; restano bozze i testi dei gruppi Primi passi e Trovare un posto
+- [x] Doggo, confronto: tolte su richiesta di Giulia le coppie Registrazione, Credenziali
+      inserite e Ci siamo quasi. Ne restano otto
+- [x] Doggo, Primi passi: un **carosello** con le quattro foto dell'app in mano (Esplora, Vicino
+      a te, i luoghi degli amici, i podcast), ritagliate in 4:5 sul telefono, sopra a onboarding
+      e profilo. Tolta la tavola di presentazione. I gruppi di output ora possono avere un
+      carosello (campo `carousel`), senza riquadro attorno. Nel carosello il contatore «01 / 04»
+      non va più a capo al telefono
+- [x] Doggo: la **moodboard** è la tavola di Giulia (marchio, palette, icone, card sorting,
+      architettura dell'informazione). Il carosello di Primi passi **scorre da solo** (prop
+      `autoplay` di `Carousel`, campo `autoplay` del gruppo): ogni 3,5 s, si ferma col mouse
+      sopra, col focus dentro e fuori dallo schermo, ha un pulsante pausa/play, e toccarlo o
+      usare le frecce lo ferma; con «riduci animazioni» parte fermo. Onboarding e profilo
+      affiancati e **senza cornice** (campo `bare` del gruppo): il profilo a tutta larghezza era
+      sgranato. Tolta Esplora da «Trovare un posto», ripeteva il carosello e il confronto
+- [ ] **Serve da Giulia, Goliosi:** la moodboard (ora segnaposto), una cover come le altre
+      (ora la tavola brand identity), la rilettura dei testi e degli strumenti. Da guardare
+      nei mockup le scritte piccole storpiate («Just for EVO lorers» sulle buste regalo, «Juc
+      fur EVO lovers» sul fianco della scatola, «oortale delfolio» sullo stand); nella tavola
+      Instagram la foto profilo ha la vecchia «G» al posto della spirale, e il terzo telefono ha
+      i commenti in inglese del template
 - [ ] **Serve da Giulia:** gli altri oggetti 3D per la fascia di "Chi sono"
-- [ ] **Serve da Giulia:** le foto per la fotocamera (vanno in `site/assets/img/` e i nomi in
-      `photos` di `profile.ts`, con i testi alternativi). Finché mancano, il display dice
-      «Foto in arrivo»
+- [x] Le foto di Giulia nella fotocamera di «Chi sono»: Giordania (il castello in bianco e
+      nero, il Wadi Rum, l'arco) e Roma (l'angelo di Ponte Sant'Angelo, San Pietro dal Tevere),
+      `foto_*` in `site/assets/img/`, lato lungo 2000 px. Le verticali si vedono intere sul
+      display, con le bande nere ai lati, invece di essere ritagliate a metà
+
+- [x] **Muta**, la tesi di diploma, nella pagina Lavori tra i Progetti accademici, sul mastro 1
+      (`content/projects/muta.ts`), febbraio 2025. Testi dalla presentazione di Giulia: il
+      contesto con i dati (schede), i quattro problemi, la ricerca con le due citazioni di Luca
+      Spennacchio in evidenza (in HTML, non come immagini), come nasce Muta e, dopo il marchio,
+      l'identità con i due caratteri. Confronto **dal wireframe al sito** con nove coppie,
+      dalla prima schermata di ogni pagina (`Sito/muta progetto/…/wireframebase` e `sito web`,
+      stessi nomi). Output: le pagine About us ed Esplora **intere dentro due MacBook**, da
+      scorrere nello schermo (`components/Laptop.tsx`, campo `laptops` dei gruppi di output; la
+      cornice `macbook_frame` è riusabile). In fondo il pulsante **«Apri il prototipo su
+      Figma»** (campo `prototype` del mastro). Lasciati fuori competitor e modello economico.
+      Cover ricavata (marchio e MacBook con Esplora); il `.key` da 384 MB è escluso da git
+- [x] **Fine pagina con prossimo progetto e «Tutti i lavori»**, in prova **solo su Doggo**
+      (campo `nextNav` del mastro): il titolo del progetto successivo in grande con la sua
+      cover, sotto il ritorno all'elenco. Se convince, si accende sugli altri progetti
+- [ ] **Serve da Giulia, Muta:** la moodboard (ora segnaposto), una foto di apertura pensata
+      apposta (ora è l'intestazione della pagina Esplora, a 1440 px), i codici esatti della
+      palette (#D81B59 e #266C74 sono misurati sui file), la conferma di data, strumenti e
+      macroaree, la rilettura dei testi e dell'inglese. Il video del prototipo, se serve, è
+      dentro il `.key`
+
+**Giro di rifiniture del 7 ottobre**, deciso con Giulia. Soprattutto la versione mobile:
+
+- [x] **Prossimo progetto** acceso su tutti i progetti (tolto il campo `nextNav`). Al telefono
+      il blocco si riduce a una riga: titolo a sinistra, cover a destra
+- [x] Doggo, **Visual identity** al telefono: le tre schede dei caratteri su una riga sola,
+      un terzo ciascuna, sviluppate in verticale. Il «·» tra titolo e meta ora è in CSS, così
+      nelle schede strette il meta va a capo pulito
+- [x] **Wireframe** al telefono: il mosaico diventa una fila da scorrere col dito, con
+      scroll-snap e un pezzo del riquadro successivo che spunta (prop `slideOnMobile` di `Mosaic`)
+- [x] **Personas** al telefono: una griglia 2×2 di quadrati invece delle righe impilate. Vale
+      per tutte le sezioni con quattro schede, quindi anche per i problemi di Muta; se il testo
+      non ci sta, la scheda si allunga invece di tagliarlo
+- [x] **Confronto wireframe → app/sito** su Doggo e Muta (`CompareSet`): la didascalia sopra,
+      il mockup al centro della pagina, sotto le frecce e le schermate come pillole (su più
+      righe su desktop, in una fila da scorrere al telefono). Su Muta il riquadro è largo fino
+      a 52rem e le immagini si scaricano alla misura giusta
+- [ ] Chi sono: il ritratto tagliato all'altezza della collanina verde
+- [ ] Chi sono al telefono: la foto si sposta dal blocco della bio e diventa lo sfondo della
+      fascia degli oggetti 3D, che le girano intorno
+- [ ] Contatti al telefono: il riquadro del video in 9:16, «Di cosa parlo» a destra con i soli
+      titoli numerati, senza descrizioni. Più avanti i capitoli diventeranno link che saltano
+      al punto giusto del video
+- [x] Footer al telefono: più compatto, il **marchio** a sinistra (per ora un segnaposto
+      tratteggiato con «GS», da sostituire col file vero in `Footer.tsx`) al posto di nome e
+      ruolo, i link a destra sulla stessa riga, sotto email e pillole a tutta larghezza
+- [x] Le file da scorrere nuove (wireframe, pillole del confronto, moodboard di Oculus) si
+      trascinano anche **col mouse**, come il carosello (`lib/useDragScroll.ts`): dopo un
+      trascinamento il clic non apre l'anteprima per sbaglio. Col dito scorrevano già
+- [x] Confronto al telefono: le pillole sono un **carosello** sincronizzato con la schermata.
+      La pillola della schermata in vista resta al centro (anche cambiando con le frecce), e
+      scorrendo le pillole quella che si ferma al centro sceglie la schermata
+- [x] Caratteri di Doggo al telefono: tre **quadrati** invece dei rettangoli alti
+- [x] Doggo, carosello di Primi passi più piccolo, alla misura di un telefono: 17rem su
+      desktop (prima 22rem), 68% della larghezza al telefono con la foto successiva che spunta
+- [x] The Last of Us: tolte le due tavole della content creator campaign, resta il testo
+      (`tlou_creator_*` restano in `assets/img/`)
+- [x] Prossimo progetto su desktop più contenuto: cover piccola (18rem) **a sinistra** del
+      titolo, titolo più piccolo, meno spazio attorno. Al telefono resta titolo a sinistra e
+      cover a destra
+- [x] La pillola di navigazione a 320 px usciva dallo schermo di 20 px su tutte le pagine:
+      sotto i 360 px spazi e testo un filo più piccoli
+- [ ] Pagina Lavori al telefono: progetti più piccoli, in una galleria di quadrati su due
+      colonne. Per ora le cover attuali tagliate al quadrato; poi una cover mobile per
+      progetto (campo facoltativo da aggiungere), **che fornirà Giulia**
+- [ ] Sottotitoli per il video di Syntonia (`.vtt`)
+- [ ] SEO e condivisione dei link: immagini Open Graph, sitemap, robots
+- [ ] Rifiniture di tema e transizioni: tema chiaro/scuro, stati di hover e focus, passaggi
+      tra le pagine
+
+**Proposta di criterio di chiusura:** tutte le voci del giro fatte; ogni pagina controllata da
+Giulia sul suo telefono e su desktop, in tutti e due i temi; a 320 px nessuno scorrimento
+orizzontale; axe di nuovo senza violazioni; lint, typecheck, build e `npm run check` puliti.
+Le voci che dipendono da materiali di Giulia (moodboard, cover, testi da rileggere) non
+bloccano la chiusura: passano alla M2.
 
 Ancora da fare:
 
-- [ ] **Serve da Giulia:** la moodboard di Doggo (ora a segnaposto)
-- [ ] Rileggere i testi di Doggo (sottotitolo, brief, concept, insight), i sottotitoli di
-      Rikka e The Last of Us, i testi dei gruppi di output di Rikka e quello delle stories,
+- [ ] Rileggere l'inglese di Doggo e i testi dei suoi gruppi Primi passi e Trovare un posto, i
+      sottotitoli di Rikka e The Last of Us, i testi dei gruppi di output di Rikka e quello delle stories,
       soprattutto in inglese
 - [ ] Confermare Midjourney tra gli strumenti di The Last of Us
 - [ ] **Serve da Giulia:** la moodboard di Syntonia (ora a segnaposto)
@@ -466,15 +606,7 @@ Ancora da fare:
 - [ ] Resta un avviso di build su **Big Shoulders**, lo stesso che c'era su Google Sans Flex:
       si risolve allo stesso modo, ma il file sorgente non è in `font/` e andrebbe scaricato.
       Riguarda solo il nome nell'apertura della home, quindi può aspettare
-- [ ] Rifiniture di interazione (transizioni, stati, tema chiaro/scuro)
-- [ ] Accessibilità: contrasti, focus, ordine dei titoli
-- [ ] Il video di Syntonia ha del parlato ma nessun sottotitolo, e parte muto: chi non sente
-      l'audio perde quella parte. Da aggiungere una traccia di sottotitoli (`.vtt`) o una
-      trascrizione sotto al video
-- [ ] SEO e condivisione dei link (immagini Open Graph, sitemap, robots)
-- [ ] Verifica su dispositivi reali
-
-**Da definire insieme:** il criterio con cui dire che la milestone è chiusa.
+- [ ] Verifica su dispositivi reali (fa parte del criterio di chiusura qui sopra)
 
 ### M4 — Preparazione al caricamento online 🟡
 

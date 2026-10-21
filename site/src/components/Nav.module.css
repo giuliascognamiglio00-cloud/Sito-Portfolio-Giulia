@@ -105,3 +105,28 @@
     font-size: 0.82rem;
   }
 }
+
+/* Sui telefoni più stretti (320–360 px) non ci stava di un soffio: spazi e testo un filo più
+   piccoli, così la pillola non esce dallo schermo */
+@media (max-width: 360px) {
+  .inner {
+    gap: 0.35rem;
+    padding-left: 0.7rem;
+  }
+
+  .links {
+    gap: 0.55rem;
+  }
+
+  .links a {
+    font-size: 0.76rem;
+  }
+
+  .mono {
+    font-size: 1.35rem;
+  }
+
+  .tools {
+    gap: 0.15rem;
+  }
+}

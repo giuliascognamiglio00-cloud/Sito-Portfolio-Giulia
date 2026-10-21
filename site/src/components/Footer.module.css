@@ -86,9 +86,70 @@
   font-size: 0.85rem;
 }
 
+/* Il marchio si vede solo al telefono. Segnaposto tratteggiato, come gli altri del sito */
+.mark {
+  display: none;
+  place-items: center;
+  width: 4.5rem;
+  aspect-ratio: 1;
+  border: 1.5px dashed var(--line-strong);
+  border-radius: var(--r);
+  color: var(--muted);
+  font: 400 1.6rem/1 var(--display);
+}
+
+/* Al telefono: marchio a sinistra e link a destra sulla stessa riga, sotto email e pillole a
+   tutta larghezza. Nome e ruolo lasciano il posto al marchio */
 @media (max-width: 820px) {
+  .foot {
+    padding-block: 2rem 1.25rem;
+  }
+
   .inner {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1.5rem 1rem;
+  }
+
+  .mark {
+    display: grid;
+  }
+
+  .name,
+  .role {
+    display: none;
+  }
+
+  .links {
+    align-items: flex-end;
+    gap: 0.45rem;
+  }
+
+  .links a {
+    font-size: 0.95rem;
+  }
+
+  .contact {
+    grid-column: 1 / -1;
+    gap: 0.75rem;
+  }
+
+  .mail {
+    font-size: 0.95rem;
+  }
+
+  .social {
+    gap: 0.45rem;
+  }
+
+  .social a {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.82rem;
+  }
+
+  .copy {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    font-size: 0.8rem;
   }
 }
 

@@ -85,16 +85,12 @@ export const it = {
     prev: "Foto precedente",
     next: "Foto successiva",
     count: "{n} di {total}",
-    colors: "Colore della fotocamera",
-    palettes: { nero: "Nero", antracite: "Antracite", grafite: "Grafite", cenere: "Cenere" },
     empty: "Foto in arrivo",
   },
   instant: {
     model:
       "Modello 3D di una fotocamera istantanea coperta di sticker: trascina o usa le frecce per girarla, premi Invio per scattare",
     hint: "Premi il tasto rosso per scattare",
-    shoot: "Scatta una foto",
-    colors: "Colore della fotocamera istantanea",
     developed: "Foto sviluppata: {alt}",
     sample: "una scena di prova, in attesa delle polaroid",
   },
@@ -115,6 +111,9 @@ export const it = {
     compareLabel: "Confronto prima e dopo",
     // {value} viene sostituito con la posizione del divisore
     compareValue: "Divisore al {value}%",
+    compareChoose: "Scegli la schermata",
+    pauseCarousel: "Ferma lo scorrimento",
+    playCarousel: "Fai scorrere le immagini",
     soundOn: "Attiva l’audio",
     soundOff: "Disattiva l’audio",
     replay: "Riparti dall’inizio",
@@ -133,6 +132,8 @@ export const it = {
     chooseOutput: "Scegli l’edizione",
     showOutput: "Mostra: {label}",
     placeholder: "Immagine in arrivo",
+    scrollScreen: "Scorri dentro lo schermo",
+    prototype: "Apri il prototipo su Figma",
   },
   about: {
     title: "Chi sono | Giulia Scognamiglio",

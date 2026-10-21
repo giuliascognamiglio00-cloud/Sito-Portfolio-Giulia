@@ -2,12 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  PALETTES,
   SCREEN_H,
   SCREEN_W,
   createCameraModel,
   createStudio,
-  type PaletteName,
 } from "./cameraModel";
 import styles from "./PhotoCamera.module.css";
 
@@ -20,8 +18,6 @@ type Labels = {
   next: string;
   /** "{n} di {total}" */
   count: string;
-  colors: string;
-  palettes: Record<PaletteName, string>;
   /** Il testo sul display quando le foto non ci sono ancora */
   empty: string;
 };
@@ -30,7 +26,6 @@ type Props = { photos: CameraPhoto[]; labels: Labels };
 
 /** Quello che il componente React chiede alla scena 3D, una volta pronta */
 type Scene = {
-  setPalette: (name: PaletteName) => void;
   showPhoto: (i: number) => void;
   dispose: () => void;
 };
@@ -45,7 +40,6 @@ type Scene = {
 export default function PhotoCamera({ photos, labels }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<Scene | null>(null);
-  const [palette, setPalette] = useState<PaletteName>("nero");
   const [photo, setPhoto] = useState(0);
   const [touched, setTouched] = useState(false);
 
@@ -78,11 +72,6 @@ export default function PhotoCamera({ photos, labels }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const choosePalette = (name: PaletteName) => {
-    setPalette(name);
-    scene.current?.setPalette(name);
-  };
-
   const go = (by: number) => {
     if (!photos.length) return;
     const i = (photo + by + photos.length) % photos.length;
@@ -100,22 +89,6 @@ export default function PhotoCamera({ photos, labels }: Props) {
         >
           {labels.hint}
         </p>
-        <div
-          className={styles.swatches}
-          role="group"
-          aria-label={labels.colors}
-        >
-          {(Object.keys(PALETTES) as PaletteName[]).map((name) => (
-            <button
-              key={name}
-              type="button"
-              style={{ background: PALETTES[name].swatch }}
-              aria-label={labels.palettes[name]}
-              aria-pressed={palette === name}
-              onClick={() => choosePalette(name)}
-            />
-          ))}
-        </div>
       </div>
 
       {photos.length > 1 ? (
@@ -235,16 +208,33 @@ function build(
   const textures = new Map<number, InstanceType<typeof THREE.Texture>>();
   let wanted = 0;
 
-  // Il display è 2.2:1.28; la foto lo riempie, ritagliata al centro come object-fit: cover
+  // Il display è orizzontale. Le foto orizzontali lo riempiono, ritagliate al centro come
+  // object-fit: cover; quelle verticali si vedono intere con le bande nere ai lati, come sul
+  // display di una fotocamera vera, altrimenti se ne perderebbe più di metà
   const fit = (t: InstanceType<typeof THREE.Texture>) => {
-    const img = t.image as { width: number; height: number };
+    const img = t.image as HTMLImageElement;
     const screen = SCREEN_W / SCREEN_H;
     const ratio = img.width / img.height;
+    if (ratio < 1) {
+      const c = document.createElement("canvas");
+      c.height = 1024;
+      c.width = Math.round(1024 * screen);
+      const x = c.getContext("2d")!;
+      x.fillStyle = "#000";
+      x.fillRect(0, 0, c.width, c.height);
+      const w = c.height * ratio;
+      x.drawImage(img, (c.width - w) / 2, 0, w, c.height);
+      t.dispose();
+      const boxed = new THREE.CanvasTexture(c);
+      boxed.colorSpace = THREE.SRGBColorSpace;
+      return boxed;
+    }
     t.repeat.set(
       ratio > screen ? screen / ratio : 1,
       ratio > screen ? 1 : ratio / screen,
     );
     t.offset.set((1 - t.repeat.x) / 2, (1 - t.repeat.y) / 2);
+    return t;
   };
 
   const placeholder = () => {
@@ -282,9 +272,9 @@ function build(
       display.map = ready;
       display.needsUpdate = true;
     } else if (photos[i]) {
-      loader.load(photos[i].src, (t) => {
-        t.colorSpace = THREE.SRGBColorSpace;
-        fit(t);
+      loader.load(photos[i].src, (loaded) => {
+        loaded.colorSpace = THREE.SRGBColorSpace;
+        const t = fit(loaded);
         textures.set(i, t);
         if (wanted === i) {
           display.map = t;
@@ -390,7 +380,6 @@ function build(
   frame = requestAnimationFrame(loop);
 
   return {
-    setPalette: camera.setPalette,
     showPhoto,
     dispose() {
       visible = false;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useDragScroll } from "@/lib/useDragScroll";
 import styles from "./BoardSlides.module.css";
 
 type Props = {
@@ -18,6 +19,7 @@ type Props = {
 export default function BoardSlides({ slides, label }: Props) {
   const track = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
+  useDragScroll(track);
   const last = index === slides.length - 1;
   const target = last ? 0 : index + 1;
 

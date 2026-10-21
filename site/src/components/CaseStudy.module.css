@@ -342,3 +342,348 @@
 .video {
   margin-block: clamp(5rem, 12vw, 9rem);
 }
+
+/* Le sezioni di racconto: il titolo a sinistra, il testo a destra, come un'epigrafe lunga.
+   Una dopo l'altra restano vicine, staccate solo dalla linea sottile */
+.story {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 1rem clamp(2rem, 4vw, 3.5rem);
+  margin-top: clamp(4rem, 9vw, 7rem);
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-strong);
+}
+
+.story + .story {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.storyTitle {
+  margin: 0;
+  font: 500 1.05rem/1.2 var(--display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.storyBody {
+  max-width: 46rem;
+}
+
+.storyBody > p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.storyBody > p + p {
+  margin-top: 0.8rem;
+}
+
+/* La citazione in evidenza, come l'insight: più grande, con la linea nel colore del progetto */
+.storyBody > .quote {
+  margin: 1.4rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--acc);
+  color: var(--ink);
+  font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+  line-height: 1.45;
+}
+
+.storyBody > .quote + p {
+  margin-top: 0;
+}
+
+/* Le schede, per esempio le persone: due per riga */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards li {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  background: var(--wash);
+}
+
+.cards h3 {
+  margin: 0 0 0.45rem;
+  color: var(--ink);
+  font: 500 1rem/1.3 var(--text);
+}
+
+.cards h3 span {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.cards h3 span::before {
+  content: " · ";
+  white-space: pre;
+}
+
+.cards p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 820px) {
+  .story {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Al telefono le schede non si impilano: quattro diventano una griglia 2×2 di quadrati (le
+   persone, i problemi di Muta), tre stanno su una riga, tre quadrati più piccoli (i caratteri
+   di Doggo). Il quadrato è un minimo: se il testo non ci sta, la
+   scheda si allunga invece di tagliarlo */
+@media (max-width: 640px) {
+  .cards {
+    gap: 0.6rem;
+  }
+
+  .cards li {
+    padding: 0.8rem;
+  }
+
+  .cards h3 {
+    font-size: 0.9rem;
+    overflow-wrap: anywhere;
+  }
+
+  .cards p {
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
+  .cards[data-count="4"] li {
+    aspect-ratio: 1;
+  }
+
+  .cards[data-count="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cards[data-count="3"] li {
+    aspect-ratio: 1;
+    padding: 0.6rem 0.55rem;
+  }
+
+  .cards[data-count="3"] h3 {
+    margin-bottom: 0.3rem;
+    font-size: 0.82rem;
+  }
+
+  .cards[data-count="3"] p {
+    font-size: 0.74rem;
+    line-height: 1.3;
+  }
+
+  .cards[data-count="3"] h3 span {
+    display: block;
+    margin-top: 0.2rem;
+  }
+
+  .cards[data-count="3"] h3 span::before {
+    content: none;
+  }
+
+  .cards[data-count="1"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Il carosello di un gruppo di output: sopra al mosaico, senza riquadro attorno. Le foto
+   sono telefoni in mano: restano alla misura di uno schermo di telefono, con la successiva
+   che spunta accanto, invece di riempire la colonna */
+.groupCarousel {
+  --slide: 17rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+@media (max-width: 640px) {
+  .groupCarousel {
+    --slide: 68%;
+  }
+}
+
+/* Le pagine del sito nei MacBook, due per riga; al telefono una sotto l'altra */
+.laptops {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+@media (max-width: 760px) {
+  .laptops {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Il pulsante del prototipo, in fondo al racconto */
+.prototype {
+  margin: clamp(2.5rem, 5vw, 3.5rem) 0 0;
+}
+
+.prototype a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.4rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  color: var(--ink);
+  font: 500 0.95rem/1 var(--text);
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.prototype a:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* Fine pagina: il prossimo progetto, con la cover piccola a sinistra del titolo, e sotto il
+   ritorno ai lavori. Una chiusura discreta, non un'altra apertura */
+.end {
+  margin-top: clamp(4rem, 8vw, 6rem);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.next {
+  display: grid;
+  grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+  align-items: center;
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+  border-top: 1.5px solid var(--ink);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nextText small {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: var(--muted);
+  font: 500 0.9rem/1 var(--text);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.nextTitle {
+  display: block;
+  font: 400 clamp(2rem, 4vw, 3.4rem) / 0.95 var(--display);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.08em;
+  transition: text-decoration-color 0.15s;
+  overflow-wrap: anywhere;
+}
+
+.nextArrow {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 1.5rem;
+  transition: translate 0.2s;
+}
+
+.next:hover .nextTitle,
+.next:focus-visible .nextTitle {
+  text-decoration-color: var(--acc);
+}
+
+.next:hover .nextArrow,
+.next:focus-visible .nextArrow {
+  translate: 0.5rem 0;
+}
+
+/* La cover sta prima del titolo solo a vista: nel codice resta dopo, al telefono va a destra */
+.next picture,
+.next img {
+  order: -1;
+}
+
+.next img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--r);
+  background: var(--wash);
+  transition: scale 0.3s;
+}
+
+.next:hover img {
+  scale: 1.02;
+}
+
+.all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding: 0.85rem 1.4rem;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--ink);
+  font: 500 0.95rem/1 var(--text);
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.all:hover {
+  border-color: var(--ink);
+}
+
+/* Al telefono il blocco si riduce a una riga: titolo a sinistra, cover piccola a destra */
+@media (max-width: 640px) {
+  .end {
+    margin-top: 4rem;
+  }
+
+  .next picture,
+  .next img {
+    order: 0;
+  }
+
+  .next {
+    grid-template-columns: minmax(0, 1fr) 40%;
+    gap: 1rem;
+    padding-top: 1.25rem;
+  }
+
+  .nextText small {
+    margin-bottom: 0.5rem;
+    font-size: 0.72rem;
+  }
+
+  .nextTitle {
+    font-size: clamp(1.6rem, 8vw, 2.4rem);
+  }
+
+  .nextArrow {
+    margin-top: 0.4rem;
+    font-size: 1.3rem;
+  }
+
+  .all {
+    margin-top: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nextTitle,
+  .nextArrow,
+  .next img,
+  .prototype a {
+    transition: none;
+  }
+}

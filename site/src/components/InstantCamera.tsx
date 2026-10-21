@@ -3,12 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { createStudio } from "./cameraModel";
 import {
-  INSTANT_PALETTES,
   PRINT,
   SCENES,
   createInstantCameraModel,
   fontsReady,
-  type InstantPaletteName,
 } from "./instantCameraModel";
 import styles from "./InstantCamera.module.css";
 
@@ -16,11 +14,8 @@ export type InstantPhoto = { src: string; alt: string };
 
 type Labels = {
   model: string;
-  /** L'invito a scattare, sopra la fotocamera */
+  /** L'invito a scattare, sopra la fotocamera: è l'unico, il tasto rosso fa il resto */
   hint: string;
-  shoot: string;
-  colors: string;
-  palettes: Record<InstantPaletteName, string>;
   /** Letto ai lettori di schermo quando la foto è uscita: "{alt}" diventa la descrizione */
   developed: string;
   /** La descrizione delle scene inventate, finché le foto vere non ci sono */
@@ -30,15 +25,12 @@ type Labels = {
 type Props = { photos: InstantPhoto[]; labels: Labels };
 
 type Scene = {
-  shoot: () => void;
-  setPalette: (name: InstantPaletteName) => void;
   dispose: () => void;
 };
 
 /**
  * La fotocamera istantanea 3D (il modello è in instantCameraModel.ts): si gira col mouse, col
- * dito o con le frecce, e si scatta col tasto rosso sul frontale, con il pulsante "Scatta" o con
- * Invio. Al clic scatta il flash e dalla fessura esce una stampa che si sviluppa piano: sopra
+ * dito o con le frecce, e si scatta col tasto rosso sul frontale o, da tastiera, con Invio. Al clic scatta il flash e dalla fessura esce una stampa che si sviluppa piano: sopra
  * ci sono le polaroid di Giulia, una dopo l'altra, o le scene inventate finché non arrivano.
  * three.js si scarica solo quando il riquadro si avvicina allo schermo e il disegno si ferma
  * quando esce; con "riduci animazioni" niente rotazione a riposo né oscillazione.
@@ -46,8 +38,6 @@ type Scene = {
 export default function InstantCamera({ photos, labels }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<Scene | null>(null);
-  const [palette, setPalette] = useState<InstantPaletteName>("nero");
-  const [busy, setBusy] = useState(false);
   const [shots, setShots] = useState(0);
   const [said, setSaid] = useState("");
 
@@ -62,7 +52,6 @@ export default function InstantCamera({ photos, labels }: Props) {
         Promise.all([import("three"), fontsReady()]).then(([THREE]) => {
           if (cancelled) return;
           scene.current = build(THREE, el, photos, labels, {
-            onBusy: setBusy,
             onShot: (text) => {
               setShots((n) => n + 1);
               setSaid(text);
@@ -83,11 +72,6 @@ export default function InstantCamera({ photos, labels }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const choosePalette = (name: InstantPaletteName) => {
-    setPalette(name);
-    scene.current?.setPalette(name);
-  };
-
   return (
     <figure className={styles.wrap}>
       <div ref={host} className={styles.cam}>
@@ -98,34 +82,6 @@ export default function InstantCamera({ photos, labels }: Props) {
         >
           {labels.hint}
         </p>
-      </div>
-      <div className={styles.controls}>
-        <div
-          className={styles.swatches}
-          role="group"
-          aria-label={labels.colors}
-        >
-          {(Object.keys(INSTANT_PALETTES) as InstantPaletteName[]).map(
-            (name) => (
-              <button
-                key={name}
-                type="button"
-                style={{ background: INSTANT_PALETTES[name].swatch }}
-                aria-label={labels.palettes[name]}
-                aria-pressed={palette === name}
-                onClick={() => choosePalette(name)}
-              />
-            ),
-          )}
-        </div>
-        <button
-          type="button"
-          className={styles.shoot}
-          onClick={() => scene.current?.shoot()}
-          disabled={busy}
-        >
-          {labels.shoot}
-        </button>
       </div>
       <figcaption className={styles.srOnly} aria-live="polite">
         {said}
@@ -139,7 +95,7 @@ function build(
   host: HTMLDivElement,
   photos: InstantPhoto[],
   labels: Labels,
-  on: { onBusy: (busy: boolean) => void; onShot: (text: string) => void },
+  on: { onShot: (text: string) => void },
 ): Scene {
   const reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
@@ -259,7 +215,6 @@ function build(
     if (shot.busy) return;
     shot.busy = true;
     shot.t = 0;
-    on.onBusy(true);
     if (shot.state === "out") {
       shot.state = "leaving";
       shot.leaveT = 0;
@@ -309,7 +264,6 @@ function build(
       if (k >= 1) {
         shot.state = "out";
         shot.busy = false;
-        on.onBusy(false);
         on.onShot(caption);
       }
     }
@@ -454,8 +408,6 @@ function build(
   frame = requestAnimationFrame(loop);
 
   return {
-    shoot,
-    setPalette: camera.setPalette,
     dispose() {
       visible = false;
       cancelAnimationFrame(frame);

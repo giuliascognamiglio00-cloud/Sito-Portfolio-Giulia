@@ -12,7 +12,7 @@ import DownloadCv from "@/components/DownloadCv";
 import PhotoCamera from "@/components/PhotoCamera";
 import FloatingObjects from "@/components/FloatingObjects";
 import InstantCamera from "@/components/InstantCamera";
-import Picture, { largestSrc } from "@/components/Picture";
+import { largestSrc } from "@/components/Picture";
 import styles from "./page.module.css";
 
 export async function generateMetadata({
@@ -101,14 +101,14 @@ export default async function AboutPage({
         </section>
 
         {/* L'anno all'estero: a sinistra la fotocamera istantanea 3D, che scatta e stampa le
-            polaroid; a destra il racconto e le polaroid (cornici vuote finché non arrivano) */}
+            polaroid; a destra il racconto */}
         <section className={styles.abroad} aria-labelledby="abroad">
           <InstantCamera
             photos={polaroids.map((name, i) => ({
               src: largestSrc(name),
-              alt: polaroidAlts[typed][i] ?? text.abroad.captions[i] ?? "",
+              alt: polaroidAlts[typed][i] ?? "",
             }))}
-            labels={{ ...dict.instant, palettes: dict.camera.palettes }}
+            labels={dict.instant}
           />
           <div>
             <h2 id="abroad" className="display display-slim">
@@ -119,27 +119,6 @@ export default async function AboutPage({
                 {paragraph}
               </p>
             ))}
-            <ul className={styles.polaroids}>
-              {text.abroad.captions.map((caption, i) => (
-                <li key={caption}>
-                  <figure className={styles.polaroid}>
-                    {polaroids[i] ? (
-                      <Picture
-                        name={polaroids[i]}
-                        alt={polaroidAlts[typed][i] ?? ""}
-                        sizes="(max-width: 820px) 40vw, 200px"
-                        className={styles.polaroidPhoto}
-                      />
-                    ) : (
-                      <span className={styles.polaroidEmpty}>
-                        {text.abroad.empty}
-                      </span>
-                    )}
-                    <figcaption>{caption}</figcaption>
-                  </figure>
-                </li>
-              ))}
-            </ul>
           </div>
         </section>
       </div>

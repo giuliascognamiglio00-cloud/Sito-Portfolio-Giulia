@@ -1,0 +1,52 @@
+.laptop {
+  margin: 0;
+}
+
+/* La forma della cornice ritagliata (3202×2015). Lo schermo è il rettangolo trasparente
+   della cornice, misurato sul file: 2741×1718 a 230, 91 */
+.device {
+  position: relative;
+  aspect-ratio: 3202 / 2015;
+}
+
+.screen {
+  position: absolute;
+  left: 7.18%;
+  top: 4.52%;
+  width: 85.6%;
+  height: 85.26%;
+  overflow-y: auto;
+  background: #fff;
+  scrollbar-width: thin;
+}
+
+.screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.screen:focus-visible {
+  outline: 3px solid var(--acc);
+  outline-offset: 2px;
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.laptop figcaption {
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.laptop figcaption strong {
+  color: var(--ink);
+  font-weight: 500;
+}

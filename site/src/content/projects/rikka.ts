@@ -28,7 +28,17 @@ export const rikka: Project = {
       },
       // Social: il profilo e le storie
       { columns: 2, tiles: [{ key: "rikka_3" }, { key: "rikka_4" }] },
-      { columns: 2, tiles: [{ key: "rikka_6", cols: 2, rows: 2 }] },
+      // Merchandising: le foto di Giulia su rosso e legno, in fila. Una colonna per due righe
+      // fa un riquadro di circa 0,87, la proporzione delle foto (960×1099): non si taglia nulla
+      {
+        columns: 4,
+        tiles: [
+          { key: "rikka_merch_tavola", rows: 2 },
+          { key: "rikka_merch_grembiuli", rows: 2 },
+          { key: "rikka_merch_canovacci", rows: 2 },
+          { key: "rikka_merch_ciotole", rows: 2 },
+        ],
+      },
     ],
     // Gli sticker non sono nel mosaico: sono attaccati alla grafica della pagina
     // Un adesivo solo, accanto al titolo delle stories
@@ -108,11 +118,23 @@ export const rikka: Project = {
           },
           {
             title: "Merchandising",
-            text: "Shopper, spille, t-shirt e grembiuli portano le illustrazioni di Rikka fuori dalla cucina.",
+            text: "Grembiuli, canovacci, ciotole e cucchiai con il marchio: Rikka entra in cucina e sta in tavola, e con la shopper esce anche di casa.",
             tiles: [
               {
-                label: "Merchandising",
-                alt: "Merchandising Rikka su fondo azzurro: shopper, spille, t-shirt e grembiuli colorati",
+                label: "In tavola",
+                alt: "Tavola apparecchiata davanti a una parete rossa: i barattoli Rikka, ciotole di salsa, nachos, un peperoncino in vaso e, appesi dietro, due grembiuli e una shopper con il marchio",
+              },
+              {
+                label: "Grembiuli",
+                alt: "Due grembiuli appesi su fondo rosso, uno bordeaux e uno écru, con il logo Rikka Peppers e la mano rock sulla tasca",
+              },
+              {
+                label: "Canovacci",
+                alt: "Due canovacci, bordeaux ed écru, appesi a una barra di metallo sopra un ripiano di legno, con il logo Rikka Peppers",
+              },
+              {
+                label: "Ciotole e cucchiai",
+                alt: "Ciotole in ceramica rossa, gialla, nera e terracotta con il logo Rikka, piene di salsa piccante, e cucchiai incisi; sotto, i barattoli e un dettaglio dei cucchiai",
               },
             ],
           },
@@ -220,11 +242,23 @@ export const rikka: Project = {
           },
           {
             title: "Merchandising",
-            text: "Tote bags, pins, t-shirts and aprons take Rikka’s illustrations out of the kitchen.",
+            text: "Aprons, tea towels, bowls and spoons carrying the brand: Rikka steps into the kitchen, sits on the table, and with the tote bag even leaves the house.",
             tiles: [
               {
-                label: "Merchandising",
-                alt: "Rikka merchandising on a light-blue background: tote bags, pins, t-shirts and colorful aprons",
+                label: "On the table",
+                alt: "A table set against a red wall: Rikka jars, bowls of sauce, nachos, a potted chili plant and, hanging behind, two aprons and a tote bag with the brand",
+              },
+              {
+                label: "Aprons",
+                alt: "Two aprons hanging on a red background, one burgundy and one ecru, with the Rikka Peppers logo and the rock hand on the pocket",
+              },
+              {
+                label: "Tea towels",
+                alt: "Two tea towels, burgundy and ecru, hanging from a metal bar above a wooden shelf, with the Rikka Peppers logo",
+              },
+              {
+                label: "Bowls and spoons",
+                alt: "Ceramic bowls in red, yellow, black and terracotta with the Rikka logo, filled with hot sauce, and engraved spoons; below, the jars and a close-up of the spoons",
               },
             ],
           },

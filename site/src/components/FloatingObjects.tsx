@@ -17,6 +17,14 @@ import styles from "./FloatingObjects.module.css";
 type T = typeof Three;
 
 /**
+ * Quanto possono allontanarsi gli oggetti dal centro, come angolo dall'asse della vista. Più ci
+ * si allontana, più la prospettiva li stira: entro questo angolo la deformazione non si vede
+ * (meno del 6%). Sugli schermi stretti il limite è il bordo della fascia; su quelli larghi gli
+ * oggetti restano in questa zona centrale. Per lasciarli andare più lontano basta alzarlo.
+ */
+const MAX_ANGLE = 20;
+
+/**
  * Gli oggetti che fluttuano nella fascia in cima a "Chi sono". Ognuno ha un modello, una
  * grandezza, una corsia e un percorso suo: per aggiungerne uno basta una voce qui. Sono le due
  * fotocamere della pagina, in miniatura: la mirrorless della galleria e l'istantanea dell'anno
@@ -114,8 +122,11 @@ function build(THREE: T, host: HTMLDivElement) {
 
   const scene = new THREE.Scene();
   const studio = createStudio(THREE, renderer, scene);
-  const view = new THREE.PerspectiveCamera(30, 1, 0.1, 200);
-  const DIST = 40;
+  // Un obiettivo stretto da lontano, come un teleobiettivo: la prospettiva schiaccia poco, quindi
+  // gli oggetti restano della loro forma anche lontano dal centro. A questa distanza la fascia
+  // inquadra la stessa altezza di scena di prima (30° a 40 unità)
+  const view = new THREE.PerspectiveCamera(14, 1, 1, 300);
+  const DIST = 87;
   view.position.set(0, 0, DIST);
   view.lookAt(0, 0, 0);
 
@@ -131,6 +142,8 @@ function build(THREE: T, host: HTMLDivElement) {
   // Quanto spazio c'è in scena: altezza e larghezza visibili alla distanza degli oggetti
   let worldH = 1;
   let worldW = 1;
+  // Metà della larghezza in cui gli oggetti possono muoversi: la fascia, ma non oltre MAX_ANGLE
+  let reach = 1;
   const resize = () => {
     const w = host.clientWidth;
     const h = host.clientHeight;
@@ -139,6 +152,10 @@ function build(THREE: T, host: HTMLDivElement) {
     view.updateProjectionMatrix();
     worldH = 2 * DIST * Math.tan(THREE.MathUtils.degToRad(view.fov / 2));
     worldW = worldH * view.aspect;
+    reach = Math.min(
+      worldW / 2,
+      DIST * Math.tan(THREE.MathUtils.degToRad(MAX_ANGLE)),
+    );
     for (const it of items)
       it.pivot.scale.setScalar((it.size * worldH) / it.extent);
   };
@@ -147,10 +164,11 @@ function build(THREE: T, host: HTMLDivElement) {
   resize();
 
   // La posizione lungo il percorso al tempo t: due sinusoidi per asse, di periodo diverso,
-  // tenute dentro la corsia dell'oggetto con un margine che lo lascia sempre intero
+  // tenute dentro la corsia dell'oggetto con un margine che lo lascia sempre intero. Le corsie
+  // si contano sulla zona senza deformazioni (`reach`), non sulla fascia intera
   const at = (t: number, it: (typeof items)[number]) => {
     const s = t * 0.22 * it.speed + it.phase;
-    const half = worldW / 2;
+    const half = reach;
     const margin = it.size * worldH * 0.9;
     const from = Math.max(-half + margin, it.lane[0] * half + margin * 0.6);
     const to = Math.min(half - margin, it.lane[1] * half - margin * 0.6);

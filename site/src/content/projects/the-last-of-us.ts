@@ -38,8 +38,9 @@ export const theLastOfUs: Project = {
           { key: "tlou_verticale", rows: 2 },
         ],
       },
-      // Content creator campaign
-      { columns: 2, tiles: [{ key: "tlou_creator_server" }, { key: "tlou_creator_safari" }] },
+      // Content creator campaign: solo il testo, le due tavole sono state tolte su richiesta
+      // di Giulia (tlou_creator_* restano in assets/img se servissero di nuovo)
+      { tiles: [] },
     ],
   },
   images: [{ key: "tlou_1" }, { key: "tlou_2" }, { key: "tlou_3" }],
@@ -94,16 +95,7 @@ export const theLastOfUs: Project = {
           {
             title: "Content creator campaign",
             text: "Quei due sul server, Redez e Synergo, su YouTube dal 2012 con tecnologia e videogiochi, rigiocano la seconda parte di The Last of Us durante l’evento in cui viene presentata la prima della stagione.\nHuman Safari, il canale di viaggi di Nicolò Balini, parte per un viaggio sulle dinamiche di Pechino Express: budget limitato e pochi oggetti scelti da lui, attraverso alcuni dei luoghi incontaminati della seconda stagione.",
-            tiles: [
-              {
-                label: "Quei due sul server",
-                alt: "Tavola della content creator campaign con Quei due sul server: rigiocano The Last of Us Parte II all’evento della prima della stagione",
-              },
-              {
-                label: "Human Safari",
-                alt: "Tavola della content creator campaign con Human Safari: un viaggio con budget limitato e pochi oggetti nei luoghi della seconda stagione",
-              },
-            ],
+            tiles: [],
           },
         ],
       },
@@ -173,16 +165,7 @@ export const theLastOfUs: Project = {
           {
             title: "Content creator campaign",
             text: "Quei due sul server, Redez and Synergo, on YouTube since 2012 with tech and video games, replay The Last of Us Part II during the event where the season premiere is presented.\nHuman Safari, Nicolò Balini’s travel channel, sets off on a trip in the style of Pechino Express: a tight budget and a few objects of his choice, through some of the untouched places of season 2.",
-            tiles: [
-              {
-                label: "Quei due sul server",
-                alt: "Content creator campaign board with Quei due sul server: replaying The Last of Us Part II at the season premiere event",
-              },
-              {
-                label: "Human Safari",
-                alt: "Content creator campaign board with Human Safari: a trip on a tight budget with a few objects through the locations of season 2",
-              },
-            ],
+            tiles: [],
           },
         ],
       },

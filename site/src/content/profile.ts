@@ -6,29 +6,43 @@ type ProfileText = {
   portraitAlt: string;
   /** La sezione dopo il CV: gli interessi, con la fotocamera che mostra le foto di Giulia */
   interests: { title: string; text: string; tags: string[] };
-  /** Sotto gli interessi: l'anno all'estero in California, con le polaroid */
-  abroad: {
-    title: string;
-    text: string[];
-    /** Le didascalie scritte sotto le polaroid, nello stesso ordine di `polaroids` */
-    captions: string[];
-    /** Il testo sulle cornici vuote, finché le polaroid non ci sono */
-    empty: string;
-  };
+  /** Sotto gli interessi: l'anno all'estero in California, con l'istantanea che stampa le polaroid */
+  abroad: { title: string; text: string[] };
 };
 
 /**
  * Le foto di Giulia che si vedono sul display della fotocamera, nell'ordine: nome del file in
- * assets/img senza estensione. Il testo alternativo è per lingua, in `photoAlts`.
- * VUOTO finché Giulia non manda le foto: il display mostra "Foto in arrivo"
+ * assets/img senza estensione. Il testo alternativo è per lingua, in `photoAlts`. Giordania e
+ * Roma; le verticali (l'arco e l'angelo) si vedono intere, con le bande nere ai lati
  */
-export const photos: string[] = [];
-export const photoAlts: Record<Lang, string[]> = { it: [], en: [] };
+export const photos: string[] = [
+  "foto_castello",
+  "foto_wadi_rum",
+  "foto_arco",
+  "foto_angelo",
+  "foto_roma",
+];
+export const photoAlts: Record<Lang, string[]> = {
+  it: [
+    "In bianco e nero, un castello di pietra nel deserto della Giordania sotto un cielo carico di nuvole, con un sentiero che porta all’ingresso",
+    "Il deserto del Wadi Rum al tramonto: sabbia rossa, montagne di roccia e nuvole rosate",
+    "Un arco di una rovina in Giordania che si apre sul cielo azzurro e su una volta di pietra crollata",
+    "Un angelo di marmo di Ponte Sant’Angelo, a Roma, visto dal basso contro un cielo grigio",
+    "La cupola di San Pietro oltre il Tevere e un ponte ad archi, tra i rami spogli di un albero",
+  ],
+  en: [
+    "In black and white, a stone castle in the Jordanian desert under a heavy, cloudy sky, with a path leading to the entrance",
+    "The Wadi Rum desert at sunset: red sand, rock mountains and pink clouds",
+    "An arch in a ruin in Jordan opening onto blue sky and a collapsed stone vault",
+    "A marble angel on Ponte Sant’Angelo in Rome, seen from below against a grey sky",
+    "The dome of St Peter’s beyond the Tiber and an arched bridge, through the bare branches of a tree",
+  ],
+};
 
 /**
- * Le polaroid dell'anno in California, nell'ordine delle didascalie in `abroad.captions`: nome
- * del file in assets/img senza estensione. Il testo alternativo è per lingua, in `polaroidAlts`.
- * VUOTO finché Giulia non le manda: al loro posto ci sono le cornici con la sola didascalia
+ * Le polaroid dell'anno in California, stampate dall'istantanea una dopo l'altra: nome del file
+ * in assets/img senza estensione. Il testo alternativo è per lingua, in `polaroidAlts`.
+ * VUOTO finché Giulia non le manda: l'istantanea stampa delle scene di prova
  */
 export const polaroids: string[] = [];
 export const polaroidAlts: Record<Lang, string[]> = { it: [], en: [] };
@@ -88,8 +102,6 @@ export const profile: Record<Lang, ProfileText> = {
         "Nel 2018–2019 ho passato un anno di scuola a Live Oak, in California, con Intercultura. Lì ho imparato l’inglese vivendolo ogni giorno, e sono entrata in contatto con persone e culture diverse dalla mia.",
         "Ho viaggiato molto: con il senior trip ho visto San Diego, e a fine anno ho vissuto l’esperienza della graduation.",
       ],
-      captions: ["Live Oak", "San Diego, senior trip", "Graduation"],
-      empty: "Polaroid in arrivo",
     },
   },
   en: {
@@ -141,8 +153,6 @@ export const profile: Record<Lang, ProfileText> = {
         "In 2018–2019 I spent a school year in Live Oak, California, with Intercultura. There I learned English by living it every day, and I met people and cultures very different from my own.",
         "I travelled a lot: on the senior trip I saw San Diego, and at the end of the year I got to experience graduation.",
       ],
-      captions: ["Live Oak", "San Diego, senior trip", "Graduation"],
-      empty: "Polaroid coming soon",
     },
   },
 };

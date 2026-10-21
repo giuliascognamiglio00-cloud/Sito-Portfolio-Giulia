@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useDragScroll } from "@/lib/useDragScroll";
 import styles from "./Mosaic.module.css";
 
 export type MosaicItem = {
@@ -17,6 +18,10 @@ type Props = {
   items: MosaicItem[];
   /** Su quante colonne sta il mosaico (3 se non indicato); al telefono sempre una */
   columns?: 2 | 3 | 4;
+  /** Senza la cornice attorno: i riquadri stanno direttamente sulla pagina */
+  bare?: boolean;
+  /** Al telefono, invece di impilarsi, i riquadri diventano una fila da scorrere col dito */
+  slideOnMobile?: boolean;
   openLabel: string;
   closeLabel: string;
   prevLabel: string;
@@ -34,6 +39,8 @@ type Props = {
 export default function Mosaic({
   items,
   columns = 3,
+  bare = false,
+  slideOnMobile = false,
   openLabel,
   closeLabel,
   prevLabel,
@@ -42,6 +49,8 @@ export default function Mosaic({
 }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const touchX = useRef<number | null>(null);
+  const row = useRef<HTMLUListElement>(null);
+  useDragScroll(row);
   // Si scorrono solo i riquadri con un'immagine vera
   const viewable = items.flatMap((item, i) => (item.full ? [i] : []));
   const [current, setCurrent] = useState(0);
@@ -57,7 +66,10 @@ export default function Mosaic({
 
   return (
     <>
-      <ul className={styles.mosaic} style={{ "--n": columns } as React.CSSProperties}>
+      <ul
+        ref={row}
+        className={`${styles.mosaic} ${bare ? styles.bare : ""} ${slideOnMobile ? styles.slide : ""}`}
+        style={{ "--n": columns } as React.CSSProperties}>
         {items.map((item, i) => (
           <li
             key={`${item.label}-${i}`}

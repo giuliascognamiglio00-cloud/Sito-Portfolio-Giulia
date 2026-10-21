@@ -58,87 +58,6 @@
   transition: opacity 0.6s;
 }
 
-/* Sotto la fotocamera: i colori e il pulsante per scattare */
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem 1.5rem;
-  margin-top: 0.5rem;
-}
-
-.swatches {
-  display: flex;
-  gap: 10px;
-}
-
-.swatches button {
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18);
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.swatches button[aria-pressed="true"] {
-  transform: scale(1.25);
-  box-shadow: 0 0 0 2px var(--ink);
-}
-
-/* Il pulsante "Scatta", con il pallino rosso del tasto di scatto */
-.shoot {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.65rem 1.2rem 0.65rem 0.9rem;
-  border: 1.5px solid var(--ink);
-  border-radius: 999px;
-  background: none;
-  color: var(--ink);
-  font: 500 0.9rem/1 var(--text);
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, opacity 0.15s;
-}
-
-.shoot::before {
-  content: "";
-  width: 0.7rem;
-  height: 0.7rem;
-  border-radius: 50%;
-  background: #d6342a;
-  box-shadow: 0 0 0 0 rgba(214, 52, 42, 0.5);
-  animation: pulse 2s ease-out infinite;
-}
-
-.shoot:hover:not(:disabled) {
-  background: var(--ink);
-  color: var(--bg);
-}
-
-.shoot:disabled {
-  opacity: 0.45;
-  cursor: default;
-}
-
-.shoot:disabled::before {
-  animation: none;
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(214, 52, 42, 0.5);
-  }
-  70%,
-  100% {
-    box-shadow: 0 0 0 0.6rem rgba(214, 52, 42, 0);
-  }
-}
-
 .srOnly {
   position: absolute;
   width: 1px;
@@ -149,13 +68,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hint,
-  .swatches button,
-  .shoot {
+  .hint {
     transition: none;
-  }
-
-  .shoot::before {
-    animation: none;
   }
 }

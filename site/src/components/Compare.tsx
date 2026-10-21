@@ -16,6 +16,8 @@ type Props = {
   valueTextTemplate: string;
   title?: string;
   caption?: string;
+  /** Con "phone" il riquadro è uno schermo di telefono verticale invece del 16:9 */
+  frame?: "phone";
 };
 
 /**
@@ -32,11 +34,14 @@ export default function Compare({
   valueTextTemplate,
   title,
   caption,
+  frame,
 }: Props) {
   const [pos, setPos] = useState(50);
 
   return (
-    <figure className={styles.compare} style={{ "--pos": `${pos}%` } as React.CSSProperties}>
+    <figure
+      className={`${styles.compare} ${frame === "phone" ? styles.phone : ""}`}
+      style={{ "--pos": `${pos}%` } as React.CSSProperties}>
       <div className={styles.frame}>
         <div className={styles.layer}>{after}</div>
         <div className={`${styles.layer} ${styles.top}`}>{before}</div>

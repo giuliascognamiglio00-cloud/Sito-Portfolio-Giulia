@@ -39,6 +39,8 @@ site/src/content/image-manifest.json
 # Presentazione d'esame di Doggo: 587 MB, oltre il limite di 100 MB per file di GitHub.
 # Le immagini usate dal sito ne sono state ricavate e stanno in site/assets/img/
 Sito/doggo2/*.pdf
+# Anche le versioni per telefono e tablet (fino a 182 MB)
+Sito/doggo2/**/*.pdf
 
 # Sorgenti pesanti di The Last of Us (oltre 80 MB l'uno): restano solo in locale
 Sito/TLOU/Presentazione/*.key
@@ -57,3 +59,14 @@ Sito/TLOU/fase di Ricerca/
 # tutto): restano solo in locale. Nell'archivio ne va una copia in JPEG leggero, in
 # "Sito/OCULUS/BackStage leggeri/"; quelle usate dal sito stanno in site/assets/img/
 Sito/OCULUS/BackStage/
+
+# Sorgenti pesanti di Goliosi: i PSD dei mockup (75 e 87 MB) e le tavole Instagram in PDF
+# (fino a 161 MB). Le immagini usate dal sito ne sono state ricavate e stanno in site/assets/img/
+Sito/goliosi/*.psd
+Sito/goliosi/*.pdf
+
+# Presentazione d'esame di Muta in Keynote (384 MB, oltre il limite di GitHub). Le immagini
+# usate dal sito ne sono state ricavate e stanno in site/assets/img/
+Sito/muta progetto/**/*.key
+# e i PSD delle immagini di partenza (fino a 190 MB)
+Sito/muta progetto/**/*.psd

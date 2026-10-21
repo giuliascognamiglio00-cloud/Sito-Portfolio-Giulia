@@ -16,6 +16,11 @@ export default function Footer({ lang, dict }: { lang: Lang; dict: Dictionary })
     <footer className={styles.foot}>
       <div className={`wrap ${styles.inner}`}>
         <div className={styles.brand}>
+          {/* Il marchio, al posto di nome e ruolo al telefono. Per ora un segnaposto con le
+              iniziali: quando c'è il file vero, va messo qui al posto dello span */}
+          <span className={styles.mark} role="img" aria-label="Giulia Scognamiglio">
+            <span aria-hidden="true">GS</span>
+          </span>
           <p className={styles.name}>Giulia Scognamiglio</p>
           <p className={styles.role}>{dict.home.role}</p>
         </div>

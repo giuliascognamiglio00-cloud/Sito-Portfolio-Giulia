@@ -29,13 +29,27 @@ export type ProjectCompare = {
   before: string;
   /** Nome del file dell'immagine che si vede a destra */
   after: string;
+  /**
+   * Altre coppie dopo la prima. Con più coppie accanto al confronto c'è l'elenco per
+   * sceglierle, e il divisore resta dov'è passando dall'una all'altra
+   */
+  more?: { before: string; after: string }[];
+  /** Con "phone" il riquadro è uno schermo di telefono verticale invece del 16:9 */
+  frame?: "phone";
 };
 
 export type ProjectCompareText = {
   title: string;
   caption?: string;
+  /** Le etichette sui due lati; senza, "Prima" e "Dopo" */
+  beforeLabel?: string;
+  afterLabel?: string;
+  /** Il nome della prima coppia, nell'elenco: serve solo se ci sono altre coppie */
+  label?: string;
   beforeAlt: string;
   afterAlt: string;
+  /** Nome e testi alternativi delle coppie di `more`, nello stesso ordine */
+  more?: { label: string; beforeAlt: string; afterAlt: string }[];
 };
 
 /**
@@ -109,7 +123,24 @@ export type ProjectCase = {
    * gruppo per canale della campagna), ognuno col suo testo e il suo mosaico. `columns`
    * dice su quante colonne sta il mosaico del gruppo: 3 se non indicato
    */
-  outputGroups?: { columns?: 2 | 3 | 4; tiles: CaseTile[] }[];
+  outputGroups?: {
+    columns?: 2 | 3 | 4;
+    tiles: CaseTile[];
+    /**
+     * Foto verticali (4:5) in un carosello da scorrere, sopra al mosaico del gruppo e senza
+     * riquadro attorno. Facoltativo
+     */
+    carousel?: string[];
+    /** Con true il carosello del gruppo avanza da solo */
+    autoplay?: boolean;
+    /** Senza la cornice attorno al mosaico: i riquadri stanno direttamente sulla pagina */
+    bare?: boolean;
+    /**
+     * Pagine di un sito dentro un MacBook, una per portatile: sono catture intere, lunghe, e
+     * si scorrono dentro lo schermo. Facoltativo
+     */
+    laptops?: string[];
+  }[];
   /**
    * Stories di Instagram dentro un telefono, in fila sotto gli output. `key` è l'immagine
    * (o il primo fotogramma), `gif` una GIF animata in public/anim, senza estensione
@@ -141,9 +172,26 @@ export type ProjectCase = {
    * "title" a sinistra tra intestazione e brief, "tools" a destra sopra gli strumenti
    */
   tentacles?: { key: string; at: "title" | "tools" }[];
+  /** Indirizzo del prototipo navigabile (per esempio Figma): in fondo diventa un pulsante */
+  prototype?: string;
+};
+
+/**
+ * Una sezione di racconto del mastro: titolo, paragrafi (una voce `{ quote }` diventa una
+ * citazione in evidenza, come l'insight) ed eventualmente delle schede, per esempio le
+ * persone della ricerca. `at` dice dove sta: "intro" dopo Brief e Strumenti, "wireframes"
+ * prima dei wireframe, "output" prima degli output, "end" in fondo alla pagina
+ */
+export type StorySection = {
+  at: "intro" | "wireframes" | "output" | "end";
+  title: string;
+  blocks: (string | { quote: string })[];
+  cards?: { title: string; meta?: string; text: string }[];
 };
 
 export type ProjectCaseText = {
+  /** Il racconto del progetto, in sezioni, nell'ordine in cui compaiono. Facoltativo */
+  story?: StorySection[];
   /** Un'etichetta per riquadro, nello stesso ordine di `identity`, `wireframes` e `output` */
   identity?: CaseTileText[];
   wireframes?: CaseTileText[];
@@ -152,7 +200,15 @@ export type ProjectCaseText = {
    * Testi dei gruppi di output, nello stesso ordine di `outputGroups`: titolo, racconto (un
    * a capo \n separa i paragrafi) ed etichette dei riquadri
    */
-  outputGroups?: { title: string; text: string; tiles: CaseTileText[] }[];
+  outputGroups?: {
+    title: string;
+    text: string;
+    tiles: CaseTileText[];
+    /** Testo alternativo e didascalia delle foto del carosello, nello stesso ordine */
+    carousel?: { caption?: string; alt: string }[];
+    /** Etichetta e testo alternativo delle pagine nei MacBook, nello stesso ordine */
+    laptops?: CaseTileText[];
+  }[];
   /** Titolo, testo e un'etichetta per telefono, nello stesso ordine di `phones` */
   phones?: { title: string; text?: string; items: CaseTileText[] };
   moodboardAlt?: string;

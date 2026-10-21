@@ -43,32 +43,6 @@
   transition: opacity 0.6s;
 }
 
-/* I colori della fotocamera */
-.swatches {
-  position: absolute;
-  left: 50%;
-  bottom: 6%;
-  display: flex;
-  gap: 10px;
-  transform: translateX(-50%);
-}
-
-.swatches button {
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18);
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.swatches button[aria-pressed="true"] {
-  transform: scale(1.25);
-  box-shadow: 0 0 0 2px var(--ink);
-}
-
 /* Le frecce per sfogliare le foto, sotto la fotocamera */
 .nav {
   display: flex;
@@ -115,7 +89,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hint,
-  .swatches button,
   .nav button {
     transition: none;
   }

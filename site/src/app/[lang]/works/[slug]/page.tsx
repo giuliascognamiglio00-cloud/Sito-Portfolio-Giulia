@@ -47,7 +47,7 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
 
   // L'impostazione del wireframe definitivo: per ora la usa solo Doggo
   if (project.layout === "case") {
-    return <CaseStudy project={project} text={text} dict={dict} lang={lang} />;
+    return <CaseStudy project={project} text={text} dict={dict} lang={lang} next={next} />;
   }
 
   // Carosello e galleria si adattano alla forma delle immagini del progetto: orizzontali per
