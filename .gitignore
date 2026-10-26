@@ -70,3 +70,7 @@ Sito/goliosi/*.pdf
 Sito/muta progetto/**/*.key
 # e i PSD delle immagini di partenza (fino a 190 MB)
 Sito/muta progetto/**/*.psd
+
+# Brand book di Syntonia: è del cliente e la repo è pubblica. Resta solo in locale; il sito
+# ne usa solo i contenuti, riscritti nei testi della pagina
+Sito/SYNTONIA/*.pdf

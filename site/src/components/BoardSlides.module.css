@@ -77,3 +77,8 @@
     transition: none;
   }
 }
+
+/* Le pagine senza cornici (bare nel progetto) */
+:global([data-bare]) .track {
+  border: 0;
+}

@@ -1,17 +1,16 @@
 import type { Project } from "../types";
 
-// PRIMO PROGETTO PROFESSIONALE. I testi qui sotto sono una BOZZA ricavata da quello che si
-// vede nelle immagini: vanno riletti da Giulia, che è l'unica a sapere come è andata davvero.
-// Da confermare in particolare: `date` (decide l'ordine e il filtro per anno nella pagina
-// Lavori), `kind`, `made`, `tools` e `areas`.
+// PRIMO PROGETTO PROFESSIONALE: il rebranding di Syntonia SpA. I testi (brief, punto di
+// partenza, claim, look and feel) sono ricavati dal brand book in Sito/SYNTONIA, che però resta
+// del cliente: nella pagina ci sono solo le immagini di Giulia, nessuna tavola del brand book.
 export const syntonia: Project = {
   slug: "syntonia",
   category: "works",
   areas: ["branding", "art-direction", "campaign", "social"],
-  // Anno confermato da Giulia; il mese è ancora da precisare
-  date: "2026-01",
-  // Il verde lime del marchio, campionato dal logo
-  accent: "#BBCE00",
+  // Il brand book è chiuso a marzo 2026
+  date: "2026-03",
+  // Il Verde Lime ufficiale della palette primaria
+  accent: "#BACE00",
   cover: "syntonia_cover",
   // Veduta aerea di un ponte: scura e uniforme, regge bene il testo chiaro sopra
   introImage: "syntonia_bg",
@@ -19,11 +18,14 @@ export const syntonia: Project = {
   // in Sito/ (vedi README): tagliate le fasce nere e ricompresso da 66MB a 11MB, perché
   // Cloudflare Pages rifiuta oltre i 25MB. Nel mastro sta subito dopo l'identità visiva
   video: { src: "syntonia", poster: "syntonia_video" },
-  // Mastro 1, come Doggo, Rikka e The Last of Us. Il rebranding diventa l'identità visiva,
-  // il video ha un blocco suo, i poster e le tavole social sono i gruppi di output.
-  // Manca la moodboard: per ora c'è il segnaposto
+  // Mastro 1, come Doggo, Rikka e The Last of Us. Il racconto (punto di partenza, claim, look
+  // and feel) sta sotto al brief; poi identità visiva, video, poster e social. Tutta la pagina
+  // è senza cornici
   layout: "case",
   case: {
+    bare: true,
+    // Nessuna moodboard di Giulia per questo progetto: la sezione non compare
+    moodboard: false,
     identity: [
       { key: "syntonia_rebrand_1", cols: 2, rows: 2 },
       { key: "syntonia_identity", rows: 2 },
@@ -72,20 +74,53 @@ export const syntonia: Project = {
   content: {
     it: {
       title: "Syntonia",
-      // BOZZA da rileggere
-      subtitle: "Un rebranding per il noleggio a lungo termine: persone, auto e strada sulla stessa frequenza.",
-      kind: "Campagna integrata",
-      made: "Rebranding, art direction, visual, contenuti per i social",
+      subtitle: "Il rebranding di una società di noleggio a lungo termine: esigenze, soluzioni e servizi sulla stessa frequenza.",
+      kind: "Rebranding",
+      made: "Marchio, brand book, art direction, affissioni, contenuti per i social",
       tools: "Photoshop, Illustrator, InDesign",
       intro:
-        "Syntonia noleggia auto a lungo termine, ma quello che racconta è il viaggio che ci fai. Il nome gioca su «sintonia», e da lì nasce tutto: un marchio che tiene insieme un diapason e un segnaposto, l’affissione, e i contenuti social costruiti sulle persone invece che sulle rate. Il payoff: «Immagina, Scegli, Guida.»",
-      insight:
-        "Il noleggio a lungo termine si racconta quasi sempre con i numeri: rate, chilometri, scadenze.",
-      // BOZZA da rileggere: il concept esteso
+        "Syntonia SpA è partner di Arval Italia nel noleggio a lungo termine e affianca privati, professionisti e aziende in tutto il percorso: l’analisi delle esigenze, la scelta della formula, le pratiche, l’assistenza.\nIl progetto è il rebranding completo: un nuovo marchio, un brand book che ne fissa le regole su ogni supporto, online e offline, e la comunicazione che ne nasce, dalle affissioni ai social.",
+      insight: "«La differenza tra un contratto e un altro è la persona che ti accompagna.»",
       concept:
-        "Quando elementi diversi si muovono con la stessa frequenza. Syntonia mette in sintonia chi guida, l’auto e la strada: il noleggio non si racconta con rate e chilometri, ma con le persone, i luoghi e il viaggio che fai. E ogni pezzo del sistema, dal marchio ai poster, suona sulla stessa nota.",
+        "Il nome richiama la sintonia: elementi diversi che, con ascolto e precisione, trovano il loro equilibrio senza forzature. Il simbolo è il diapason, che dà la frequenza di riferimento a cui tutto il resto si accorda. Allo stesso modo Syntonia non impone soluzioni: offre un punto fermo da cui ogni scelta di mobilità può essere valutata con consapevolezza.",
       video: { title: "Il video", caption: "Il filmato di presentazione del progetto." },
       case: {
+        story: [
+          {
+            at: "intro",
+            title: "Da dove partiva",
+            blocks: [
+              "Syntonia aveva già un marchio, ma lavora in un settore che le persone vivono come complesso e frammentato: tante soluzioni, offerte difficili da confrontare, un rapporto che spesso si chiude con la firma. In un mercato percepito come impersonale, quello che fa la differenza è la relazione con il consulente.",
+              { quote: "Syntonia esiste per essere quella presenza competente, chiara e affidabile che trasforma la mobilità in un’esperienza semplice." },
+              "Il rebranding parte da qui. La vision è restituire controllo, chiarezza e serenità a chi gestisce la propria mobilità; la mission è progettare soluzioni su misura, integrando i servizi Arval con una consulenza attenta. Il nuovo marchio doveva quindi parlare di ordine e di fiducia, non di promozioni: trasparenza, consulenza, continuità, affidabilità e semplicità sono i valori da cui nasce ogni scelta visiva.",
+            ],
+          },
+          {
+            at: "intro",
+            title: "Il claim",
+            blocks: [
+              "«Immagina, Scegli, Guida.» sintetizza il percorso che il brand costruisce insieme al cliente. Accompagna i contenuti istituzionali senza diventare uno slogan: niente urgenza, niente toni da promozione. Lo stesso vale per il tono di voce, chiaro, misurato e professionale.",
+            ],
+            cards: [
+              { title: "Immagina", text: "La comprensione iniziale: leggere bisogni e scenari di mobilità per arrivare a scelte consapevoli." },
+              { title: "Scegli", text: "Il momento della decisione, guidato da consulenza, confronto e trasparenza, senza pressione commerciale." },
+              { title: "Guida", text: "La continuità: il rapporto prosegue dalla gestione all’assistenza, fino al rinnovo o alla restituzione." },
+            ],
+          },
+          {
+            at: "intro",
+            title: "Il look and feel",
+            blocks: [
+              "Il marchio tiene insieme tre segni in un pittogramma: il diapason, simbolo di precisione, l’equilibrio prima della scelta; la strada, simbolo di movimento, perché il percorso conta quanto la destinazione; il pin, simbolo di presenza. È costruito su un modulo, la X, pari all’altezza del payoff, che ne fissa proporzioni e aree di rispetto, e vive in versione verticale, la principale, e orizzontale.",
+              "Dal marchio nascono gli elementi di supporto. Il pin evidenzia un dato, di solito il canone; la strada è un segno fluido che resta sempre sullo sfondo; un pattern disegna una rete stradale astratta che accompagna i contenuti senza mai prendere il posto del marchio.",
+            ],
+            cards: [
+              { title: "Colore", text: "Tre verdi con un ruolo strutturale, non decorativo: Bosco, Strutturale e Lime, in una gerarchia 60/30/10." },
+              { title: "Tipografia", text: "Poppins per i titoli, Inter per i testi e i numeri, su una scala modulare in quarta giusta (1,333)." },
+              { title: "Fotografia", text: "Persone e situazioni credibili, luce naturale, nessuna narrazione troppo emotiva: chi guarda deve potersi riconoscere." },
+            ],
+          },
+        ],
         identity: [
           {
             label: "Costruzione del marchio",
@@ -97,7 +132,7 @@ export const syntonia: Project = {
           },
           {
             label: "Il diapason",
-            alt: "Slide «Il diapason»: il marchio Syntonia su un motivo di mappe, con la scritta «Simbolo di precisione. L’equilibrio prima della scelta»",
+            alt: "Slide «Il diapason»: il marchio Syntonia sul pattern della rete stradale, con la scritta «Simbolo di precisione. L’equilibrio prima della scelta»",
           },
           {
             label: "La strada",
@@ -108,12 +143,11 @@ export const syntonia: Project = {
             alt: "Slide «Il pin»: il contorno del segnaposto Syntonia e la scritta «Simbolo di presenza. La destinazione in un unico segno»",
           },
         ],
-        // BOZZA da rileggere: i testi dei gruppi, ricavati dalle vecchie didascalie
         output: [],
         outputGroups: [
           {
             title: "Affissione e poster per la sede",
-            text: "In strada l’affissione racconta il viaggio dall’abitacolo: «L’esperienza che vivi, cambia il modo in cui arrivi». In sede tre manifesti portano il marchio alle pareti dell’open space; cliccando un mockup si apre il manifesto intero.",
+            text: "In strada l’affissione racconta il viaggio dall’abitacolo: «L’esperienza che vivi, cambia il modo in cui arrivi». In sede tre manifesti portano il marchio alle pareti dell’open space, con foto in luce naturale e il contorno del pin a incorniciare le persone; cliccando un mockup si apre il manifesto intero.",
             tiles: [
               {
                 label: "In sede",
@@ -145,7 +179,7 @@ export const syntonia: Project = {
           },
           {
             title: "Social",
-            text: "Sui social le persone vengono prima delle rate: tappe, partenze e luoghi raccontano il noleggio come un viaggio da fare, e il marchio torna in ogni contenuto.",
+            text: "Sul profilo il marchio, il pattern della rete stradale e la fotografia lavorano insieme: persone, auto e luoghi in situazioni credibili, con il tono chiaro e misurato del brand.",
             tiles: [
               {
                 label: "Profilo",
@@ -153,7 +187,7 @@ export const syntonia: Project = {
               },
               {
                 label: "Il marchio",
-                alt: "Il marchio Syntonia nelle sue versioni su fondo bianco, verde scuro e verde lime, con il motivo delle mappe stradali",
+                alt: "Il marchio Syntonia nelle sue versioni su fondo bianco, verde scuro e verde lime, con il pattern della rete stradale",
               },
               {
                 label: "Il concetto",
@@ -172,8 +206,8 @@ export const syntonia: Project = {
       images: [
         {
           title: "Il marchio",
-          caption: "Un diapason e un segnaposto nello stesso segno.",
-          alt: "Il marchio Syntonia nelle sue versioni su fondo bianco, verde scuro e verde lime, con il motivo delle mappe stradali",
+          caption: "Diapason, strada e pin nello stesso segno.",
+          alt: "Il marchio Syntonia nelle sue versioni su fondo bianco, verde scuro e verde lime, con il pattern della rete stradale",
         },
         {
           title: "Il concetto",
@@ -197,21 +231,56 @@ export const syntonia: Project = {
         },
       ],
     },
-    // Traduzione inglese: BOZZA da rileggere da Giulia.
     en: {
       title: "Syntonia",
-      subtitle: "A rebrand for long-term car rental: people, cars and the road on the same frequency.",
-      kind: "Integrated campaign",
-      made: "Rebrand, art direction, visuals, social content",
+      subtitle: "Rebranding a long-term car rental company: needs, solutions and services on the same frequency.",
+      kind: "Rebrand",
+      made: "Logo, brand book, art direction, outdoor, social content",
       tools: "Photoshop, Illustrator, InDesign",
       intro:
-        "Syntonia rents cars long term, but what it talks about is the journey you take in them. The name plays on the Italian “sintonia”, being in tune, and everything grows from there: a logo that holds a tuning fork and a map pin in one shape, the outdoor campaign, and social content built around people rather than monthly rates. The payoff: “Imagine, Choose, Drive.”",
-      insight:
-        "Long-term car rental is almost always sold with numbers: monthly rates, mileage, deadlines.",
+        "Syntonia SpA is an Arval Italia partner in long-term car rental, supporting individuals, professionals and companies through the whole journey: understanding their needs, choosing the plan, handling the paperwork, ongoing support.\nThe project is a complete rebrand: a new logo, a brand book setting out its rules on every medium, online and offline, and the communication that grows from it, from billboards to social.",
+      insight: "“The difference between one contract and another is the person who guides you.”",
       concept:
-        "When different elements move at the same frequency. Syntonia puts the driver, the car and the road in tune: rental is told not through monthly rates and mileage but through people, places and the journey you take. And every part of the system, from the logo to the posters, plays the same note.",
+        "The name comes from the Italian “sintonia”, being in tune: different elements that, through listening and precision, find their balance without being forced. The symbol is the tuning fork, which sets the reference frequency everything else tunes to. In the same way, Syntonia doesn’t impose solutions: it offers a fixed point from which every mobility choice can be weighed with awareness.",
       video: { title: "The video", caption: "The project's presentation film." },
       case: {
+        // Il claim resta in italiano: il brand book vieta di tradurlo
+        story: [
+          {
+            at: "intro",
+            title: "The starting point",
+            blocks: [
+              "Syntonia already had a logo, but it works in a sector people experience as complex and fragmented: many solutions, offers that are hard to compare, a relationship that often ends at the signature. In a market seen as impersonal, what makes the difference is the relationship with the advisor.",
+              { quote: "Syntonia exists to be the competent, clear and reliable presence that turns mobility into a simple experience." },
+              "The rebrand starts from there. The vision is to give back control, clarity and peace of mind to people managing their mobility; the mission is to design tailored solutions, combining Arval’s services with careful advice. So the new brand had to speak of order and trust, not of deals: transparency, expert advice, continuity, reliability and simplicity are the values behind every visual choice.",
+            ],
+          },
+          {
+            at: "intro",
+            title: "The claim",
+            blocks: [
+              "“Immagina, Scegli, Guida.” (Imagine, Choose, Drive) sums up the journey the brand builds together with the client. It accompanies institutional content without becoming a slogan: no urgency, no promotional tone. The same goes for the tone of voice, which is clear, measured and professional.",
+            ],
+            cards: [
+              { title: "Immagina", meta: "Imagine", text: "The first understanding: reading needs and mobility scenarios to reach informed choices." },
+              { title: "Scegli", meta: "Choose", text: "The decision, guided by advice, comparison and transparency, with no sales pressure." },
+              { title: "Guida", meta: "Drive", text: "Continuity: the relationship goes on from management to support, through to renewal or return." },
+            ],
+          },
+          {
+            at: "intro",
+            title: "The look and feel",
+            blocks: [
+              "The logo brings three signs together in one pictogram: the tuning fork, a symbol of precision, the balance before the choice; the road, a symbol of movement, because the journey matters as much as the destination; the pin, a symbol of presence. It is built on a module, X, equal to the height of the payoff, which sets its proportions and clear space, and it comes in a vertical version, the main one, and a horizontal one.",
+              "The supporting elements grow out of the logo. The pin highlights a key figure, usually the monthly fee; the road is a fluid shape that always stays in the background; a pattern draws an abstract road network that accompanies the content without ever taking the logo’s place.",
+            ],
+            cards: [
+              { title: "Colour", text: "Three greens with a structural role, not a decorative one: Forest, Structural and Lime, in a 60/30/10 hierarchy." },
+              { title: "Typography", text: "Poppins for headings, Inter for body text and numbers, on a perfect fourth modular scale (1.333)." },
+              { title: "Photography", text: "Believable people and situations, natural light, no overly emotional storytelling: viewers should recognise themselves." },
+            ],
+          },
+        ],
         identity: [
           {
             label: "Building the logo",
@@ -223,7 +292,7 @@ export const syntonia: Project = {
           },
           {
             label: "The tuning fork",
-            alt: "Slide “Il diapason”: the Syntonia mark on a map pattern, captioned “a symbol of precision, the balance that comes before the choice”",
+            alt: "Slide “Il diapason”: the Syntonia mark on the road network pattern, captioned “a symbol of precision, the balance that comes before the choice”",
           },
           {
             label: "The road",
@@ -238,7 +307,7 @@ export const syntonia: Project = {
         outputGroups: [
           {
             title: "Outdoor and posters for the office",
-            text: "On the street, the poster tells the journey from inside the car: “The experience you live changes the way you arrive.” In the office, three posters bring the brand to the walls of the open plan space; click a mockup to see the poster whole.",
+            text: "On the street, the poster tells the journey from inside the car: “The experience you live changes the way you arrive.” In the office, three posters bring the brand to the walls of the open plan space, with photos in natural light and the outline of the pin framing the people; click a mockup to see the poster whole.",
             tiles: [
               {
                 label: "In the office",
@@ -270,7 +339,7 @@ export const syntonia: Project = {
           },
           {
             title: "Social",
-            text: "On social, people come before monthly rates: stops, departures and places tell rental as a journey to take, and the brand returns in every post.",
+            text: "On the profile, the logo, the road network pattern and the photography work together: people, cars and places in believable situations, in the brand’s clear and measured tone.",
             tiles: [
               {
                 label: "Profile",
@@ -278,7 +347,7 @@ export const syntonia: Project = {
               },
               {
                 label: "The logo",
-                alt: "The Syntonia logo in its versions on white, dark green and lime green, with the street map pattern",
+                alt: "The Syntonia logo in its versions on white, dark green and lime green, with the road network pattern",
               },
               {
                 label: "The concept",
@@ -297,8 +366,8 @@ export const syntonia: Project = {
       images: [
         {
           title: "The logo",
-          caption: "A tuning fork and a map pin in a single shape.",
-          alt: "The Syntonia logo in its versions on white, dark green and lime green, with the street map pattern",
+          caption: "A tuning fork, a road and a map pin in a single mark.",
+          alt: "The Syntonia logo in its versions on white, dark green and lime green, with the road network pattern",
         },
         {
           title: "The concept",

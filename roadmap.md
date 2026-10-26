@@ -2,7 +2,8 @@
 
 > Stato: **M1 completata**, **M2 completata a metà** (mancano i contenuti di Giulia), **M3 quasi
 > chiusa** (mastro 1 su tutte le pagine progetto, Goliosi e Muta comprese; mancano i materiali
-> di Giulia elencati sotto), **M4 quasi chiusa**, **M5 da fare**: il sito non è ancora online. Ogni milestone è chiusa e verificabile: alla
+> di Giulia elencati sotto), **M4 quasi chiusa**, **M5 quasi chiusa**: il sito è online su
+> <https://giuliascognamiglio.com>. Ogni milestone è chiusa e verificabile: alla
 > fine di ciascuna il sito è in uno stato funzionante.
 
 ## Contesto
@@ -643,13 +644,19 @@ rispondono.
 
 ### M5 — Caricamento del sito online
 
-- [ ] Creare la repo su GitHub e pushare
-- [ ] Cloudflare Pages: collegare la repo, cartella radice `site`, comando `npm run build`,
-      output `out`
-- [ ] Primo deploy e verifica su `*.pages.dev`
+- [x] Creare la repo su GitHub e pushare. `main` è il ramo principale e quello di produzione;
+      `m3-polishing` resta come ramo di lavoro
+- [x] Cloudflare: il progetto è un **Worker** (`sito-portfolio-giulia`), non un progetto
+      Pages. Root directory `site`, build `npm run build && npm run check`, deploy
+      `npx --yes wrangler@4.143.0 deploy`; `site/wrangler.jsonc` gli fa servire `out/`. Prima
+      il deploy command era `npm run build`: le build riuscivano ma non pubblicavano niente
+- [x] Primo deploy (21 ottobre, da locale con Wrangler) e verifica su
+      `sito-portfolio-giulia.giuliascognamiglio00.workers.dev`: pagine, 404, `_headers`, video
+- [x] Spento GitHub Pages, che pubblicava la repo grezza su `github.io`
+- [ ] Verificare che un push su `main` faccia partire il deploy da solo: Cloudflare aveva
+      smesso di ricevere gli avvisi da GitHub, l'accesso dell'app è stato ricontrollato
 - [ ] Controllo su dispositivi reali e Cloudflare Web Analytics (senza cookie, niente banner)
-
-**Serve da Giulia:** un account GitHub e uno Cloudflare, entrambi gratuiti.
+- [ ] Decidere se rendere privata la repo: ora è pubblica, con tesi, sondaggi e brief in `Sito/`
 
 **Fatto quando:** il sito è pubblico e un push su `main` fa partire un deploy da solo.
 
@@ -675,12 +682,14 @@ Il deploy resta a Cloudflare Pages, che lo fa già da sé: nessun token da custo
 
 **Fatto quando:** partendo da `git clone` e `npm install` il sito gira seguendo solo il README.
 
-### M8 — Dominio custom *(quando il dominio sarà acquistato)*
+### M8 — Dominio custom
 
-- [ ] Registrare il dominio — consigliato su Cloudflare, che lo vende al prezzo di costo
-      e non ha rinnovi a sorpresa
-- [ ] Collegarlo al progetto Pages, verificare HTTPS e il reindirizzamento da `www`
-- [ ] Aggiornare l'URL di base nei metadata, nella sitemap e negli `hreflang`
+- [x] Dominio `giuliascognamiglio.com`, registrato su register.it (lì restano rinnovo e
+      posta: i record MX, SPF, `pop` e `autoconfig` non vanno toccati) e gestito da
+      Cloudflare con i suoi nameserver
+- [x] Collegato al Worker come custom domain, insieme a `www`, dopo aver tolto i vecchi
+      record A e CNAME di register.it. HTTPS attivo su entrambi (21 ottobre)
+- [x] URL di base (`SITE_URL` in `lib/site.ts`) passato a `https://giuliascognamiglio.com`
 - [ ] Aggiornare il link su LinkedIn, Behance e nel CV
 
 **Fatto quando:** il dominio risponde in HTTPS e i link social mostrano l'anteprima corretta.

@@ -214,6 +214,8 @@ export default function CaseStudy({ project, text, dict, lang, next }: Props) {
     <article
       className={styles.article}
       style={{ "--acc": project.accent } as React.CSSProperties}
+      // Lo leggono i CSS di mosaici e moodboard per togliere le cornici
+      data-bare={content.bare ? "" : undefined}
     >
       {content.floaters?.length ? <Floaters keys={content.floaters} /> : null}
       <header className={`${styles.head} under-nav`}>
@@ -276,6 +278,7 @@ export default function CaseStudy({ project, text, dict, lang, next }: Props) {
 
         {storyAt("intro")}
 
+        {content.moodboard === false ? null : (
         <section className={styles.block}>
           <h2 className={styles.blockTitle}>{dict.project.moodboard}</h2>
           {stickersAt("moodboard")}
@@ -308,6 +311,7 @@ export default function CaseStudy({ project, text, dict, lang, next }: Props) {
             <Placeholder label={dict.project.placeholder} className={styles.moodboard} />
           )}
         </section>
+        )}
 
         {/* Il backstage, dove c'è: una galleria da scorrere in orizzontale */}
         {content.backstage?.length && caseText.backstage ? (

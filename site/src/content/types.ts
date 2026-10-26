@@ -106,7 +106,8 @@ export type CaseTile = { key?: string; cols?: 1 | 2; rows?: 1 | 2; artwork?: str
 export type CaseTileText = { label: string; alt?: string; artworkAlt?: string };
 
 export type ProjectCase = {
-  moodboard?: string;
+  /** Senza nome di file c'è il segnaposto; con false la sezione non compare proprio */
+  moodboard?: string | false;
   /**
    * Altre tavole nello stesso riquadro della moodboard, dopo di lei: si raggiungono con un
    * pulsante. In Oculus è la tavola del making-of
@@ -167,6 +168,11 @@ export type ProjectCase = {
    * tutta larghezza non reggono la risoluzione
    */
   outputWidth?: "narrow";
+  /**
+   * Senza cornici in tutta la pagina: moodboard, identità visiva e output stanno direttamente
+   * sulla pagina, come i gruppi con `bare` ma per ogni sezione di immagini
+   */
+  bare?: boolean;
   /**
    * Tentacoli (PNG trasparenti) che entrano dai bordi e si muovono piano: `at` dice dove,
    * "title" a sinistra tra intestazione e brief, "tools" a destra sopra gli strumenti

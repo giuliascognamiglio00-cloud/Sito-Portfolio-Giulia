@@ -236,3 +236,10 @@
     transition: none;
   }
 }
+
+/* Le pagine senza cornici (bare nel progetto): come .bare, per ogni mosaico della pagina */
+:global([data-bare]) .mosaic {
+  --inset: 0px;
+  padding: 0;
+  border: 0;
+}

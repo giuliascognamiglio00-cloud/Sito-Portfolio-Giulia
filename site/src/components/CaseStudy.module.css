@@ -687,3 +687,9 @@
     transition: none;
   }
 }
+
+/* Le pagine senza cornici (bare nel progetto): moodboard e immagini larghe senza bordo */
+.article[data-bare] .wide,
+.article[data-bare] .moodboard {
+  border: 0;
+}
