@@ -15,8 +15,8 @@ interviene sulla fonte dei link, con `isWip(...)`.
 ## Mettere una pagina in WIP
 
 1. Aggiungere il percorso a `WIP_PATHS`.
-2. Controllare che la pagina mostri il WIP: le pagine progetto (`app/[lang]/works/[slug]`) lo
-   fanno già. Per un altro tipo di pagina, all'inizio del componente della pagina aggiungere
+2. Controllare che la pagina mostri il WIP: le pagine progetto (`app/[lang]/works/[slug]`) e
+   Chi sono (`app/[lang]/about`) lo fanno già. Per un altro tipo di pagina, all'inizio del componente della pagina aggiungere
    `if (isWip(...segmenti)) return <WorkInProgress lang={lang} dict={dict} />;` e in
    `generateMetadata` restituire `robots: { index: false }`, come nella pagina progetto. La
    rotta deve restare in `generateStaticParams`, altrimenti l'indirizzo dà 404.
@@ -28,8 +28,10 @@ interviene sulla fonte dei link, con `isWip(...)`.
    - Progetti: è già fatto in `getProjects()` (`src/content/projects/index.ts`), da cui nascono
      schede della home, schede di "I miei lavori", filtri per anno e macroarea e "progetto
      successivo". `getAllProjects()` include anche i WIP e serve solo a pubblicarne l'indirizzo.
-   - Pagine fisse (about, contact…): i link sono in `Nav`, `Footer` e nelle pagine stesse;
-     filtrare le voci con `isWip` dove vengono costruite.
+   - Pagine fisse (about, contact…): i link sono in `Nav`, `Footer` e nelle pagine stesse.
+     **Chiedere a Giulia** se toglierli: per Chi sono (novembre 2026) ha scelto di lasciarli,
+     perché non è un progetto da archiviare e chi la cerca deve trovare la pagina WIP. Se
+     vanno tolti, filtrare le voci con `isWip` dove vengono costruite.
 4. `npm run build && npm run check`, poi controllare in locale che l'indirizzo mostri il WIP e
    che nessun link al sito porti più lì (`grep -r "<percorso>/" out --include=*.html` deve
    trovare solo la pagina stessa).

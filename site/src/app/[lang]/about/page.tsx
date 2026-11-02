@@ -13,6 +13,8 @@ import PhotoCamera from "@/components/PhotoCamera";
 import FloatingObjects from "@/components/FloatingObjects";
 import InstantCamera from "@/components/InstantCamera";
 import { largestSrc } from "@/components/Picture";
+import WorkInProgress from "@/components/WorkInProgress";
+import { isWip } from "@/lib/wip";
 import styles from "./page.module.css";
 
 export async function generateMetadata({
@@ -23,6 +25,9 @@ export async function generateMetadata({
   const { lang } = await params;
   if (!isLang(lang)) return {};
   const dict = getDictionary(lang);
+  if (isWip("about")) {
+    return { title: dict.about.heading, robots: { index: false } };
+  }
   return {
     title: dict.about.heading,
     description: dict.about.description,
@@ -41,6 +46,8 @@ export default async function AboutPage({
   const { lang } = await params;
   const typed = (isLang(lang) ? lang : "it") as Lang;
   const dict = getDictionary(typed);
+  if (isWip("about")) return <WorkInProgress lang={typed} dict={dict} />;
+
   const text = profile[typed];
 
   return (

@@ -185,7 +185,7 @@ export const it = {
   wip: {
     eyebrow: "Work in progress",
     heading: "Ci sto ancora lavorando",
-    lede: "Questa pagina è in cantiere: sto curando gli ultimi dettagli perché sia all’altezza del progetto. Scusa il disagio, nel frattempo c’è tanto altro da vedere.",
+    lede: "Questa pagina è in cantiere: sto curando gli ultimi dettagli perché sia all’altezza. Scusa il disagio, nel frattempo c’è tanto altro da vedere.",
     cta: "Torna alla home",
   },
 };

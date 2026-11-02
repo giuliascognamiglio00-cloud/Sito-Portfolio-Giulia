@@ -181,7 +181,7 @@ export const en: Dictionary = {
   wip: {
     eyebrow: "Work in progress",
     heading: "Still working on it",
-    lede: "This page is under construction: I’m polishing the last details so it does the project justice. Sorry for the inconvenience, there’s plenty more to see in the meantime.",
+    lede: "This page is under construction: I’m polishing the last details so it’s worth the wait. Sorry for the inconvenience, there’s plenty more to see in the meantime.",
     cta: "Back to home",
   },
 };
