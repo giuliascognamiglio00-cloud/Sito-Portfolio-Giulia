@@ -31,6 +31,11 @@ type Props = {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
+const scrollTo = (el: HTMLElement | null, left: number) => {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  el?.scrollTo({ left, behavior: reduce ? "auto" : "smooth" });
+};
+
 /**
  * Striscia orizzontale di slide con scroll-snap: scorre col tocco, con le frecce, con la
  * tastiera e trascinando col mouse. Mostra la posizione (01 / 06) e una barra di avanzamento
@@ -77,19 +82,33 @@ export default function Carousel({
     return () => window.removeEventListener("resize", update);
   }, [update]);
 
-  const goTo = useCallback((i: number) => {
+  // Le posizioni in cui la striscia si può fermare, una per slide. Quando le slide sono strette
+  // e a fine corsa se ne vedono più d'una, le ultime non possono arrivare al bordo sinistro:
+  // la loro fermata è la fine della striscia, la stessa per tutte
+  const stops = useCallback(() => {
     const el = track.current;
-    if (!el) return;
-    const target = el.children[Math.max(0, Math.min(slides.length - 1, i))] as HTMLElement;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!el) return [];
+    const max = el.scrollWidth - el.clientWidth;
     const start = (el.children[0] as HTMLElement).offsetLeft;
-    el.scrollTo({ left: target.offsetLeft - start, behavior: reduce ? "auto" : "smooth" });
-  }, [slides.length]);
+    return Array.from(el.children, (c) => Math.min(max, (c as HTMLElement).offsetLeft - start));
+  }, []);
 
-  // Chi interviene a mano prende il controllo: lo scorrimento automatico si ferma
+  const goTo = useCallback((i: number) => {
+    const left = stops()[Math.max(0, Math.min(slides.length - 1, i))];
+    if (left !== undefined) scrollTo(track.current, left);
+  }, [slides.length, stops]);
+
+  // Chi interviene a mano prende il controllo: lo scorrimento automatico si ferma.
+  // Si parte dalla posizione vera e non dal numero della slide: a fine corsa il contatore
+  // segna l'ultima, ma la penultima può avere la stessa fermata, e andarci non muoverebbe nulla
   const go = (dir: 1 | -1) => {
     setPlaying(false);
-    goTo(index + dir);
+    const el = track.current;
+    if (!el) return;
+    const now = el.scrollLeft;
+    const all = stops();
+    const left = dir > 0 ? all.find((s) => s > now + 2) : all.reverse().find((s) => s < now - 2);
+    if (left !== undefined) scrollTo(el, left);
   };
 
   // Avanza solo quando il carosello è nello schermo. Con "riduci animazioni" non parte da solo:
