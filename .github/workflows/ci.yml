@@ -1,0 +1,66 @@
+# Controlli del sito: a ogni push e a ogni pull request verso main.
+# Se passano su main, parte deploy.yml e pubblica esattamente il sito costruito qui.
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+
+# Due push ravvicinati sullo stesso ramo: il primo controllo non serve più, si ferma.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, tipi, build e check
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: site
+
+    steps:
+      - uses: actions/checkout@v5
+
+      # La versione di Node è quella di site/.node-version, la stessa usata in locale
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: site/.node-version
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      # Le immagini ottimizzate non sono su git: generarle tutte da zero richiede molti minuti.
+      # La cache vale finché sorgenti e script non cambiano; se cambia anche una sola
+      # immagine si rigenerano tutte, perché la cache non sa quale è cambiata.
+      - name: Cache delle immagini ottimizzate
+        id: img-cache
+        uses: actions/cache@v4
+        with:
+          path: site/public/img
+          key: img-${{ hashFiles('site/assets/img/**', 'site/scripts/optimize-images.mjs') }}
+
+      # optimize-images.mjs salta un file se è più recente della sua sorgente. Dopo il
+      # checkout le sorgenti hanno la data di adesso, quindi senza questo passo rifarebbe tutto
+      - name: Segna come aggiornate le immagini dalla cache
+        if: steps.img-cache.outputs.cache-hit == 'true'
+        run: find public/img -type f -exec touch {} +
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm run check
+
+      # Il sito pronto, che deploy.yml scarica e pubblica senza ricostruirlo.
+      # Immagini e video sono già compressi: zipparli di nuovo farebbe solo perdere tempo
+      - name: Conserva out/ per il deploy
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: out
+          path: site/out
+          include-hidden-files: true
+          compression-level: 0
+          retention-days: 7

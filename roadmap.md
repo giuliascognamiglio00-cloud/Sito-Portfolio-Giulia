@@ -32,7 +32,7 @@ aggiungere un progetto basta aggiungere un file.
 | Repository | Si riusa questa, con il sito nella sottocartella `site/` |
 | Rami | Un solo ramo di lavoro e di produzione: `main`. `m3-polishing` resta nella storia ma non si usa più |
 | Download | Solo il CV, compresso sotto i 2MB. Il sito stesso è il portfolio |
-| Automazione | GitHub Actions per i controlli (M6); il deploy lo fa Cloudflare da solo a ogni push su `main`, non c'è ancora nessuna Action |
+| Automazione | Tutto su GitHub Actions (M6): `ci.yml` controlla, `deploy.yml` pubblica sul Worker solo se i controlli passano. Le build automatiche di Cloudflare sono spente |
 
 ## Scelte tecniche e perché
 
@@ -59,7 +59,8 @@ Sito Portfolio Giulia/
 ├─ roadmap.md                        questo file
 ├─ .vscode/                          task "Start Site" e "Stop Site"
 ├─ README.md                         come lavorare sul sito
-├─ .github/workflows/ci.yml          (M6) lint + typecheck + build di prova
+├─ .github/workflows/ci.yml          (M6) lint + typecheck + build + check
+├─ .github/workflows/deploy.yml      (M6) wrangler deploy, solo se CI passa su main
 ├─ Sito/                             bozza originale — archivio
 ├─ Giulia_Scognamiglio_CV_EN.pdf     archivio
 ├─ Giulia Scognamiglio_portfolio_2023_3BGD.pdf   archivio
@@ -658,7 +659,9 @@ rispondono.
 - [x] Spento GitHub Pages, che pubblicava la repo grezza su `github.io`
 - [ ] Verificare che un push su `main` faccia partire il deploy da solo: Cloudflare aveva
       smesso di ricevere gli avvisi da GitHub, l'accesso dell'app è stato ricontrollato.
-      Prova fatta il 2 novembre con il push del merge di `m3-polishing`: esito sotto
+      Prova fatta il 2 novembre con il push del merge di `m3-polishing`: l'avviso è
+      arrivato e il deploy è riuscito, ma in **19 minuti**, perché Cloudflare rigenera da zero
+      le ~1500 immagini ottimizzate a ogni build. Da qui il deploy passa a GitHub Actions (M6)
 - [ ] Controllo su dispositivi reali e Cloudflare Web Analytics (senza cookie, niente banner)
 - [ ] Decidere se rendere privata la repo: ora è pubblica, con tesi, sondaggi e brief in `Sito/`
 
@@ -666,16 +669,21 @@ rispondono.
 
 ### M6 — Aggiornamento automatico con GitHub Actions
 
-- [ ] Workflow `ci.yml`: su ogni push e pull request gira ESLint, controllo dei tipi e
-      build di prova
+- [x] Workflow `ci.yml`: su ogni push e pull request `npm ci`, ESLint, controllo dei tipi,
+      build e `npm run check`. Le immagini ottimizzate stanno in una cache, che si rinnova
+      solo quando cambia `assets/img/`. Su `main` conserva `out/` per il deploy
+- [x] Workflow `deploy.yml`: parte quando CI finisce su `main`, solo se è passata, e
+      pubblica la stessa `out/` con `wrangler deploy`. Segreti `CLOUDFLARE_API_TOKEN` e
+      `CLOUDFLARE_ACCOUNT_ID` in GitHub; Workers Builds di Cloudflare spento
+- [ ] Primo giro verificato: push su `main` → CI verde → Deploy verde → sito aggiornato
 - [ ] Controllo automatico che ogni progetto abbia i campi obbligatori in entrambe le
       lingue e un testo alternativo su ogni immagine — l'errore più facile da fare
       aggiungendo un progetto di fretta
 - [ ] Protezione del ramo `main`: si unisce solo se i controlli passano
 
-Il deploy resta al Worker di Cloudflare, che lo fa già da sé a ogni push su `main`: nessun
-token da custodire in GitHub. Le Action servono solo a controllare, non a pubblicare. Oggi
-non esiste la cartella `.github/`: la CI è tutta da scrivere.
+Il deploy è passato dalle build di Cloudflare a GitHub Actions: tutto il giro si vede nella
+scheda *Actions*, e niente va online se un controllo fallisce. Il prezzo è un token di
+Cloudflare custodito nei segreti di GitHub.
 
 **Fatto quando:** una pull request con un errore voluto viene bloccata dai controlli.
 

@@ -154,15 +154,28 @@ di ricerca con `hreflang`, così non vengono trattate come contenuto duplicato.
 ## Pubblicazione
 
 Il sito è pubblicato come Worker di Cloudflare (`sito-portfolio-giulia`, in Workers &
-Pages), con queste impostazioni in *Settings → Build*:
+Pages). Si lavora su un solo ramo, `main`, e a pubblicare sono due GitHub Actions in
+`.github/workflows/`, visibili nella scheda *Actions* della repo:
 
-- Root directory: `site`
-- Build command: `npm run build && npm run check`
-- Deploy command: `npx --yes wrangler@4.143.0 deploy`
+1. **CI** (`ci.yml`) gira a ogni push e a ogni pull request: `npm ci`, lint, controllo dei
+   tipi, build e `npm run check`. Su un push a `main` conserva la cartella `out/` costruita.
+2. **Deploy** (`deploy.yml`) parte da solo quando CI finisce su `main`, **solo se è
+   passata**, e pubblica quella stessa `out/` con `npx --yes wrangler@4.143.0 deploy`. Se un
+   controllo fallisce, online resta la versione di prima.
 
 Il Worker non ha codice: `site/wrangler.jsonc` gli dice di servire i file di `out/`.
-Ogni push sul ramo di produzione (`main`) fa partire un nuovo deploy. Cloudflare legge la versione di
-Node da `site/.node-version`, quindi costruisce il sito con la stessa usata in locale.
+Le Actions usano la versione di Node di `site/.node-version`, la stessa usata in locale.
+
+Il deploy usa due segreti, in *Settings → Secrets and variables → Actions* su GitHub:
+`CLOUDFLARE_API_TOKEN` (token creato su Cloudflare con il modello *Edit Cloudflare
+Workers*) e `CLOUDFLARE_ACCOUNT_ID`. Le build automatiche di Cloudflare (*Workers Builds*)
+sono spente, altrimenti ogni push verrebbe pubblicato due volte e senza aspettare i
+controlli. Per ripubblicare senza modifiche basta rilanciare l'ultima CI di `main` dalla
+scheda *Actions* (*Re-run all jobs*).
+
+Le immagini ottimizzate di `public/img/` non sono su git. Da zero generarle richiede molti
+minuti, quindi CI le tiene in una cache che si rinnova solo quando cambia qualcosa in
+`assets/img/`.
 
 Due file in `site/public/` parlano direttamente con Cloudflare:
 

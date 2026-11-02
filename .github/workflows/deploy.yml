@@ -1,0 +1,60 @@
+# Pubblicazione sul Worker di Cloudflare "sito-portfolio-giulia".
+# Parte da sola quando il workflow CI finisce su un push a main, e solo se è passato.
+# Non ricostruisce il sito: pubblica la cartella out/ che CI ha appena controllato.
+#
+# Servono due segreti in GitHub (Settings → Secrets and variables → Actions):
+#   CLOUDFLARE_API_TOKEN   token con il modello "Edit Cloudflare Workers"
+#   CLOUDFLARE_ACCOUNT_ID  l'ID dell'account, nella home della dashboard di Cloudflare
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+# Un deploy alla volta, e quello in corso non si interrompe a metà
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Pubblica su Cloudflare
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: production
+      url: https://giuliascognamiglio.com
+    permissions:
+      contents: read
+      actions: read
+    defaults:
+      run:
+        working-directory: site
+
+    steps:
+      # Lo stesso commit controllato da CI, per avere wrangler.jsonc e .node-version giusti
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: site/.node-version
+
+      - name: Scarica out/ da CI
+        uses: actions/download-artifact@v4
+        with:
+          name: out
+          path: site/out
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      # Stessa versione di Wrangler indicata nel README
+      - name: wrangler deploy
+        run: npx --yes wrangler@4.143.0 deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
