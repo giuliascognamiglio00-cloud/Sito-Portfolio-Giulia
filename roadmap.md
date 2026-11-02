@@ -1,10 +1,13 @@
 # Roadmap — Sito portfolio Giulia Scognamiglio
 
-> Stato: **M1 completata**, **M2 completata a metà** (mancano i contenuti di Giulia), **M3 quasi
-> chiusa** (mastro 1 su tutte le pagine progetto, Goliosi e Muta comprese; mancano i materiali
-> di Giulia elencati sotto), **M4 quasi chiusa**, **M5 quasi chiusa**: il sito è online su
-> <https://giuliascognamiglio.com>. Ogni milestone è chiusa e verificabile: alla
-> fine di ciascuna il sito è in uno stato funzionante.
+> Stato al 2 novembre 2026: **M1 completata**, **M2 completata a metà** (mancano i contenuti
+> di Giulia), **M3 quasi chiusa** (mastro 1 su tutte le pagine progetto, Goliosi e Muta
+> comprese; mancano i materiali di Giulia elencati sotto), **M4 quasi chiusa**, **M5 quasi
+> chiusa**, **M6 a metà** (CI e deploy su GitHub Actions funzionano, manca la protezione di
+> `main`), **M8 quasi chiusa**. Il sito è online su <https://giuliascognamiglio.com>: si
+> lavora solo su `main`, e ogni push passa dai controlli e va online da solo in circa due
+> minuti e mezzo. Ogni milestone è chiusa e verificabile: alla fine di ciascuna il sito è
+> in uno stato funzionante.
 
 ## Contesto
 
@@ -97,9 +100,10 @@ Sito Portfolio Giulia/
 ```
 
 **Come si aggiunge un progetto, a lavoro finito:** si crea un file in
-`src/content/projects/`, si mettono le immagini in `site/assets/img/`, si lancia lo script
-di ottimizzazione, si pusha. Indice, pagina progetto, sitemap e link "prossimo progetto"
-si aggiornano da soli.
+`src/content/projects/` e lo si aggiunge all'elenco in `projects/index.ts`, si mettono le
+immagini in `site/assets/img/`, si pusha su `main`. Le immagini ottimizzate le genera lo
+script da solo (in locale e in CI), e indice, pagina progetto e link "prossimo progetto" si
+aggiornano da soli. Il passo per passo è nel README.
 
 ---
 
@@ -582,6 +586,12 @@ Fatto (da verificare a occhio nel browser):
       cover a destra
 - [x] La pillola di navigazione a 320 px usciva dallo schermo di 20 px su tutte le pagine:
       sotto i 360 px spazi e testo un filo più piccoli
+- [x] Syntonia: le tavole social sono un **carosello** nel loro formato 4:5, come il backstage
+      di Oculus, invece di quattro riquadri piccoli su una riga
+- [x] Carosello: la **freccia indietro non si muoveva a fine corsa** quando le slide sono
+      strette e se ne vedono più d'una (Syntonia). Il contatore segnava l'ultima, la freccia
+      chiedeva la penultima, che però non può arrivare al bordo: il browser restava fermo. Ora
+      le frecce vanno alla fermata vera precedente o successiva (`Carousel.tsx`)
 - [ ] Pagina Lavori al telefono: progetti più piccoli, in una galleria di quadrati su due
       colonne. Per ora le cover attuali tagliate al quadrato; poi una cover mobile per
       progetto (campo facoltativo da aggiungere), **che fornirà Giulia**
@@ -657,11 +667,11 @@ rispondono.
 - [x] Primo deploy (21 ottobre, da locale con Wrangler) e verifica su
       `sito-portfolio-giulia.giuliascognamiglio00.workers.dev`: pagine, 404, `_headers`, video
 - [x] Spento GitHub Pages, che pubblicava la repo grezza su `github.io`
-- [ ] Verificare che un push su `main` faccia partire il deploy da solo: Cloudflare aveva
-      smesso di ricevere gli avvisi da GitHub, l'accesso dell'app è stato ricontrollato.
-      Prova fatta il 2 novembre con il push del merge di `m3-polishing`: l'avviso è
-      arrivato e il deploy è riuscito, ma in **19 minuti**, perché Cloudflare rigenera da zero
-      le ~1500 immagini ottimizzate a ogni build. Da qui il deploy passa a GitHub Actions (M6)
+- [x] Verificare che un push su `main` faccia partire il deploy da solo. Prova del 2
+      novembre con il push del merge di `m3-polishing`: l'avviso è arrivato e il deploy è
+      riuscito, ma in **19 minuti**, perché Cloudflare rigenerava da zero le ~1500 immagini
+      ottimizzate a ogni build. Da qui il deploy è passato a GitHub Actions (M6), e le build
+      automatiche di Cloudflare sono state spente
 - [ ] Controllo su dispositivi reali e Cloudflare Web Analytics (senza cookie, niente banner)
 - [ ] Decidere se rendere privata la repo: ora è pubblica, con tesi, sondaggi e brief in `Sito/`
 
@@ -675,7 +685,11 @@ rispondono.
 - [x] Workflow `deploy.yml`: parte quando CI finisce su `main`, solo se è passata, e
       pubblica la stessa `out/` con `wrangler deploy`. Segreti `CLOUDFLARE_API_TOKEN` e
       `CLOUDFLARE_ACCOUNT_ID` in GitHub; Workers Builds di Cloudflare spento
-- [ ] Primo giro verificato: push su `main` → CI verde → Deploy verde → sito aggiornato
+- [x] Primo giro verificato il 2 novembre: push su `main` → CI verde → Deploy verde → sito
+      aggiornato. Con la cache vuota la CI ha impiegato 15 minuti; al push successivo (il fix
+      del carosello) **1 minuto e 12 secondi**, più un minuto di Deploy
+- [x] README riscritto: il giro dal computer al sito online, cosa fare se un'Action diventa
+      rossa, dove sta il sito, segreti e token, perché Workers Builds resta spento
 - [ ] Controllo automatico che ogni progetto abbia i campi obbligatori in entrambe le
       lingue e un testo alternativo su ogni immagine — l'errore più facile da fare
       aggiungendo un progetto di fretta
@@ -712,7 +726,9 @@ Cloudflare custodito nei segreti di GitHub.
 
 ## Verifica end-to-end
 
-Da eseguire alla fine della M4 e ripetere dopo ogni milestone successiva:
+La parte automatica (lint, tipi, build, check) la ripete la CI a ogni push. In locale serve
+per trovare un errore prima di pushare, e alla fine di ogni milestone insieme ai controlli a
+mano:
 
 ```bash
 cd site
@@ -721,7 +737,7 @@ npm run lint          # nessun errore
 npm run typecheck     # nessun errore
 npm run build         # genera out/
 npm run check         # pagine, link, limiti di Cloudflare
-npm run preview       # out/ servito come da Cloudflare, su localhost:8788
+npm run preview       # out/ servito con Wrangler, su localhost:8788
 ```
 
 Poi, a mano:
