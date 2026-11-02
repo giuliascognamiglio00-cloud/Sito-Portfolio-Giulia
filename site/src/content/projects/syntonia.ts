@@ -51,15 +51,11 @@ export const syntonia: Project = {
           { key: "syntonia_mock_6", artwork: "syntonia_poster_3" },
         ],
       },
-      // Social: le tavole 4:5 tutte su una riga
+      // Social: le tavole 1080×1350 in un carosello da scorrere, come il backstage di Oculus
+      // ma nel loro formato 4:5, senza mosaico sotto
       {
-        columns: 4,
-        tiles: [
-          { key: "syntonia_4", rows: 2 },
-          { key: "syntonia_1", rows: 2 },
-          { key: "syntonia_2", rows: 2 },
-          { key: "syntonia_5", rows: 2 },
-        ],
+        carousel: ["syntonia_4", "syntonia_1", "syntonia_2", "syntonia_5"],
+        tiles: [],
       },
     ],
   },
@@ -180,21 +176,22 @@ export const syntonia: Project = {
           {
             title: "Social",
             text: "Sul profilo il marchio, il pattern della rete stradale e la fotografia lavorano insieme: persone, auto e luoghi in situazioni credibili, con il tono chiaro e misurato del brand.",
-            tiles: [
+            tiles: [],
+            carousel: [
               {
-                label: "Profilo",
+                caption: "Il profilo Instagram, con la griglia dei post.",
                 alt: "Il profilo Instagram di Syntonia su uno smartphone, con accanto alcuni post della pagina",
               },
               {
-                label: "Il marchio",
+                caption: "Il marchio nei suoi tre fondi.",
                 alt: "Il marchio Syntonia nelle sue versioni su fondo bianco, verde scuro e verde lime, con il pattern della rete stradale",
               },
               {
-                label: "Il concetto",
+                caption: "Dalla definizione di sintonia alle persone e ai luoghi.",
                 alt: "Quattro immagini: un’affissione su un palazzo, una riunione in ufficio, una famiglia in montagna e la definizione di «sintonia» sul bagagliaio di un’auto",
               },
               {
-                label: "Contenuti",
+                caption: "«Prima tappa alle 8.00, poi si parte.»",
                 alt: "Un contenuto social con una famiglia in cammino davanti a un fiordo e un messaggio che dice «Prima tappa alle 8.00, poi si parte»",
               },
             ],
@@ -340,21 +337,22 @@ export const syntonia: Project = {
           {
             title: "Social",
             text: "On the profile, the logo, the road network pattern and the photography work together: people, cars and places in believable situations, in the brand’s clear and measured tone.",
-            tiles: [
+            tiles: [],
+            carousel: [
               {
-                label: "Profile",
+                caption: "The Instagram profile, with the grid of posts.",
                 alt: "The Syntonia Instagram profile on a smartphone, with some of the page's posts beside it",
               },
               {
-                label: "The logo",
+                caption: "The logo on its three backgrounds.",
                 alt: "The Syntonia logo in its versions on white, dark green and lime green, with the road network pattern",
               },
               {
-                label: "The concept",
+                caption: "From the definition of being in tune to people and places.",
                 alt: "Four images: a billboard on a building, a meeting in an office, a family in the mountains, and the definition of “sintonia” on the boot of a car",
               },
               {
-                label: "Content",
+                caption: "“First stop at 8.00, then we set off.”",
                 alt: "A social post with a family walking in front of a fjord and a message reading “First stop at 8.00, then we set off”",
               },
             ],

@@ -18,7 +18,7 @@ già precisa, ma non manutenibile, non indicizzabile dai motori di ricerca, e co
 contenuto sepolto nel codice.
 
 L'obiettivo è ricostruirla come **sito Next.js multi-pagina, bilingue IT/EN, generato
-staticamente e pubblicato su Cloudflare Pages**, con i contenuti separati dal codice: per
+staticamente e pubblicato come Worker di Cloudflare**, con i contenuti separati dal codice: per
 aggiungere un progetto basta aggiungere un file.
 
 ## Decisioni prese
@@ -28,10 +28,11 @@ aggiungere un progetto basta aggiungere un file.
 | Backend | Nessuno. Static export; i contenuti sono file versionati nella repo |
 | Lingue | Bilingue IT/EN da subito, rotte `/it` e `/en` |
 | Categorie | **Lavori** e **Progetti accademici**, ordine cronologico. Mai "Omen": è il datore di lavoro attuale e la dicitura invecchierebbe male |
-| Docker | Escluso: Cloudflare Pages non lo usa per il deploy |
+| Docker | Escluso: Cloudflare non lo usa per il deploy |
 | Repository | Si riusa questa, con il sito nella sottocartella `site/` |
+| Rami | Un solo ramo di lavoro e di produzione: `main`. `m3-polishing` resta nella storia ma non si usa più |
 | Download | Solo il CV, compresso sotto i 2MB. Il sito stesso è il portfolio |
-| Automazione | GitHub Actions per i controlli, Cloudflare Pages per il deploy |
+| Automazione | GitHub Actions per i controlli (M6); il deploy lo fa Cloudflare da solo a ogni push su `main`, non c'è ancora nessuna Action |
 
 ## Scelte tecniche e perché
 
@@ -42,7 +43,7 @@ guadagnarci nulla, e allontanerebbe Giulia dal CSS che sa già leggere e modific
 
 **Static export (`output: 'export'`), non SSR.** Un portfolio non ha contenuti dinamici.
 L'export statico dà pagine HTML vere — indicizzabili, senza cold start, gratis su
-Cloudflare Pages e impossibili da rompere in produzione.
+Cloudflare e impossibili da rompere in produzione.
 
 **Immagini pre-ottimizzate a build time con `sharp`, non `next/image` a runtime.**
 L'ottimizzazione automatica di Next richiede un server. Con un export statico si
@@ -62,7 +63,7 @@ Sito Portfolio Giulia/
 ├─ Sito/                             bozza originale — archivio
 ├─ Giulia_Scognamiglio_CV_EN.pdf     archivio
 ├─ Giulia Scognamiglio_portfolio_2023_3BGD.pdf   archivio
-└─ site/                             ← root del progetto su Cloudflare Pages
+└─ site/                             ← root del progetto su Cloudflare (Worker)
    ├─ next.config.ts                 output:'export', trailingSlash
    ├─ assets/img/                    le 21 immagini sorgente, non pubblicate
    ├─ .node-version, .npmrc          (M4) Node 24.19.0, versioni esatte
@@ -261,7 +262,7 @@ Fatto (da verificare a occhio nel browser):
       muto e in loop quando entra nello schermo e si ferma quando esce, così non scarica nulla
       a chi non ci arriva; un pulsante accende l'audio, e con "riduci animazioni" non parte da
       solo ma mostra i controlli. Lo usa Syntonia, al posto delle immagini ripetute
-- [x] Pubblicare il video ha richiesto di risolvere due cose: **Cloudflare Pages rifiuta i
+- [x] Pubblicare il video ha richiesto di risolvere due cose: **Cloudflare rifiuta i
       file oltre i 25 MB** e il master era 66 MB, esportato a 8,6 Mbps; ed era un 16:9 dentro
       una tela verticale 4:5, con due fasce nere. Tagliate le fasce e ricompresso, è sceso a
       11 MB. Il master resta in `Sito/`, la versione web è versionata in `site/public/video/`
@@ -644,8 +645,10 @@ rispondono.
 
 ### M5 — Caricamento del sito online
 
-- [x] Creare la repo su GitHub e pushare. `main` è il ramo principale e quello di produzione;
-      `m3-polishing` resta come ramo di lavoro
+- [x] Creare la repo su GitHub e pushare. `main` è il ramo principale e quello di produzione.
+      Il 2 novembre `m3-polishing` è stato unito a `main` (storia lineare, nessun conflitto):
+      da qui si lavora solo su `main`, sia in locale sia su Cloudflare e GitHub. `m3-polishing`
+      resta nella storia, non si elimina
 - [x] Cloudflare: il progetto è un **Worker** (`sito-portfolio-giulia`), non un progetto
       Pages. Root directory `site`, build `npm run build && npm run check`, deploy
       `npx --yes wrangler@4.143.0 deploy`; `site/wrangler.jsonc` gli fa servire `out/`. Prima
@@ -654,7 +657,8 @@ rispondono.
       `sito-portfolio-giulia.giuliascognamiglio00.workers.dev`: pagine, 404, `_headers`, video
 - [x] Spento GitHub Pages, che pubblicava la repo grezza su `github.io`
 - [ ] Verificare che un push su `main` faccia partire il deploy da solo: Cloudflare aveva
-      smesso di ricevere gli avvisi da GitHub, l'accesso dell'app è stato ricontrollato
+      smesso di ricevere gli avvisi da GitHub, l'accesso dell'app è stato ricontrollato.
+      Prova fatta il 2 novembre con il push del merge di `m3-polishing`: esito sotto
 - [ ] Controllo su dispositivi reali e Cloudflare Web Analytics (senza cookie, niente banner)
 - [ ] Decidere se rendere privata la repo: ora è pubblica, con tesi, sondaggi e brief in `Sito/`
 
@@ -669,7 +673,9 @@ rispondono.
       aggiungendo un progetto di fretta
 - [ ] Protezione del ramo `main`: si unisce solo se i controlli passano
 
-Il deploy resta a Cloudflare Pages, che lo fa già da sé: nessun token da custodire.
+Il deploy resta al Worker di Cloudflare, che lo fa già da sé a ogni push su `main`: nessun
+token da custodire in GitHub. Le Action servono solo a controllare, non a pubblicare. Oggi
+non esiste la cartella `.github/`: la CI è tutta da scrivere.
 
 **Fatto quando:** una pull request con un errore voluto viene bloccata dai controlli.
 
