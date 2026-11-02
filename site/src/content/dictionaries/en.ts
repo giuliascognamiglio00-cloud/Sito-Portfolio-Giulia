@@ -178,4 +178,10 @@ export const en: Dictionary = {
     lede: "The page you were looking for does not exist or has moved.",
     cta: "Back to home",
   },
+  wip: {
+    eyebrow: "Work in progress",
+    heading: "Still working on it",
+    lede: "This page is under construction: I’m polishing the last details so it does the project justice. Sorry for the inconvenience, there’s plenty more to see in the meantime.",
+    cta: "Back to home",
+  },
 };

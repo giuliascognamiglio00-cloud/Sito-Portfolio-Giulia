@@ -4,7 +4,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LANGS, getDictionary, isLang } from "@/lib/i18n";
 import { routes } from "@/lib/routes";
-import { getNextProject, getProject, getProjects } from "@/content/projects";
+import { isWip } from "@/lib/wip";
+import { getAllProjects, getNextProject, getProject } from "@/content/projects";
 import Picture, { imageShape } from "@/components/Picture";
 import Carousel from "@/components/Carousel";
 import Compare from "@/components/Compare";
@@ -12,12 +13,14 @@ import ProjectVideo from "@/components/ProjectVideo";
 import Stagger from "@/components/Stagger";
 import ImageGrid from "@/components/ImageGrid";
 import CaseStudy from "@/components/CaseStudy";
+import WorkInProgress from "@/components/WorkInProgress";
 import styles from "./page.module.css";
 
 type Params = { lang: string; slug: string };
 
+// Anche i progetti in lavorazione: il loro indirizzo resta pubblicato e mostra la pagina WIP
 export function generateStaticParams() {
-  return LANGS.flatMap((lang) => getProjects().map((p) => ({ lang, slug: p.slug })));
+  return LANGS.flatMap((lang) => getAllProjects().map((p) => ({ lang, slug: p.slug })));
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
@@ -25,6 +28,9 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const project = getProject(slug);
   if (!isLang(lang) || !project) return {};
   const text = project.content[lang];
+  if (isWip("works", slug)) {
+    return { title: text.title, robots: { index: false } };
+  }
   return {
     title: text.title,
     description: text.subtitle ?? text.intro,
@@ -41,6 +47,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   if (!isLang(lang) || !project) notFound();
 
   const dict = getDictionary(lang);
+  if (isWip("works", slug)) return <WorkInProgress lang={lang} dict={dict} />;
+
   const text = project.content[lang];
   const next = getNextProject(slug);
   const nextText = next.content[lang];

@@ -1,0 +1,105 @@
+.page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  align-content: center;
+  min-height: 100vh;
+}
+
+/* Gli stessi blob fermi della 404, con i quattro colori della home */
+.blobs {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(50% 60% at 8% 0%, var(--c1) 0, transparent 70%),
+    radial-gradient(45% 55% at 100% 10%, var(--c2) 0, transparent 70%),
+    radial-gradient(50% 60% at 60% 110%, var(--c3) 0, transparent 70%),
+    radial-gradient(40% 50% at 100% 100%, var(--c4) 0, transparent 70%), var(--bg);
+}
+
+.inner {
+  width: 100%;
+  padding-block: clamp(3rem, 8vw, 6rem);
+}
+
+/* La lumaca attraversa una striscia tratteggiata, come un cantiere: lavori in corso, piano */
+.track {
+  position: relative;
+  max-width: 34rem;
+  height: clamp(3.5rem, 8vw, 5rem);
+  margin-bottom: clamp(1rem, 3vw, 2rem);
+  border-bottom: 2px dashed var(--line-strong);
+}
+
+.emoji {
+  position: absolute;
+  bottom: -0.12em;
+  left: 0;
+  font-size: clamp(3rem, 8vw, 4.5rem);
+  line-height: 1;
+  animation: crawl 28s ease-in-out infinite;
+}
+
+/* Va verso destra, arrivata in fondo si gira e torna indietro */
+@keyframes crawl {
+  0% {
+    left: 0;
+    transform: scaleX(-1);
+  }
+  50% {
+    left: calc(100% - 1.2em);
+    transform: scaleX(-1);
+  }
+  50.01% {
+    transform: none;
+  }
+  100% {
+    left: 0;
+    transform: none;
+  }
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  font: 600 0.85rem/1 var(--text);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.title {
+  margin: 0;
+  max-width: 14ch;
+}
+
+.lede {
+  margin: 1.25rem 0 0;
+  max-width: 38rem;
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  font-weight: 400;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.75rem 1.5rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  text-decoration: none;
+  font: 500 0.95rem/1 var(--text);
+  transition: background 0.15s, color 0.15s;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .emoji {
+    animation: none;
+  }
+}
