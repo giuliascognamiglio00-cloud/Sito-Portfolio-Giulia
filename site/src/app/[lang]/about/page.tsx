@@ -6,7 +6,10 @@ import {
   photoAlts,
   polaroids,
   polaroidAlts,
+  workPhotos,
 } from "@/content/profile";
+import { contacts } from "@/lib/routes";
+import Picture from "@/components/Picture";
 import Portrait from "@/components/Portrait";
 import DownloadCv from "@/components/DownloadCv";
 import PhotoCamera from "@/components/PhotoCamera";
@@ -65,7 +68,18 @@ export default async function AboutPage({
             />
             <div>
               <h1 className="display">{dict.about.heading}</h1>
-              <p className={styles.bio}>{text.bio}</p>
+              <p className={styles.greeting}>{text.greeting}</p>
+              {text.bio.map((paragraph) => (
+                <p key={paragraph} className={styles.bio}>
+                  {paragraph}
+                </p>
+              ))}
+              <p className={styles.bio}>
+                {text.contactLead}{" "}
+                <a className={styles.mail} href={`mailto:${contacts.email}`}>
+                  {contacts.email}
+                </a>
+              </p>
               <DownloadCv
                 href="/cv/Giulia_Scognamiglio_CV_EN.pdf"
                 label={dict.common.downloadCv}
@@ -83,6 +97,37 @@ export default async function AboutPage({
               </dl>
             </div>
           </div>
+        </section>
+
+        {/* Il backstage: foto di Giulia mentre lavora. Finché in profile.ts c'è `null` al
+            posto del nome del file, si vede il riquadro segnaposto */}
+        <section className={styles.atWork} aria-labelledby="at-work">
+          <h2 id="at-work" className="display display-slim">
+            {text.atWork.title}
+          </h2>
+          <p className={styles.interestsText}>{text.atWork.text}</p>
+          <ul className={styles.workGrid}>
+            {workPhotos.map((name, i) => (
+              <li key={name ?? `slot-${i}`}>
+                {name ? (
+                  <Picture
+                    name={name}
+                    alt={text.atWork.alts[i] ?? ""}
+                    sizes="(max-width: 820px) 50vw, 25vw"
+                    className={styles.workPhoto}
+                  />
+                ) : (
+                  <div className={styles.placeholder}>
+                    <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                      <line x1="0" y1="0" x2="100" y2="100" vectorEffect="non-scaling-stroke" />
+                      <line x1="100" y1="0" x2="0" y2="100" vectorEffect="non-scaling-stroke" />
+                    </svg>
+                    <span>[{dict.project.placeholder}]</span>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* Gli interessi, con la fotocamera 3D: sul display le foto di Giulia */}

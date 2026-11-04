@@ -131,6 +131,8 @@ export const en: Dictionary = {
     placeholder: "Image coming soon",
     scrollScreen: "Scroll inside the screen",
     prototype: "Open the Figma prototype",
+    disclaimer:
+      "The projects in this section were created for educational purposes only, as part of my studies. They were not commissioned or endorsed by the brands featured and have never been used commercially. All names, logos and trademarks belong to their respective owners and are used for illustrative purposes only. No affiliation with the companies shown is implied.",
   },
   about: {
     title: "About | Giulia Scognamiglio",

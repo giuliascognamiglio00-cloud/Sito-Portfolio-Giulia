@@ -6,7 +6,7 @@
  * "works/syntonia" vale per /it/works/syntonia/ e per /en/works/syntonia/.
  * Per mettere o togliere una pagina dal WIP basta questo elenco: la procedura è in CLAUDE.md.
  */
-export const WIP_PATHS: readonly string[] = ["works/syntonia", "about"];
+export const WIP_PATHS: readonly string[] = ["works/syntonia"];
 
 /** Se la pagina con questi segmenti di percorso (senza lingua) è in lavorazione. */
 export function isWip(...segments: string[]): boolean {

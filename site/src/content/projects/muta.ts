@@ -10,6 +10,8 @@ import type { Project } from "../types";
 export const muta: Project = {
   slug: "muta",
   category: "academy",
+  // Niente disclaimer sui marchi in fondo alla pagina: Muta è un progetto suo, su richiesta di Giulia
+  disclaimer: false,
   areas: ["ui-ux", "branding"],
   date: "2025-02",
   // Il rosso del marchio

@@ -679,6 +679,17 @@
   }
 }
 
+/* Il disclaimer dei progetti accademici: l'ultima cosa della pagina, separato da una riga
+   sottile e in corpo piccolo, come una nota legale */
+.disclaimer {
+  max-width: 62ch;
+  margin: 0;
+  padding: 1.25rem 0 clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
+  color: var(--muted);
+  font: 400 0.8rem/1.55 var(--text);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .nextTitle,
   .nextArrow,

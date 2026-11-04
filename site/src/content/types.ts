@@ -261,6 +261,11 @@ export type ProjectText = {
 export type Project = {
   slug: string;
   category: Category;
+  /**
+   * I progetti accademici chiudono con il disclaimer sui marchi (dict.project.disclaimer).
+   * `false` lo toglie: serve a Muta, la tesi, che non usa marchi di altri
+   */
+  disclaimer?: boolean;
   /** Macroaree del lavoro, nell'ordine in cui compaiono come etichette */
   areas: Area[];
   /** Data del progetto (AAAA-MM), usata per l'ordine cronologico */

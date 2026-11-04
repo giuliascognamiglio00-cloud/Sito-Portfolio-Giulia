@@ -528,6 +528,12 @@ export default function CaseStudy({ project, text, dict, lang, next }: Props) {
             </Link>
           </nav>
         ) : null}
+
+        {/* L'ultima riga della pagina, in piccolo: i progetti accademici non sono lavori
+            commissionati dai marchi che compaiono */}
+        {project.category === "academy" && project.disclaimer !== false ? (
+          <p className={styles.disclaimer}>{dict.project.disclaimer}</p>
+        ) : null}
       </div>
     </article>
   );

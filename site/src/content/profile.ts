@@ -1,7 +1,14 @@
 import type { Lang } from "@/lib/i18n";
 
 type ProfileText = {
-  bio: string;
+  /** La prima riga, più grande: il saluto */
+  greeting: string;
+  /** Il racconto, un paragrafo per voce */
+  bio: string[];
+  /** L'ultima frase, seguita dall'email come link */
+  contactLead: string;
+  /** Le foto di backstage mentre lavora: titolo, testo e un alt per ogni foto di `workPhotos` */
+  atWork: { title: string; text: string; alts: string[] };
   facts: { label: string; lines: string[] }[];
   portraitAlt: string;
   /** La sezione dopo il CV: gli interessi, con la fotocamera che mostra le foto di Giulia */
@@ -40,6 +47,15 @@ export const photoAlts: Record<Lang, string[]> = {
 };
 
 /**
+ * Le foto di backstage, mentre Giulia lavora: nome del file in assets/img senza estensione.
+ * `null` è un segnaposto (il riquadro grigio con le diagonali): per mettere una foto, salvarla
+ * in assets/img e scrivere qui il nome del file al posto di `null`. Le versioni per il web le
+ * genera `npm run images`, che parte da solo con `npm run dev` e `npm run build`.
+ * Il testo alternativo sta nella stessa posizione di `atWork.alts`, per lingua.
+ */
+export const workPhotos: (string | null)[] = [null, null, null, null];
+
+/**
  * Le polaroid dell'anno in California, stampate dall'istantanea una dopo l'altra: nome del file
  * in assets/img senza estensione. Il testo alternativo è per lingua, in `polaroidAlts`.
  * VUOTO finché Giulia non le manda: l'istantanea stampa delle scene di prova
@@ -49,12 +65,26 @@ export const polaroidAlts: Record<Lang, string[]> = { it: [], en: [] };
 
 // I dati vengono dal CV (Giulia_Scognamiglio_CV_EN.pdf), riscritti in modo discorsivo invece
 // che come elenco. Nell'esperienza c'è solo OMEN srl, su richiesta di Giulia (fuori freelance
-// e Idesiervo); il social media marketing è raccontato come una delle cose che fa, non come
-// la sua etichetta. Tolto Cinema 4D dagli strumenti, su richiesta di Giulia.
-// BOZZA da rileggere da Giulia, in italiano e in inglese, compreso il testo degli interessi.
+// e Idesiervo). Tolto Cinema 4D dagli strumenti, su richiesta di Giulia.
+// Saluto e racconto (`greeting`, `bio`, `contactLead`) sono il testo di Giulia di novembre
+// 2026, IT ed EN; il resto, compreso il testo degli interessi, è BOZZA da rileggere.
 export const profile: Record<Lang, ProfileText> = {
   it: {
-    bio: "Sono art director. Mi sono formata in Art Direction e Graphic Design all’AANT, l’Accademia di Arte e Nuove Tecnologie di Roma, e lavoro su campagne integrate, brand identity e compositing, dall’idea alla realizzazione. Ogni giorno costruisco strategie e contenuti per marchi di settori diversi, seguendo tutto il percorso: analisi, concept, produzione e pubblicazione. Lavoro bene in gruppo, anche sotto scadenza, e cerco progetti nuovi che mi mettano alla prova.",
+    greeting: "Ciao, sono Giulia.",
+    // Testo di Giulia (novembre 2026)
+    bio: [
+      "Lavoro come social media content creator in agenzia: penso, scrivo e monto contenuti video, soprattutto reel, per brand di settori diversi, dalla mobilità al noleggio.",
+      "Il mio lavoro parte da un’idea e arriva fino al montaggio finale. In mezzo ci sono lo script, la struttura, il ritmo, le parole giuste nei primi tre secondi. Mi piace trovare il modo più semplice e diretto per far arrivare un messaggio, anche quando il prodotto non è il più glamour del mondo.",
+      "Mi sono formata in Art Direction e Graphic Design all’AANT, l’Accademia di Arte e Nuove Tecnologie di Roma, dove ho iniziato a lavorare su brand, campagne e identità visive. Alcuni di quei progetti li trovi qui. I lavori realizzati in agenzia appartengono ai clienti e non posso pubblicarli, ma posso raccontarli volentieri a voce.",
+      "Sto cercando nuove sfide in agenzia, dove poter crescere su strategia, concept e scrittura creativa.",
+    ],
+    contactLead: "Se pensi che possiamo lavorare insieme, scrivimi:",
+    atWork: {
+      title: "Dietro le quinte",
+      text: "Qualche momento mentre lavoro: sul set, al montaggio, davanti a uno script.",
+      // Da scrivere quando arrivano le foto: una descrizione per foto, nello stesso ordine
+      alts: ["", "", "", ""],
+    },
     portraitAlt: "Ritratto di Giulia Scognamiglio",
     facts: [
       {
@@ -105,7 +135,19 @@ export const profile: Record<Lang, ProfileText> = {
     },
   },
   en: {
-    bio: "I’m an art director. I trained in Art Direction and Graphic Design at AANT, the Academy of Art and New Technologies in Rome, and I work on integrated campaigns, brand identity and compositing, from idea to execution. Every day I build strategies and content for brands across different sectors, following the whole journey: analysis, concept, production and publishing. I work well in a team, even under deadline, and I’m looking for new projects that challenge me.",
+    greeting: "Hi, I’m Giulia.",
+    bio: [
+      "I work as a social media content creator at an agency, where I come up with, write and edit video content, mostly reels, for brands across different industries, from mobility to rentals.",
+      "My work goes from the first idea to the final cut. In between there’s the script, the structure, the pacing, and finding the right words for the first three seconds. I love finding the simplest, most direct way to get a message across, even when the product isn’t the most glamorous one out there.",
+      "I studied Art Direction and Graphic Design at AANT, the Academy of Art and New Technologies in Rome, where I started working on brands, campaigns and visual identities. You’ll find some of those projects here. The work I’ve done at the agency belongs to its clients and can’t be published, but I’m happy to talk about it in person.",
+      "I’m looking for new challenges in an agency where I can grow in strategy, concept development and creative writing.",
+    ],
+    contactLead: "If you think we could work together, get in touch:",
+    atWork: {
+      title: "Behind the scenes",
+      text: "A few moments while I work: on set, in the edit, in front of a script.",
+      alts: ["", "", "", ""],
+    },
     portraitAlt: "Portrait of Giulia Scognamiglio",
     facts: [
       {

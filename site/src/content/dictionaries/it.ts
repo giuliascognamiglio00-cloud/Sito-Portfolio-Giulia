@@ -134,6 +134,9 @@ export const it = {
     placeholder: "Immagine in arrivo",
     scrollScreen: "Scorri dentro lo schermo",
     prototype: "Apri il prototipo su Figma",
+    // In fondo alle pagine dei progetti accademici (tranne Muta). Testo di Giulia
+    disclaimer:
+      "I progetti presenti in questa sezione sono stati realizzati a scopo esclusivamente didattico, nell’ambito del mio percorso di studi. Non sono stati commissionati né approvati dai marchi citati e non hanno avuto alcun utilizzo commerciale. Nomi, loghi e marchi appartengono ai rispettivi proprietari e sono utilizzati solo a titolo esemplificativo. Non esiste alcuna affiliazione con le aziende rappresentate.",
   },
   about: {
     title: "Chi sono | Giulia Scognamiglio",
